@@ -10,6 +10,9 @@ import com.example.InputPkg.PatternInput;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -27,9 +30,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener{
 
 	SensorManager sensorManager;
+	//Sensor weight;
 	DoubleInput diX;
 	DoubleInput diY;
 	DoubleInput diZ;
@@ -77,6 +81,7 @@ public class MainActivity extends Activity {
         setContentView(gameView);
         
 		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+		//weight = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 		//tvAaccelerate = (TextView)findViewById(R.id.tvAaccelerate);
 		
 		// 获取窗口管理器
@@ -203,4 +208,39 @@ public class MainActivity extends Activity {
             }
         }
     }
+
+	@Override
+	protected void onResume(){
+		super.onResume();
+		sensorManager.registerListener(this, 
+				sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+				SensorManager.SENSOR_DELAY_GAME);
+	}
+	@Override
+	protected void onStop(){
+		sensorManager.unregisterListener(this);
+		super.onStop();
+	}
+	
+	public void onAccuracyChanged(Sensor arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void onSensorChanged(SensorEvent event) {
+		// TODO Auto-generated method stub
+		float values[] = event.values;
+		DataType dtX = new DataType();
+		
+		dtX.t = System.currentTimeMillis();
+		DataType dtY = new DataType();
+		DataType dtZ = new DataType();
+		dtX.d = values[0];
+		dtY.d = values[1];
+		dtZ.d = values[2];
+		diX.addData(dtX);
+		diY.addData(dtY);
+		diZ.addData(dtZ);
+	}
 }
+
