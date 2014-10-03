@@ -29,7 +29,10 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+/*
+ * @author xiaogeng
+ * 
+ */
 public class MainActivity extends Activity implements SensorEventListener{
 
 	SensorManager sensorManager;
@@ -188,10 +191,10 @@ public class MainActivity extends Activity implements SensorEventListener{
                 canvas.drawText("好厉害哦!", 50, 200, paint);
             }
             else if(isLose){
-            	double delay = (double)(sumTime/count);
-	        	 paint.setColor(Color.RED);
-	             paint.setTextSize(30);
-	             canvas.drawText("游戏已结束", 50, 200, paint);
+				double delay = (double)(sumTime/count);
+				paint.setColor(Color.RED);
+				paint.setTextSize(30);
+				canvas.drawText("游戏已结束", 50, 200, paint);
             }
             // 如果游戏还未结束
             else
