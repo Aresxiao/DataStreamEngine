@@ -1,5 +1,7 @@
 package com.example.datastreamengine;
 
+import android.R.integer;
+
 public class Constant {
 	public static int SCREEN_WIDTH;//屏幕的宽度
 	public static int SCREEN_HEIGHT;//屏幕的高度
@@ -9,9 +11,23 @@ public class Constant {
 	
 	public static float TIME_SPAN=0.05f;//球运动的模拟时间间隔（规定: timeSpan不可以>=Ball.d）
 	public static float V_ATTENUATION=0.996f;//速度衰减比例
-	public static float V_MAX=150;
-	public static float V_MIN=1.5f;
+	public static float V_MAX=150;		//球的最大速度（规定：球的最大速度不可以超过150）
+	public static float V_MIN=1.5f;		//速度最小值，当速度小于此值时球停止运动
+	
+	public static float X_OFFSET;
+	public static float Y_OFFSET;
+	
+	public static int TABLE_WIDTH;
+	public static int TABLE_HEIGHT;
 	
 	
+	public static int FRAMEA_X;
+	public static int FRAMEA_Y;
+	public static int FRAMEA_HEIGHT;
+	public static int FRAMEA_WIDTH;
 	
+	public void initConst(int screenWidth,int screenHeight){
+		TABLE_WIDTH = screenWidth;
+		TABLE_HEIGHT = screenHeight;
+	}
 }
