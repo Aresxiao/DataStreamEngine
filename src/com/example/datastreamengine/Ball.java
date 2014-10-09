@@ -53,7 +53,7 @@ public class Ball {
 		Matrix m1 = new Matrix();
 		m1.setTranslate( x+Constant.X_OFFSET,y+Constant.Y_OFFSET );
 		if(goalBall){
-			paint.setColor(Color.BLUE);
+			paint.setColor(Color.BLACK);
 		}
 		else{
 			paint.setColor(Color.BLACK);
@@ -63,6 +63,14 @@ public class Ball {
 	
 	public boolean canGo(float tempX,float tempY){
 		boolean canGoFlag=true;
+		
+		if(isGoalBall()){
+			if(tempX>Constant.FRAMEA_X&&tempX<(Constant.FRAMEA_X+Constant.FRAMEA_WIDTH)&&
+					tempY>Constant.FRAMEA_Y&&tempY<(Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT)){
+				InHoleflag=true;
+				return true;
+			}
+		}
 		
 		for(Ball b:gameView.alBalls){
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
@@ -74,14 +82,7 @@ public class Ball {
 		}
 		
 		//对于目标球，要判断是否已经进框
-		if(isGoalBall()){
-			if(tempX>Constant.FRAMEA_X&&tempX<(Constant.FRAMEA_X+Constant.FRAMEA_WIDTH)&&
-					tempY>Constant.FRAMEA_Y&&tempY<(Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT)){
-				InHoleflag=true;
-				
-				return true;
-			}
-		}
+		
 		
 		float[] center = {tempX+radius,tempY+radius};
 		

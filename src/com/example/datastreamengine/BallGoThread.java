@@ -25,10 +25,9 @@ public class BallGoThread extends Thread {
 					if(b.InHoleflag){
 						
 						b.stopBall();
-						flag=true;
-						
+						flag=false;
+						gameView.overGame();
 					}
-						
 				}
 			}
 			try {

@@ -21,13 +21,19 @@ public class Constant {
 	public static int TABLE_HEIGHT;
 	
 	
+	
 	public static int FRAMEA_X;
 	public static int FRAMEA_Y;
 	public static int FRAMEA_HEIGHT;
 	public static int FRAMEA_WIDTH;
 	
-	public void initConst(int screenWidth,int screenHeight){
+	public static void initConst(int screenWidth,int screenHeight){
 		TABLE_WIDTH = screenWidth;
 		TABLE_HEIGHT = screenHeight;
+		
+		FRAMEA_HEIGHT = (int) (GOAL_BALL_SIZE+20);
+		FRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+36);
+		FRAMEA_X = TABLE_WIDTH/2-FRAMEA_WIDTH/2;
+		FRAMEA_Y = 0;
 	}
 }

@@ -80,14 +80,8 @@ public class MainActivity extends Activity implements SensorEventListener{
         // 全屏显示
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        final GameView gameView = new GameView(this);
-        setContentView(gameView);
         
-		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		//weight = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-		//tvAaccelerate = (TextView)findViewById(R.id.tvAaccelerate);
-		
-		// 获取窗口管理器
+     // 获取窗口管理器
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -95,6 +89,15 @@ public class MainActivity extends Activity implements SensorEventListener{
         // 获得屏幕宽和高
         tableWidth = metrics.widthPixels;
         tableHeight = metrics.heightPixels;
+        
+        Constant.initConst(tableWidth, tableHeight);
+        
+        final GameView gameView = new GameView(this);
+        setContentView(gameView);
+        
+		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+		
+		
 		
 		diX = new DoubleInput();
 		diY = new DoubleInput();
@@ -166,7 +169,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 		else 
 			return false;
 	}
-	
+	/*
 	class GameView extends View
     {
         Paint paint = new Paint();
@@ -211,7 +214,7 @@ public class MainActivity extends Activity implements SensorEventListener{
             }
         }
     }
-
+	*/
 	@Override
 	protected void onResume(){
 		super.onResume();
