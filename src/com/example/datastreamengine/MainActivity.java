@@ -33,9 +33,13 @@ import android.widget.TextView;
  * @author xiaogeng
  * 
  */
-public class MainActivity extends Activity implements SensorEventListener{
+public class MainActivity extends Activity{
+
 
 	SensorManager sensorManager;
+	Sensor mAccelerometer;
+	
+	AccelerateSensor accelerateSensor;
 	//Sensor weight;
 	DoubleInput diX;
 	DoubleInput diY;
@@ -81,12 +85,12 @@ public class MainActivity extends Activity implements SensorEventListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
-     // 获取窗口管理器
+        
+        // 获取窗口管理器,获得屏幕宽和高
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
-        // 获得屏幕宽和高
         tableWidth = metrics.widthPixels;
         tableHeight = metrics.heightPixels;
         
@@ -95,9 +99,10 @@ public class MainActivity extends Activity implements SensorEventListener{
         final GameView gameView = new GameView(this);
         setContentView(gameView);
         
-		sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		
-		
+        accelerateSensor = new AccelerateSensor();
+        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
+		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		
 		diX = new DoubleInput();
 		diY = new DoubleInput();
@@ -151,7 +156,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 			}
 		}.start();
 	}
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -169,6 +174,8 @@ public class MainActivity extends Activity implements SensorEventListener{
 		else 
 			return false;
 	}
+	
+	
 	/*
 	class GameView extends View
     {
@@ -215,6 +222,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         }
     }
 	*/
+	/*
 	@Override
 	protected void onResume(){
 		super.onResume();
@@ -248,5 +256,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 		diY.addData(dtY);
 		diZ.addData(dtZ);
 	}
+	*/
 }
 

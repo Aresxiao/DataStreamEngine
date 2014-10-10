@@ -10,11 +10,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
+	SensorManager sensorManager;
+	Sensor mAccelerometer;
+	
 	MainActivity activity;
 	Paint paint;
 	List<Ball> alBalls;
@@ -30,7 +35,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		getHolder().addCallback(this);//注册回调接口		
 	}
-	
 	
 
 	@Override
@@ -52,12 +56,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
-		
 		createAllThread();
 		alBalls = new ArrayList<Ball>();
-		//alBalls.add(new Ball(true, this, 60, 60));
-		alBalls.add(new Ball(true, this, Constant.SCREEN_HEIGHT/2-Constant.GOAL_BALL_SIZE/2, 
-				Constant.SCREEN_WIDTH-Constant.PLAYER_BALL_SIZE/2));
+		alBalls.add(new Ball(true, this, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
+				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
 		alBalls.add(new Ball(false, this, 20, 20));
 		
 		startAllThread();
@@ -67,6 +69,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated method stub
 		table = new Table();
 		paint = new Paint();
+		
+		
 		paint.setStyle(Paint.Style.FILL);
         // 设置去锯齿
         paint.setAntiAlias(true);

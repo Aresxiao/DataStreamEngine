@@ -6,12 +6,13 @@ public class BallGoThread extends Thread {
 	
 	GameView gameView;
 	private boolean flag = true;
-	
+	AccelerateSensor accelerateSensor;
 	//ArrayList<Ball> 
 	
 	private int sleepSpan=7;
 	public BallGoThread(GameView gameView){
 		this.gameView = gameView;
+		accelerateSensor = gameView.activity.accelerateSensor;
 	}
 	@Override
 	public void run() {
@@ -20,6 +21,9 @@ public class BallGoThread extends Thread {
 		while(flag){
 			//让所有的球走
 			for(Ball b:gameView.alBalls){
+				//float[] values=accelerateSensor.getValues();
+				//System.out.println("--x="+values[0]+"y="+values[1]+"z="+values[2]+"--");
+				//b.setSpeed(values[0], values[1]);
 				b.go();
 				if(b.isGoalBall()){
 					if(b.InHoleflag){

@@ -1,13 +1,17 @@
 package com.example.datastreamengine;
 
 import java.util.ArrayList;
+
+import android.R.integer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 
 public class Ball {
+	static int id=0;
 	
+	int ballId;
 	GameView gameView;
 	boolean goalBall;
 	private float x;
@@ -40,9 +44,12 @@ public class Ball {
 			radius=Constant.GOAL_BALL_SIZE/2;
 		} 
 		else {
+			id++;
+			ballId=id;
 			d=Constant.PLAYER_BALL_SIZE;
 			radius=Constant.PLAYER_BALL_SIZE/2;
 		}
+		
 	}
 	
 	public void init(Ball goalBall){
@@ -52,13 +59,21 @@ public class Ball {
 	public void drawSelf(Canvas canvas,Paint paint){
 		Matrix m1 = new Matrix();
 		m1.setTranslate( x+Constant.X_OFFSET,y+Constant.Y_OFFSET );
-		if(goalBall){
-			paint.setColor(Color.BLACK);
+		if(goalBall){			//是目标球
+			paint.reset();
+			paint.setColor(Color.BLUE);
+			canvas.drawCircle(x+Constant.GOAL_BALL_SIZE/2, y+Constant.GOAL_BALL_SIZE/2, radius, paint);
 		}
-		else{
+		else{					//玩家小球
+			
+			paint.reset();
 			paint.setColor(Color.BLACK);
+			paint.setStyle(Paint.Style.STROKE);
+			paint.setStrokeWidth((float) 2.0);
+			canvas.drawCircle(x+Constant.PLAYER_BALL_SIZE/2, y+Constant.PLAYER_BALL_SIZE/2, radius, paint);
+			canvas.drawText(Integer.toString(ballId), x+Constant.PLAYER_BALL_SIZE/2, y+Constant.PLAYER_BALL_SIZE/2, paint);
 		}
-		canvas.drawCircle(x, y, radius, paint);
+		
 	}
 	
 	public boolean canGo(float tempX,float tempY){
@@ -86,11 +101,11 @@ public class Ball {
 		
 		float[] center = {tempX+radius,tempY+radius};
 		
-		if(center[0]<radius&&(center[0]+radius)>Constant.TABLE_WIDTH){
+		if(center[0]<radius||(center[0]+radius)>Constant.TABLE_WIDTH){
 			vx=-vx;
 			canGoFlag = false;
 		}
-		if(center[1]<radius&&(center[1]+radius)>Constant.TABLE_HEIGHT){
+		if(center[1]<radius||(center[1]+radius)>Constant.TABLE_HEIGHT){
 			vy=-vy;
 			canGoFlag=false;
 		}
@@ -104,13 +119,15 @@ public class Ball {
 			vy=0;
 			return ;
 		}
-		
+		System.out.println(ballId+"can go");
 		float tempX = x+vx*timeSpan;	//球要去的下一个位置
 		float tempY = y+vy*timeSpan;
 		
 		if(this.canGo(tempX, tempY)){
 			vx*=vAttenuation;
 			vy*=vAttenuation;
+			x=tempX;
+			y=tempY;
 		}
 		
 	}
@@ -139,7 +156,6 @@ public class Ball {
 	
 	public float getX(){
 		return x;
-		
 	}
 	public float getY(){
 		return y;
@@ -148,10 +164,16 @@ public class Ball {
 	public float getVX(){
 		return vx;
 	}
+	
 	public float getVY(){
 		return vy;
 	}
 	
+	public void setSpeed(float xSpeed,float ySpeed){
+		vx=vx-xSpeed*timeSpan*10;
+		vy=vy+ySpeed*timeSpan*10;
+		System.out.println(xSpeed+" --- "+ySpeed+"   :    "+vx+" --- "+vy);
+	}
 	public float getRadius(){
 		return radius;
 	}
@@ -159,4 +181,6 @@ public class Ball {
 	public boolean isGoalBall(){
 		return goalBall;
 	}
+	
+	
 }
