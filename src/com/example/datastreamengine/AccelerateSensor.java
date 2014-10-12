@@ -11,7 +11,9 @@ public class AccelerateSensor implements SensorEventListener{
 	float x,y,z;
 	
 	public AccelerateSensor(){
-		
+		x=0;
+		y=0;
+		z=0;
 	}
 	
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
@@ -25,7 +27,7 @@ public class AccelerateSensor implements SensorEventListener{
 		x=values[0];
 		y=values[1];
 		z=values[2];
-		//System.out.println("--x="+x+"y="+y+"z="+z+"--");
+		
 	}
 	
 	public float[] getValues(){

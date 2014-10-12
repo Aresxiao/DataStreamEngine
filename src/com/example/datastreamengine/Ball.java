@@ -79,9 +79,12 @@ public class Ball {
 	public boolean canGo(float tempX,float tempY){
 		boolean canGoFlag=true;
 		
+		//对于目标球，要判断是否已经进框
+		float[] center = {tempX+radius,tempY+radius};
+		
 		if(isGoalBall()){
-			if(tempX>Constant.FRAMEA_X&&tempX<(Constant.FRAMEA_X+Constant.FRAMEA_WIDTH)&&
-					tempY>Constant.FRAMEA_Y&&tempY<(Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT)){
+			if(tempX>Constant.FRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.FRAMEA_X+Constant.FRAMEA_WIDTH)&&
+					tempY>Constant.FRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT)){
 				InHoleflag=true;
 				return true;
 			}
@@ -92,14 +95,12 @@ public class Ball {
 				canGoFlag = false;
 			}
 		}
+		
 		if(canGoFlag==false){
 			return false;
 		}
 		
-		//对于目标球，要判断是否已经进框
 		
-		
-		float[] center = {tempX+radius,tempY+radius};
 		
 		if(center[0]<radius||(center[0]+radius)>Constant.TABLE_WIDTH){
 			vx=-vx;
@@ -115,11 +116,11 @@ public class Ball {
 	
 	public void go(){
 		if(isStoped()||Math.sqrt(vx*vx+vy*vy)<vMin){
-			vx=0;
-			vy=0;
+			//vx=0;
+			//vy=0;
 			return ;
 		}
-		System.out.println(ballId+"can go");
+		//System.out.println(ballId+"can go");
 		float tempX = x+vx*timeSpan;	//球要去的下一个位置
 		float tempY = y+vy*timeSpan;
 		
@@ -170,10 +171,11 @@ public class Ball {
 	}
 	
 	public void setSpeed(float xSpeed,float ySpeed){
-		vx=vx-xSpeed*timeSpan*10;
-		vy=vy+ySpeed*timeSpan*10;
-		System.out.println(xSpeed+" --- "+ySpeed+"   :    "+vx+" --- "+vy);
+		vx=vx-xSpeed*timeSpan*Constant.SENSITIVITY;
+		vy=vy+ySpeed*timeSpan*Constant.SENSITIVITY;
+		//System.out.println(xSpeed+" --- "+ySpeed+"   :    "+vx+" --- "+vy);
 	}
+	
 	public float getRadius(){
 		return radius;
 	}
@@ -181,6 +183,5 @@ public class Ball {
 	public boolean isGoalBall(){
 		return goalBall;
 	}
-	
 	
 }

@@ -1,6 +1,7 @@
 package com.example.datastreamengine;
 
 public interface OverlayNetwork {
-	public void sendData(String string);
-	public void receiveData(String string);
+	public void sendData(Object object);
+	public void receiveData(Object object);
+	public void connect();
 }

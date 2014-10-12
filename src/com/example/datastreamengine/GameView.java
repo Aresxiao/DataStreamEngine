@@ -4,15 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import android.R.integer;
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -26,14 +22,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	GameViewDrawThread drawThread;
 	Table table;
 	BallGoThread ballGoThread ;
+	NetworkDataSendThread sendThread;
+	NetworkDataReceiveThread receiveThread;
+	
+	boolean isOver;
 	
 	public GameView(MainActivity activity ) {
 		super(activity);
 		// TODO Auto-generated constructor stub
 		
 		this.activity = activity;
+		isOver=false;
 		
-		getHolder().addCallback(this);//注册回调接口		
+		getHolder().addCallback(this);	//注册回调接口		
 	}
 	
 
@@ -56,24 +57,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
-		createAllThread();
-		alBalls = new ArrayList<Ball>();
-		alBalls.add(new Ball(true, this, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
-				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
-		alBalls.add(new Ball(false, this, 20, 20));
 		
-		startAllThread();
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
+		createAllThread();
 		table = new Table();
 		paint = new Paint();
-		
-		
 		paint.setStyle(Paint.Style.FILL);
         // 设置去锯齿
         paint.setAntiAlias(true);
+        
+		alBalls = new ArrayList<Ball>();
+		alBalls.add(new Ball(true, this, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
+				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
+		alBalls.add(new Ball(false, this, 20, 20));
+		alBalls.add(new Ball(false, this, 80, 20));
+		startAllThread();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
@@ -88,6 +89,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	void createAllThread(){
 		drawThread = new GameViewDrawThread(this);
 		ballGoThread = new BallGoThread(this);
+		sendThread = new NetworkDataSendThread(this);
+		receiveThread = new NetworkDataReceiveThread(this);
 	}
 	
 	void startAllThread(){
@@ -95,11 +98,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		drawThread.start();
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
+		
+		while(!activity.getNetwork().getStatus()){
+			
+		}
+		if(!isOver){
+			sendThread.setFlag(true);
+			sendThread.start();
+			receiveThread.setFlag(true);
+			receiveThread.start();
+		}
+		
 	}
 
 	void stopAllThread(){
 		drawThread.setFlag(false);
 		ballGoThread.setFlag(false);
+		if(!activity.getNetwork().getStatus()){
+			sendThread.setFlag(false);
+			receiveThread.setFlag(false);
+		}
 	}
 	
 	void joinAllThread(){
@@ -107,6 +125,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		try {
 			drawThread.join();
 			ballGoThread.join();
+			if(activity.getNetwork().getStatus()){
+				sendThread.join();
+				receiveThread.join();
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -114,6 +136,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void overGame(){
+		isOver=true;
 		stopAllThread();
 	}
 	
@@ -137,5 +160,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 	}
-	
 }

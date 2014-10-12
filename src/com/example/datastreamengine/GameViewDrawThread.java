@@ -15,15 +15,12 @@ public class GameViewDrawThread extends Thread{
 		this.surfaceHolder = gameView.getHolder();
 	}
 	
-	
-	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		while(this.flag){
 			float[] values = gameView.activity.accelerateSensor.getValues();
-			gameView.alBalls.get(1).setSpeed(values[0], values[1]);
-			//System.out.println("--x="+values[0]+"y="+values[1]+"z="+values[2]+"--");
+			gameView.alBalls.get(Constant.LOCAL_BALL_ID).setSpeed(values[0], values[1]);
 			gameView.repaint();
 			
 			try {
