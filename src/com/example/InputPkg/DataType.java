@@ -1,6 +1,8 @@
 package com.example.InputPkg;
 
-public class DataType {
+import java.io.Serializable;
+
+public class DataType implements Serializable{
 	public char ch;
 	public int i;
 	public double d;

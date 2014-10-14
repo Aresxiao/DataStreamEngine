@@ -2,12 +2,7 @@ package com.example.datastreamengine;
 
 public class BTNetwork implements OverlayNetwork {
 
-	public void sendData(Object object) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void receiveData(Object object) {
+	public void sendData(String string) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -15,6 +10,11 @@ public class BTNetwork implements OverlayNetwork {
 	public void connect() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public String receiveData() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

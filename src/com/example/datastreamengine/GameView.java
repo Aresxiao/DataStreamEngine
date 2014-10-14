@@ -54,7 +54,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	
-	
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
 		
@@ -76,7 +75,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		alBalls.add(new Ball(false, this, 80, 20));
 		startAllThread();
 	}
-
+	
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
@@ -99,25 +98,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
 		
-		while(!activity.getNetwork().getStatus()){
-			
-		}
-		if(!isOver){
-			sendThread.setFlag(true);
-			sendThread.start();
-			receiveThread.setFlag(true);
-			receiveThread.start();
-		}
+		new Thread(){
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				while(!activity.getNetwork().getStatus()){
+					
+				}
+				if(!isOver){
+					sendThread.setFlag(true);
+					sendThread.start();
+					receiveThread.setFlag(true);
+					receiveThread.start();
+					System.out.println("Now send receive thread is started");
+				}
+			}
+		}.start();
 		
 	}
 
 	void stopAllThread(){
 		drawThread.setFlag(false);
 		ballGoThread.setFlag(false);
+		
 		if(!activity.getNetwork().getStatus()){
 			sendThread.setFlag(false);
 			receiveThread.setFlag(false);
 		}
+		
 	}
 	
 	void joinAllThread(){
@@ -125,6 +134,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		try {
 			drawThread.join();
 			ballGoThread.join();
+			
 			if(activity.getNetwork().getStatus()){
 				sendThread.join();
 				receiveThread.join();

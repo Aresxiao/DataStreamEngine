@@ -63,7 +63,6 @@ public class Constant {
 				tempString = br.readLine();
 				SERVERFLAG=Integer.parseInt(tempString);
 				
-				
 				tempString = br.readLine();
 				HOST_IP = tempString;
 				br.close();

@@ -23,9 +23,11 @@ public class NetworkDataSendThread extends Thread{
 		while(flag){
 			float[] values = gameView.activity.accelerateSensor.getValues();
 			//gameView.alBalls.get(2).setSpeed(values[0], values[1]);
-			DataType dt=new DataType();
-			dt.setXYZ(values[0], values[1], values[2]);
-			network.sendData(dt);
+			//DataType dt=new DataType();
+			//
+			String dataString = values[0]+" "+values[1];
+			//dataString = System.currentTimeMillis()+"系统时间";
+			network.sendData(dataString);
 			try {
 				Thread.sleep(sleepSpan);
 			} catch (InterruptedException e) {

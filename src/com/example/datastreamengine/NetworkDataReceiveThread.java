@@ -21,10 +21,16 @@ public class NetworkDataReceiveThread extends Thread{
 			
 		}
 		while(flag){
-			DataType dt=new DataType();
 			
-			network.receiveData(dt);
-			gameView.alBalls.get(Constant.CLIENT_BALL_ID).setSpeed(dt.x, dt.y);
+			String rcvSpeed=network.receiveData();
+			if(rcvSpeed!=null){
+				String[] str = rcvSpeed.split(" ");
+				System.out.println(str[0]+"  "+str[1]);
+				float x=Float.parseFloat(str[0]);
+				float y = Float.parseFloat(str[1]);
+				gameView.alBalls.get(Constant.CLIENT_BALL_ID).setSpeed(x,y);
+			}
+			
 			try {
 				Thread.sleep(sleepSpan);
 			} catch (InterruptedException e) {

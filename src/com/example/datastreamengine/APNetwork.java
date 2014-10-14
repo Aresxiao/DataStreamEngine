@@ -5,6 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import android.R.string;
 import android.widget.Toast;
 
 public class APNetwork implements OverlayNetwork {
@@ -16,8 +17,8 @@ public class APNetwork implements OverlayNetwork {
 	
 	ServerSocket serverSocket;
 	Socket socket;
-	ObjectInputStream inputStream;
-	ObjectOutputStream outputStream;
+	DataInputStream inputStream;
+	DataOutputStream outputStream;
 	
 	
 	public APNetwork(){
@@ -43,8 +44,8 @@ public class APNetwork implements OverlayNetwork {
 				socket = serverSocket.accept();
 				System.out.println("server: Connect success");
 				connectedFalg = true;
-				inputStream = new ObjectInputStream(socket.getInputStream());
-				outputStream = new ObjectOutputStream(socket.getOutputStream());
+				inputStream = new DataInputStream(socket.getInputStream());
+				outputStream = new DataOutputStream(socket.getOutputStream());
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -58,8 +59,8 @@ public class APNetwork implements OverlayNetwork {
 				
 				connectedFalg = true;
 				System.out.println("success connect to server");
-				inputStream = new ObjectInputStream(socket.getInputStream());
-				outputStream = new ObjectOutputStream(socket.getOutputStream());
+				inputStream = new DataInputStream(socket.getInputStream());
+				outputStream = new DataOutputStream(socket.getOutputStream());
 				System.out.println("Success connect");
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
@@ -96,10 +97,11 @@ public class APNetwork implements OverlayNetwork {
 		this.port = port;
 	}
 	
-	public void sendData(Object object) {
+	public void sendData(String string) {
 		// TODO Auto-generated method stub
 		try {
-			outputStream.writeObject(object);
+			
+			outputStream.writeUTF(string);
 			outputStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -107,21 +109,23 @@ public class APNetwork implements OverlayNetwork {
 		}
 	}
 	
-	public void receiveData(Object object) {
+	public String receiveData() {
 		// TODO Auto-generated method stub
-		
+		String string=null;
 		try {
-			object = inputStream.readObject();
+			 
+			string = inputStream.readUTF();
+			System.out.println(string);
+			
+			System.out.println(string);
 		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return string;
 	}
 
 }
