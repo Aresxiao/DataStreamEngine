@@ -5,9 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import android.R.string;
-import android.widget.Toast;
-
 public class APNetwork implements OverlayNetwork {
 
 	String hostIP;
@@ -27,7 +24,6 @@ public class APNetwork implements OverlayNetwork {
 		if(Constant.SERVERFLAG>0){
 			serverFlag = true;
 			hostIP = null;
-			
 		}
 		else{
 			serverFlag = false;
@@ -39,7 +35,6 @@ public class APNetwork implements OverlayNetwork {
 		System.out.println(port+" : "+hostIP);
 		if(serverFlag){
 			try {
-				
 				serverSocket = new ServerSocket(port);
 				socket = serverSocket.accept();
 				System.out.println("server: Connect success");
@@ -113,11 +108,7 @@ public class APNetwork implements OverlayNetwork {
 		// TODO Auto-generated method stub
 		String string=null;
 		try {
-			 
 			string = inputStream.readUTF();
-			System.out.println(string);
-			
-			System.out.println(string);
 		} catch (OptionalDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

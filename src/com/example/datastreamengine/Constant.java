@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import android.R.integer;
 import android.os.Environment;
@@ -13,6 +15,8 @@ import android.os.Environment;
 public class Constant {
 	//public static int SCREEN_WIDTH;//屏幕的宽度
 	//public static int SCREEN_HEIGHT;//屏幕的高度
+	
+	//public static ArrayList<Integer> ballIdList;
 	
 	public static float PLAYER_BALL_SIZE=38;//玩家球的半径
 	public static float GOAL_BALL_SIZE=38;//目标球的半径
@@ -48,8 +52,11 @@ public class Constant {
 		FRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+36);
 		FRAMEA_X = TABLE_WIDTH/2-FRAMEA_WIDTH/2;
 		FRAMEA_Y = 0;
+		
+		
 		readConfig();
 	}
+	
 	public static void readConfig(){
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
 			

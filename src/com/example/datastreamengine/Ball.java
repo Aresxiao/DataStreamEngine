@@ -2,7 +2,6 @@ package com.example.datastreamengine;
 
 import java.util.ArrayList;
 
-import android.R.integer;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -19,7 +18,7 @@ public class Ball {
 	private float radius;
 	
 	static float d;
-	static final float vMax = Constant.V_MAX;//定义最大速度，所有球的最大速度不能超过这个速度。
+	static final float vMax = Constant.V_MAX;	//定义最大速度，所有球的最大速度不能超过这个速度。
 	//定义两个方向上的速度。
 	float vx;
 	float vy;

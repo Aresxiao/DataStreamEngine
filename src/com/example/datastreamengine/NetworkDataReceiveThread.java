@@ -25,6 +25,7 @@ public class NetworkDataReceiveThread extends Thread{
 			String rcvSpeed=network.receiveData();
 			if(rcvSpeed!=null){
 				String[] str = rcvSpeed.split(" ");
+				//if(str[0].equals("fs"))
 				System.out.println(str[0]+"  "+str[1]);
 				float x=Float.parseFloat(str[0]);
 				float y = Float.parseFloat(str[1]);

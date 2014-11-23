@@ -33,7 +33,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		this.activity = activity;
 		isOver=false;
-		
 		getHolder().addCallback(this);	//注册回调接口		
 	}
 	

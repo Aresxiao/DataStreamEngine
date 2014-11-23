@@ -1,10 +1,8 @@
 package com.example.datastreamengine;
 
-import android.R.integer;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 public class AccelerateSensor implements SensorEventListener{
 	
