@@ -25,7 +25,7 @@ public class AccelerateSensor implements SensorEventListener{
 		x=values[0];
 		y=values[1];
 		z=values[2];
-		
+		setDSEAccelerate(x, y, z);
 	}
 	
 	public float[] getValues(){
@@ -33,4 +33,11 @@ public class AccelerateSensor implements SensorEventListener{
 		return values;
 	}
 	
+	public void setDSEAccelerate(float x,float y,float z){
+		
+	}
+	
+	public void setFrequecy(){
+		
+	}
 }
