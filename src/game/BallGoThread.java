@@ -1,4 +1,6 @@
-package com.example.datastreamengine;
+package game;
+
+import sensor.AccelerateSensor;
 
 public class BallGoThread extends Thread {
 	
@@ -17,7 +19,7 @@ public class BallGoThread extends Thread {
 		// TODO Auto-generated method stub
 		
 		while(flag){
-			//让所有的球走
+			//璁╂墍鏈夌殑鐞冭蛋
 			for(Ball b:gameView.alBalls){
 				b.go();
 				if(b.isGoalBall()){

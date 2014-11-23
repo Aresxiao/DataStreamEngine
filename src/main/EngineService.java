@@ -1,4 +1,4 @@
-package com.example.datastreamengine;
+package main;
 
 import android.app.IntentService;
 import android.content.Intent;

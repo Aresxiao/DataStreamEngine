@@ -1,9 +1,13 @@
-package com.example.datastreamengine;
+package network;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+
+import constant.Constant;
+import dse.DSEInterface;
 
 public class APNetwork implements OverlayNetwork {
 
@@ -16,9 +20,9 @@ public class APNetwork implements OverlayNetwork {
 	Socket socket;
 	DataInputStream inputStream;
 	DataOutputStream outputStream;
+	DSEInterface dse;
 	
-	
-	public APNetwork(){
+	public APNetwork(DSEInterface dseInterface){
 		port = Constant.PORT;
 		connectedFalg = false;
 		if(Constant.SERVERFLAG>0){
@@ -29,6 +33,7 @@ public class APNetwork implements OverlayNetwork {
 			serverFlag = false;
 			hostIP = Constant.HOST_IP;
 		}
+		this.dse = dseInterface;
 	}
 	
 	public void connect(){
@@ -49,7 +54,6 @@ public class APNetwork implements OverlayNetwork {
 		}
 		else{
 			try {
-				
 				socket = new Socket(hostIP,port);
 				
 				connectedFalg = true;
@@ -68,6 +72,21 @@ public class APNetwork implements OverlayNetwork {
 			}
 			
 		}
+		new Thread(new Runnable() {
+			
+			public void run() {
+				// TODO Auto-generated method stub
+				while(true){
+					try {
+						String dataString = inputStream.readUTF();
+						dse.updateDSEState(dataString);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 	
 	public boolean getStatus(){

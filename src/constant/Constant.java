@@ -1,4 +1,4 @@
-package com.example.datastreamengine;
+package constant;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,19 +13,19 @@ import android.R.integer;
 import android.os.Environment;
 
 public class Constant {
-	//public static int SCREEN_WIDTH;//ÆÁÄ»µÄ¿í¶È
-	//public static int SCREEN_HEIGHT;//ÆÁÄ»µÄ¸ß¶È
+	//public static int SCREEN_WIDTH;//å±å¹•çš„å®½åº¦
+	//public static int SCREEN_HEIGHT;//å±å¹•çš„é«˜åº¦
 	
 	//public static ArrayList<Integer> ballIdList;
 	
-	public static float PLAYER_BALL_SIZE=38;//Íæ¼ÒÇòµÄ°ë¾¶
-	public static float GOAL_BALL_SIZE=38;//Ä¿±êÇòµÄ°ë¾¶
+	public static float PLAYER_BALL_SIZE=38;//ç©å®¶çƒçš„åŠå¾„
+	public static float GOAL_BALL_SIZE=38;//ç›®æ ‡çƒçš„åŠå¾„
 	
-	public static float TIME_SPAN=0.05f;//ÇòÔË¶¯µÄÄ£ÄâÊ±¼ä¼ä¸ô£¨¹æ¶¨: timeSpan²»¿ÉÒÔ>=Ball.d£©
-	public static float V_ATTENUATION=0.996f;//ËÙ¶ÈË¥¼õ±ÈÀı
-	public static float V_MAX=150;		//ÇòµÄ×î´óËÙ¶È£¨¹æ¶¨£ºÇòµÄ×î´óËÙ¶È²»¿ÉÒÔ³¬¹ı150£©
-	public static float V_MIN=0.5f;		//ËÙ¶È×îĞ¡Öµ£¬µ±ËÙ¶ÈĞ¡ÓÚ´ËÖµÊ±ÇòÍ£Ö¹ÔË¶¯
-	public static float SENSITIVITY = 4;		//Ğ¡ÇòÔË¶¯µÄÁéÃô¶È
+	public static float TIME_SPAN=0.05f;//çƒè¿åŠ¨çš„æ¨¡æ‹Ÿæ—¶é—´é—´éš”ï¼ˆè§„å®š: timeSpanä¸å¯ä»¥>=Ball.dï¼‰
+	public static float V_ATTENUATION=0.996f;//é€Ÿåº¦è¡°å‡æ¯”ä¾‹
+	public static float V_MAX=150;		//çƒçš„æœ€å¤§é€Ÿåº¦ï¼ˆè§„å®šï¼šçƒçš„æœ€å¤§é€Ÿåº¦ä¸å¯ä»¥è¶…è¿‡150ï¼‰
+	public static float V_MIN=0.5f;		//é€Ÿåº¦æœ€å°å€¼ï¼Œå½“é€Ÿåº¦å°äºæ­¤å€¼æ—¶çƒåœæ­¢è¿åŠ¨
+	public static float SENSITIVITY = 4;		//å°çƒè¿åŠ¨çš„çµæ•åº¦
 	
 	public static float X_OFFSET;
 	public static float Y_OFFSET;

@@ -1,19 +1,27 @@
-package com.example.datastreamengine;
+package game;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import network.NetworkDataReceiveThread;
+import network.NetworkDataSendThread;
+
+import main.MainActivity;
+
+import constant.Constant;
 
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.hardware.Sensor;
-import android.hardware.SensorManager;
+
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
-	SensorManager sensorManager;
+	
 	Sensor mAccelerometer;
 	
 	MainActivity activity;
@@ -33,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		this.activity = activity;
 		isOver=false;
-		getHolder().addCallback(this);	//×¢²á»Øµ÷½Ó¿Ú		
+		getHolder().addCallback(this);	//æ³¨å†Œå›è°ƒæ¥å£		
 	}
 	
 
@@ -64,7 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		table = new Table();
 		paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
-        // ÉèÖÃÈ¥¾â³İ
+        // è®¾ç½®å»é”¯é½¿
         paint.setAntiAlias(true);
         
 		alBalls = new ArrayList<Ball>();
@@ -78,7 +86,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
-		while (retry){//²»¶ÏµØÑ­»·£¬Ö±µ½ÆäËüÏß³Ì½áÊø
+		while (retry){//ä¸æ–­åœ°å¾ªç¯ï¼Œç›´åˆ°å…¶å®ƒçº¿ç¨‹ç»“æŸ
         	joinAllThread();
             retry = false;
         }

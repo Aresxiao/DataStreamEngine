@@ -1,4 +1,12 @@
-package com.example.datastreamengine;
+package main;
+
+import game.GameView;
+import network.APNetwork;
+import sensor.AccelerateSensor;
+
+import com.example.datastreamengine.R;
+
+import constant.Constant;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -11,7 +19,11 @@ import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 
-/*
+/**
+ * This is Android MainActivity class. In this class, do some initial things, 
+ * like network connect, set table height and width.
+ * 
+ * @version 1.0
  * @author GengXiao
  * 
  */
@@ -22,9 +34,10 @@ public class MainActivity extends Activity{
 	Sensor mAccelerometer;
 	
 	AccelerateSensor accelerateSensor;
+	/** */
 	APNetwork network;
 	
-	//ÆÁÄ»¿í¶ÈºÍ¸ß¶È
+	//å±å¹•å®½åº¦å’Œé«˜åº¦
 	private int tableWidth;
 	private int tableHeight;
 	
@@ -35,12 +48,12 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // È«ÆÁÏÔÊ¾
+        // å…¨å±æ˜¾ç¤º
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         
-        // »ñÈ¡´°¿Ú¹ÜÀíÆ÷,»ñµÃÆÁÄ»¿íºÍ¸ß
+        // è·å–çª—å£ç®¡ç†å™¨,è·å¾—å±å¹•å®½å’Œé«˜
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -56,7 +69,8 @@ public class MainActivity extends Activity{
         accelerateSensor = new AccelerateSensor();
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
+		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
+		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
 		
 		
 		network = new APNetwork();
@@ -72,6 +86,10 @@ public class MainActivity extends Activity{
 		
 	}
 	
+	/**
+	 * 
+	 * @return network
+	 */
 	public APNetwork getNetwork(){
 		return network;
 	}
@@ -95,7 +113,7 @@ public class MainActivity extends Activity{
 	protected void onRestart() {
 		// TODO Auto-generated method stub
 		super.onRestart();
-		sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
+		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 	}
 
 	@Override

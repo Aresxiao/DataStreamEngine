@@ -1,6 +1,9 @@
-package com.example.datastreamengine;
+package game;
 
 import java.util.ArrayList;
+
+
+import constant.Constant;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -18,11 +21,11 @@ public class Ball {
 	private float radius;
 	
 	static float d;
-	static final float vMax = Constant.V_MAX;	//¶¨Òå×î´óËÙ¶È£¬ËùÓĞÇòµÄ×î´óËÙ¶È²»ÄÜ³¬¹ıÕâ¸öËÙ¶È¡£
-	//¶¨ÒåÁ½¸ö·½ÏòÉÏµÄËÙ¶È¡£
+	static final float vMax = Constant.V_MAX;	//å®šä¹‰æœ€å¤§é€Ÿåº¦ï¼Œæ‰€æœ‰çƒçš„æœ€å¤§é€Ÿåº¦ä¸èƒ½è¶…è¿‡è¿™ä¸ªé€Ÿåº¦ã€‚
+	//å®šä¹‰ä¸¤ä¸ªæ–¹å‘ä¸Šçš„é€Ÿåº¦ã€‚
 	float vx;
 	float vy;
-	boolean InHoleflag=false;//ÇòÊÇ·ñ½ø¶´µÄ±êÖ¾
+	boolean InHoleflag=false;//çƒæ˜¯å¦è¿›æ´çš„æ ‡å¿—
 	
 	float vAttenuation = Constant.V_ATTENUATION;
 	float timeSpan = Constant.TIME_SPAN;
@@ -58,12 +61,12 @@ public class Ball {
 	public void drawSelf(Canvas canvas,Paint paint){
 		Matrix m1 = new Matrix();
 		m1.setTranslate( x+Constant.X_OFFSET,y+Constant.Y_OFFSET );
-		if(goalBall){			//ÊÇÄ¿±êÇò
+		if(goalBall){			//æ˜¯ç›®æ ‡çƒ
 			paint.reset();
 			paint.setColor(Color.BLUE);
 			canvas.drawCircle(x+Constant.GOAL_BALL_SIZE/2, y+Constant.GOAL_BALL_SIZE/2, radius, paint);
 		}
-		else{					//Íæ¼ÒĞ¡Çò
+		else{					//ç©å®¶å°çƒ
 			
 			paint.reset();
 			paint.setColor(Color.BLACK);
@@ -78,7 +81,7 @@ public class Ball {
 	public boolean canGo(float tempX,float tempY){
 		boolean canGoFlag=true;
 		
-		//¶ÔÓÚÄ¿±êÇò£¬ÒªÅĞ¶ÏÊÇ·ñÒÑ¾­½ø¿ò
+		//å¯¹äºç›®æ ‡çƒï¼Œè¦åˆ¤æ–­æ˜¯å¦å·²ç»è¿›æ¡†
 		float[] center = {tempX+radius,tempY+radius};
 		
 		if(isGoalBall()){
@@ -120,7 +123,7 @@ public class Ball {
 			return ;
 		}
 		//System.out.println(ballId+"can go");
-		float tempX = x+vx*timeSpan;	//ÇòÒªÈ¥µÄÏÂÒ»¸öÎ»ÖÃ
+		float tempX = x+vx*timeSpan;	//çƒè¦å»çš„ä¸‹ä¸€ä¸ªä½ç½®
 		float tempY = y+vy*timeSpan;
 		
 		if(this.canGo(tempX, tempY)){
@@ -137,7 +140,7 @@ public class Ball {
 		vy=0;
 	}
 	
-	//ÅĞ¶ÏÇòÊÇ·ñÍ£Ö¹µÄ·½·¨
+	//åˆ¤æ–­çƒæ˜¯å¦åœæ­¢çš„æ–¹æ³•
 	public boolean isStoped(){
 		return (vx==0 && vy==0);
 	}
@@ -146,11 +149,11 @@ public class Ball {
 		return InHoleflag;
 	}
 	
-	//¸ù¾İËÙ¶ÈºÍ·½Ïò¸Ä±äÇòËÙ¶ÈµÄ·½·¨
+	//æ ¹æ®é€Ÿåº¦å’Œæ–¹å‘æ”¹å˜çƒé€Ÿåº¦çš„æ–¹æ³•
 	public void changeVxy(float v,float angle)
 	{
-		double angrad=Math.toRadians(angle);//½«½Ç¶È×ª»»³É»¡¶È
-		vx=(float) (v*Math.cos(angrad));//¼ÆËãx,y·½ÏòµÄËÙ¶È
+		double angrad=Math.toRadians(angle);//å°†è§’åº¦è½¬æ¢æˆå¼§åº¦
+		vx=(float) (v*Math.cos(angrad));//è®¡ç®—x,yæ–¹å‘çš„é€Ÿåº¦
 		vy=(float) (v*Math.sin(angrad));
 	}
 	
