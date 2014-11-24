@@ -18,6 +18,11 @@ public class DataStreamEngine implements DSEInterface{
 		this.accelearate_z = z;
 	}
 	
+	/**
+	 * 这个方法是暴露给OverlayNetwork，OverlayNetwork接收到数据就会调用这个方法。
+	 * @param data为String类型，
+	 * @return void。
+	 */
 	public void updateDSEState(String data) {
 		// TODO Auto-generated method stub
 		String[] strArray = data.split(",");

@@ -7,6 +7,8 @@ import sensor.AccelerateSensor;
 import com.example.datastreamengine.R;
 
 import constant.Constant;
+import dse.DSEInterface;
+import dse.DataStreamEngine;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -66,14 +68,16 @@ public class MainActivity extends Activity{
         final GameView gameView = new GameView(this);
         setContentView(gameView);
         
-        accelerateSensor = new AccelerateSensor();
+        DSEInterface dse = new DataStreamEngine();
+        
+        accelerateSensor = new AccelerateSensor(dse);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
 		
 		
-		network = new APNetwork();
+		network = new APNetwork(dse);
 		new Thread(){
 			
 			@Override

@@ -1,28 +1,28 @@
+
 package game;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import network.NetworkDataReceiveThread;
-import network.NetworkDataSendThread;
-
 import main.MainActivity;
-
 import constant.Constant;
-
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.hardware.Sensor;
+
 
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+
+/**
+ * 这是GameView类，主要是展示的功能。
+ * @author GengXiao
+ */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
-	Sensor mAccelerometer;
 	
 	MainActivity activity;
 	Paint paint;
@@ -30,8 +30,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	GameViewDrawThread drawThread;
 	Table table;
 	BallGoThread ballGoThread ;
-	NetworkDataSendThread sendThread;
-	NetworkDataReceiveThread receiveThread;
 	
 	boolean isOver;
 	
@@ -40,10 +38,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		
 		this.activity = activity;
-		isOver=false;
+		//isOver=false;
 		getHolder().addCallback(this);	//注册回调接口		
 	}
-	
 
 	@Override
 	public void draw(Canvas canvas) {
@@ -68,7 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void surfaceCreated(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
-		createAllThread();
+		//createAllThread();
 		table = new Table();
 		paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
@@ -80,23 +77,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
 		alBalls.add(new Ball(false, this, 20, 20));
 		alBalls.add(new Ball(false, this, 80, 20));
-		startAllThread();
+		//startAllThread();
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
 		while (retry){//不断地循环，直到其它线程结束
-        	joinAllThread();
+        	//joinAllThread();
             retry = false;
         }
 	}
-
+	
+	/*
 	void createAllThread(){
+		
 		drawThread = new GameViewDrawThread(this);
 		ballGoThread = new BallGoThread(this);
-		sendThread = new NetworkDataSendThread(this);
-		receiveThread = new NetworkDataReceiveThread(this);
+		
 	}
 	
 	void startAllThread(){
@@ -105,35 +103,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
 		
-		new Thread(){
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				while(!activity.getNetwork().getStatus()){
-					
-				}
-				if(!isOver){
-					sendThread.setFlag(true);
-					sendThread.start();
-					receiveThread.setFlag(true);
-					receiveThread.start();
-					System.out.println("Now send receive thread is started");
-				}
-			}
-		}.start();
-		
 	}
 
 	void stopAllThread(){
 		drawThread.setFlag(false);
 		ballGoThread.setFlag(false);
-		
-		if(!activity.getNetwork().getStatus()){
-			sendThread.setFlag(false);
-			receiveThread.setFlag(false);
-		}
-		
 	}
 	
 	void joinAllThread(){
@@ -142,10 +116,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			drawThread.join();
 			ballGoThread.join();
 			
-			if(activity.getNetwork().getStatus()){
-				sendThread.join();
-				receiveThread.join();
-			}
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,7 +127,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		isOver=true;
 		stopAllThread();
 	}
-	
+	*/
 	public void repaint(){
 		Canvas canvas = this.getHolder().lockCanvas();
 		try
@@ -176,5 +147,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				this.getHolder().unlockCanvasAndPost(canvas);
 			}
 		}
+	}
+	
+	public Ball getBallById(int id){
+		return alBalls.get(id);
 	}
 }

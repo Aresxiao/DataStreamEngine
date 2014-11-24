@@ -30,7 +30,7 @@ public class Ball {
 	float vAttenuation = Constant.V_ATTENUATION;
 	float timeSpan = Constant.TIME_SPAN;
 	float vMin = Constant.V_MIN;
-	static ArrayList<Float> locationXY = new ArrayList<Float>();
+	static ArrayList<Double> locationXY = new ArrayList<Double>();
 	
 	
 	
@@ -102,8 +102,6 @@ public class Ball {
 			return false;
 		}
 		
-		
-		
 		if(center[0]<radius||(center[0]+radius)>Constant.TABLE_WIDTH){
 			vx=-vx;
 			canGoFlag = false;
@@ -172,10 +170,21 @@ public class Ball {
 		return vy;
 	}
 	
-	public void setSpeed(float xSpeed,float ySpeed){
-		vx=vx-xSpeed*timeSpan*Constant.SENSITIVITY;
-		vy=vy+ySpeed*timeSpan*Constant.SENSITIVITY;
+	public void setBallSpeedByAccelerate(float x_Accelerate,float y_Accelerate){
+		
+		vx=vx-x_Accelerate*timeSpan*Constant.SENSITIVITY;
+		vy=vy+y_Accelerate*timeSpan*Constant.SENSITIVITY;
 		//System.out.println(xSpeed+" --- "+ySpeed+"   :    "+vx+" --- "+vy);
+	}
+	
+	public void setBallSpeedBySpeed(float x_Speed,float y_Speed){
+		vx = x_Speed;
+		vy = y_Speed;
+	}
+	
+	public void setBallLocation(float x_Loc,float y_Loc){
+		x = x_Loc;
+		y = y_Loc;
 	}
 	
 	public float getRadius(){

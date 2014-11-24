@@ -5,14 +5,14 @@ import sensor.AccelerateSensor;
 public class BallGoThread extends Thread {
 	
 	GameView gameView;
+	GameModel gameModel;
 	private boolean flag = true;
-	AccelerateSensor accelerateSensor;
 	//ArrayList<Ball> 
 	
 	private int sleepSpan=7;
-	public BallGoThread(GameView gameView){
+	public BallGoThread(GameView gameView,GameModel gameModel){
 		this.gameView = gameView;
-		accelerateSensor = gameView.activity.accelerateSensor;
+		this.gameModel = gameModel;
 	}
 	@Override
 	public void run() {
@@ -24,10 +24,9 @@ public class BallGoThread extends Thread {
 				b.go();
 				if(b.isGoalBall()){
 					if(b.InHoleflag){
-						
 						b.stopBall();
 						flag=false;
-						gameView.overGame();
+						gameModel.overGame();
 					}
 				}
 			}

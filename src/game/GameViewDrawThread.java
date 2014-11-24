@@ -20,8 +20,7 @@ public class GameViewDrawThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(this.flag){
-			float[] values = gameView.activity.accelerateSensor.getValues();
-			gameView.alBalls.get(Constant.LOCAL_BALL_ID).setSpeed(values[0], values[1]);
+			
 			gameView.repaint();
 			
 			try {
