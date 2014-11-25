@@ -1,5 +1,6 @@
 package main;
 
+import game.GameModel;
 import game.GameView;
 import network.APNetwork;
 import sensor.AccelerateSensor;
@@ -68,7 +69,9 @@ public class MainActivity extends Activity{
         final GameView gameView = new GameView(this);
         setContentView(gameView);
         
-        DSEInterface dse = new DataStreamEngine();
+        GameModel gameModel = new GameModel(gameView);
+        
+        DSEInterface dse = new DataStreamEngine(gameModel);
         
         accelerateSensor = new AccelerateSensor(dse);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -76,7 +79,7 @@ public class MainActivity extends Activity{
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
 		
-		
+		/*
 		network = new APNetwork(dse);
 		new Thread(){
 			
@@ -87,7 +90,7 @@ public class MainActivity extends Activity{
 				network.connect();
 			}
 		}.start();
-		
+		*/
 	}
 	
 	/**

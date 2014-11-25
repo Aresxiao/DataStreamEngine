@@ -1,5 +1,8 @@
 package dse;
 
+import constant.Constant;
+import game.GameModel;
+
 /**
  * 
  * This class is the main part of engine.It can do some processing.
@@ -9,13 +12,23 @@ package dse;
  */
 public class DataStreamEngine implements DSEInterface{
 	
-	double accelearate_x,accelearate_y,accelearate_z;
+	float accelearate_x,accelearate_y,accelearate_z;
+	GameModel gameModel;
+	public DataStreamEngine(GameModel gameModel){
+		this.gameModel = gameModel;
+	}
 	
-	public void setAccelerate(double x, double y, double z) {
+	/**
+	 * 该方法用来暴露给Sensor模块，Sensor产生数据就会调用该方法。
+	 */
+	public void setAccelerate(float x, float y, float z) {
 		// TODO Auto-generated method stub
 		this.accelearate_x = x;
 		this.accelearate_y = y;
 		this.accelearate_z = z;
+		int ballId = Constant.LOCAL_BALL_ID;
+		String acceData = 1+","+ballId+","+x+","+y+","+z;
+		gameModel.updateGameView(acceData);
 	}
 	
 	/**

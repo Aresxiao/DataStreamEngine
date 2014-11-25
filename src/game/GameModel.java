@@ -1,16 +1,17 @@
 package game;
 
+
 public class GameModel {
 	
 	GameView gameView;
 	
 	GameViewDrawThread drawThread;
 	BallGoThread ballGoThread;
-	boolean isOver;
+	//boolean isOver;
 	public GameModel(GameView gameView) {
 		// TODO Auto-generated constructor stub
 		this.gameView = gameView;
-		isOver = false;
+		//isOver = false;
 	}
 	
 	/**
@@ -50,7 +51,7 @@ public class GameModel {
 			break;
 		}
 	}
-	
+	/*
 	public void createAllThread(){
 		drawThread = new GameViewDrawThread(gameView);
 		ballGoThread = new BallGoThread(gameView,this);
@@ -71,5 +72,21 @@ public class GameModel {
 	public void overGame(){
 		isOver=true;
 		stopAllThread();
+	}
+	*/
+	public String getBallSpeed(int ballId){
+		Ball ball = gameView.getBallById(ballId);
+		float x_Speed = ball.getVX();
+		float y_Speed = ball.getVY();
+		String speedData =  ballId+","+x_Speed+","+y_Speed;
+		return speedData;
+	}
+	
+	public String getBallLocation(int ballId){
+		Ball ball = gameView.getBallById(ballId);
+		float x_Loc = ball.getX();
+		float y_Loc = ball.getY();
+		String locationData = ballId+","+x_Loc+","+y_Loc;
+		return locationData;
 	}
 }

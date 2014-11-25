@@ -38,7 +38,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		
 		this.activity = activity;
-		//isOver=false;
+		isOver=false;
 		getHolder().addCallback(this);	//注册回调接口		
 	}
 
@@ -65,7 +65,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void surfaceCreated(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
-		//createAllThread();
+		createAllThread();
 		table = new Table();
 		paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
@@ -77,19 +77,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
 		alBalls.add(new Ball(false, this, 20, 20));
 		alBalls.add(new Ball(false, this, 80, 20));
-		//startAllThread();
+		startAllThread();
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
 		while (retry){//不断地循环，直到其它线程结束
-        	//joinAllThread();
+        	joinAllThread();
             retry = false;
         }
 	}
 	
-	/*
+	
 	void createAllThread(){
 		
 		drawThread = new GameViewDrawThread(this);
@@ -127,7 +127,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		isOver=true;
 		stopAllThread();
 	}
-	*/
+	
 	public void repaint(){
 		Canvas canvas = this.getHolder().lockCanvas();
 		try
