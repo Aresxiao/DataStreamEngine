@@ -39,7 +39,7 @@ public class MainActivity extends Activity{
 	AccelerateSensor accelerateSensor;
 	/** */
 	APNetwork network;
-	
+	DataStreamEngine dse;
 	//屏幕宽度和高度
 	private int tableWidth;
 	private int tableHeight;
@@ -71,7 +71,7 @@ public class MainActivity extends Activity{
         
         GameModel gameModel = new GameModel(gameView);
         
-        DSEInterface dse = new DataStreamEngine(gameModel);
+        dse = new DataStreamEngine(gameModel);
         
         accelerateSensor = new AccelerateSensor(dse);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
@@ -79,7 +79,7 @@ public class MainActivity extends Activity{
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
 		
-		/*
+		
 		network = new APNetwork(dse);
 		new Thread(){
 			
@@ -88,9 +88,11 @@ public class MainActivity extends Activity{
 				// TODO Auto-generated method stub
 				System.out.println("Thread start");
 				network.connect();
+				dse.setOverlayNetwork(network);
+				dse.startThread();
 			}
 		}.start();
-		*/
+		
 	}
 	
 	/**
@@ -121,6 +123,7 @@ public class MainActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onRestart();
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
+		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3);
 	}
 
 	@Override

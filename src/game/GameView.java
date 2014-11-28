@@ -89,7 +89,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 	}
 	
-	
 	void createAllThread(){
 		
 		drawThread = new GameViewDrawThread(this);

@@ -31,11 +31,6 @@ public class AccelerateSensor implements SensorEventListener{
 		setDSEAccelerate(x, y, z);
 	}
 	
-	public float[] getValues(){
-		float[] values = {x,y,z};
-		return values;
-	}
-	
 	public void setDSEAccelerate(float x,float y,float z){
 		dseInterface.setAccelerate(x, y, z);
 	}

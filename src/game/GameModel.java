@@ -15,9 +15,8 @@ public class GameModel {
 	}
 	
 	/**
-	 * @param data,GameView中的data包含三类数据，1：加速度数据，:2：速度数据，3：位置信息(也有可能是其他信息，目前还没有想到)
-	 * 如果是1、2、3类信息，那么第二位应该包含Ball的index。
-	 * 
+	 * @param data,data是String类型，分成两类来源，2表示来源于网络，网络中数据包含的是Ball的速度以及位置信息；1表示来源于本地传感器，
+	 * 数据包含的仅仅只有加速度信息。
 	 */
 	public void updateGameView(String data){
 		String[] strArray = data.split(",");
@@ -36,14 +35,9 @@ public class GameModel {
 			Ball ball = gameView.getBallById(ballId);
 			float x_Speed = Float.parseFloat(strArray[2]);
 			float y_Speed = Float.parseFloat(strArray[3]);
+			float x_Loc = Float.parseFloat(strArray[4]);
+			float y_Loc = Float.parseFloat(strArray[5]);
 			ball.setBallSpeedBySpeed(x_Speed, y_Speed);
-		}
-			break;
-		case 3:{
-			int ballId = Integer.parseInt(strArray[1]);
-			Ball ball = gameView.getBallById(ballId);
-			float x_Loc = Float.parseFloat(strArray[2]);
-			float y_Loc = Float.parseFloat(strArray[3]);
 			ball.setBallLocation(x_Loc, y_Loc);
 		}
 			break;
@@ -74,19 +68,15 @@ public class GameModel {
 		stopAllThread();
 	}
 	*/
-	public String getBallSpeed(int ballId){
+	
+	public String getBallState(int ballId){
 		Ball ball = gameView.getBallById(ballId);
 		float x_Speed = ball.getVX();
 		float y_Speed = ball.getVY();
-		String speedData =  ballId+","+x_Speed+","+y_Speed;
+		float x_Loc = ball.getX();
+		float y_Loc = ball.getY();
+		String speedData = ballId+","+x_Speed+","+y_Speed+","+x_Loc+","+y_Loc;
 		return speedData;
 	}
 	
-	public String getBallLocation(int ballId){
-		Ball ball = gameView.getBallById(ballId);
-		float x_Loc = ball.getX();
-		float y_Loc = ball.getY();
-		String locationData = ballId+","+x_Loc+","+y_Loc;
-		return locationData;
-	}
 }

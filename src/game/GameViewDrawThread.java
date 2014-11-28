@@ -1,8 +1,6 @@
 package game;
 
-import constant.Constant;
 import android.view.SurfaceHolder;
-
 
 public class GameViewDrawThread extends Thread{
 
@@ -20,9 +18,7 @@ public class GameViewDrawThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(this.flag){
-			
 			gameView.repaint();
-			
 			try {
 				Thread.sleep(sleepSpan);
 			} catch (InterruptedException e) {

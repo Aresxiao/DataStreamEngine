@@ -40,6 +40,7 @@ public class APNetwork implements OverlayNetwork {
 		System.out.println(port+" : "+hostIP);
 		if(serverFlag){
 			try {
+				
 				serverSocket = new ServerSocket(port);
 				socket = serverSocket.accept();
 				System.out.println("server: Connect success");
@@ -78,8 +79,10 @@ public class APNetwork implements OverlayNetwork {
 				// TODO Auto-generated method stub
 				while(true){
 					try {
+						
 						String dataString = inputStream.readUTF();
 						dse.updateDSEState(dataString);
+						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

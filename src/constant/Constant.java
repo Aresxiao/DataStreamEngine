@@ -41,8 +41,8 @@ public class Constant {
 	public static int FRAMEA_Y;
 	public static int FRAMEA_HEIGHT;
 	public static int FRAMEA_WIDTH;
-	public static int LOCAL_BALL_ID=2;
-	public static int CLIENT_BALL_ID=1;
+	public static int LOCAL_BALL_ID=1;
+	public static int CLIENT_BALL_ID=2;
 	
 	public static void initConst(int screenWidth,int screenHeight){
 		TABLE_WIDTH = screenWidth;

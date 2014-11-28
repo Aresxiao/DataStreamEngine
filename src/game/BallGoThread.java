@@ -1,6 +1,5 @@
 package game;
 
-import sensor.AccelerateSensor;
 
 public class BallGoThread extends Thread {
 	
