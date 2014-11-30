@@ -1,5 +1,7 @@
 package game;
 
+import java.util.ArrayList;
+
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,6 +9,13 @@ import android.graphics.Paint;
 
 public class Table {
 
+	ArrayList<Obstacle> obstacles;
+	
+	public Table(){
+		obstacles = new ArrayList<Obstacle>();
+	}
+	
+	
 	public void drawSelf(Canvas canvas,Paint paint){
 		/*
 		 * 
