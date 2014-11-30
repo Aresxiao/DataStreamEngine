@@ -13,8 +13,19 @@ public class Table {
 	
 	public Table(){
 		obstacles = new ArrayList<Obstacle>();
+		Obstacle obstacle = new Obstacle();
+		obstacle.setFrameXY(200, 200);
+		obstacle.setWidthHeight(20, 30);
+		obstacles.add(obstacle);
 	}
 	
+	public void addObstacle(Obstacle obstacle){
+		obstacles.add(obstacle);
+	}
+	
+	public ArrayList<Obstacle> getObstacles(){
+		return obstacles;
+	}
 	
 	public void drawSelf(Canvas canvas,Paint paint){
 		/*
@@ -29,7 +40,10 @@ public class Table {
 		*
 		*/
 		
-		
+		for(int i = 0;i < obstacles.size();i++){
+			Obstacle obstacle = obstacles.get(i);
+			obstacle.drawSelf(canvas, paint);
+		}
 		
 		paint.reset();
 		paint.setColor(Color.BLACK);

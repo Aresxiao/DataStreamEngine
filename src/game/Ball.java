@@ -16,7 +16,7 @@ public class Ball {
 	int ballId;
 	GameView gameView;
 	boolean goalBall;
-	private float x;
+	private float x;		// x和y是小球在绘制的时候左上角的坐标位置
 	private float y;
 	private float radius;
 	
@@ -31,8 +31,6 @@ public class Ball {
 	float timeSpan = Constant.TIME_SPAN;
 	float vMin = Constant.V_MIN;
 	static ArrayList<Double> locationXY = new ArrayList<Double>();
-	
-	
 	
 	public Ball(boolean goal,GameView gameView,float x,float y){
 		this.gameView = gameView;
@@ -67,7 +65,6 @@ public class Ball {
 			canvas.drawCircle(x+Constant.GOAL_BALL_SIZE/2, y+Constant.GOAL_BALL_SIZE/2, radius, paint);
 		}
 		else{					//玩家小球
-			
 			paint.reset();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Paint.Style.STROKE);
@@ -96,6 +93,29 @@ public class Ball {
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
 				canGoFlag = false;
 			}
+		}
+		
+		ArrayList<Obstacle> obstacles = gameView.table.getObstacles();
+		for(Obstacle obstacle: obstacles){
+			boolean collisionWithCornerFlag=false;
+			float[][] p = obstacle.getFourCornerLocation();		//首先计算和障碍物角的碰撞。
+			for(int i = 0;i < p.length;i++){
+				if(CollisionUtil.calcuDisSquare(p[i], center)<radius*radius){
+					vx = -vx;
+					vy = -vy;
+					canGoFlag = false;
+					collisionWithCornerFlag = true;
+					break;
+				}
+			}
+			if(!canGoFlag)
+				break;
+			
+			if(CollisionUtil.collisionCalculate(obstacle, center, this)){
+				canGoFlag = false;
+				return canGoFlag;
+			}
+			
 		}
 		
 		if(canGoFlag==false){
@@ -195,4 +215,8 @@ public class Ball {
 		return goalBall;
 	}
 	
+	public float[] getCenterLocation(){
+		float[] center = {x+radius,y+radius};
+		return center;
+	}
 }

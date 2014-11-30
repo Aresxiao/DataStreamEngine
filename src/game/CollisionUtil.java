@@ -1,5 +1,7 @@
 package game;
 
+import constant.Constant;
+
 
 
 public class CollisionUtil {
@@ -152,7 +154,7 @@ public class CollisionUtil {
 		balla.vy=vaVerticalY+vbCollY;
 		
 		ballb.vx=vbVerticalX+vaCollX;
-		ballb.vy=vbVerticalY+vaCollY;	
+		ballb.vy=vbVerticalY+vaCollY;
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
@@ -163,4 +165,31 @@ public class CollisionUtil {
 		System.out.println("ball bbbbbbbbbbbbbbbbbbbbbb "+ballb.vx+" ======= "+ballb.vy);
 		return true;
 	}
+	
+	public static boolean collisionCalculate(Obstacle obstacle,float[] p,Ball ball){
+		float[] frameXY = obstacle.getFrameXY();
+		float[] widthAndHeight = obstacle.getWidthHeight();
+		float radius = ball.getRadius();
+		if((p[1]+radius)>frameXY[1]&&p[1]<(frameXY[1]+widthAndHeight[1])){
+			if(p[0]<(frameXY[0]+widthAndHeight[0])&&(p[0]+radius)>frameXY[0]){
+				ball.vx = -ball.vx;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		if(p[0]<(frameXY[0]+widthAndHeight[0])&&(p[0]+radius)>frameXY[0]){
+			if((p[1]+radius)>frameXY[1]&&p[1]<(frameXY[1]+widthAndHeight[1])){
+				ball.vy = -ball.vy;
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		
+		return false;
+	}
+	
 }
