@@ -188,7 +188,6 @@ public class CollisionUtil {
 				return false;
 			}
 		}
-		
 		return false;
 	}
 	

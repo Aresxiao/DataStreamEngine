@@ -76,7 +76,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		alBalls.add(new Ball(true, this, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
 				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
 		alBalls.add(new Ball(false, this, 20, 20));
-		alBalls.add(new Ball(false, this, 80, 20));
+		alBalls.add(new Ball(false, this, 140, 20));
 		startAllThread();
 	}
 	

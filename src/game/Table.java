@@ -15,7 +15,7 @@ public class Table {
 		obstacles = new ArrayList<Obstacle>();
 		Obstacle obstacle = new Obstacle();
 		obstacle.setFrameXY(200, 200);
-		obstacle.setWidthHeight(20, 30);
+		obstacle.setWidthHeight(40, 230);
 		obstacles.add(obstacle);
 	}
 	

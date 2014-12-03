@@ -97,14 +97,14 @@ public class Ball {
 		
 		ArrayList<Obstacle> obstacles = gameView.table.getObstacles();
 		for(Obstacle obstacle: obstacles){
-			boolean collisionWithCornerFlag=false;
+			//boolean collisionWithCornerFlag=false;
 			float[][] p = obstacle.getFourCornerLocation();		//首先计算和障碍物角的碰撞。
 			for(int i = 0;i < p.length;i++){
 				if(CollisionUtil.calcuDisSquare(p[i], center)<radius*radius){
 					vx = -vx;
 					vy = -vy;
 					canGoFlag = false;
-					collisionWithCornerFlag = true;
+					//collisionWithCornerFlag = true;
 					break;
 				}
 			}
@@ -115,7 +115,6 @@ public class Ball {
 				canGoFlag = false;
 				return canGoFlag;
 			}
-			
 		}
 		
 		if(canGoFlag==false){

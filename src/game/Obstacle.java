@@ -14,8 +14,8 @@ public class Obstacle {
 	public Obstacle(){
 		frame_x = 0;
 		frame_y = 0;
-		width = 10;
-		heigth = 10;
+		width = 30;
+		heigth = 160;
 	}
 	public Obstacle(float x,float y,int w,float h){
 		frame_x = x;
