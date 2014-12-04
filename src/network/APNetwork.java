@@ -81,7 +81,7 @@ public class APNetwork implements OverlayNetwork {
 					try {
 						
 						String dataString = inputStream.readUTF();
-						dse.updateDSEState(dataString);
+						dse.updateDSEState(1,dataString);
 						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block

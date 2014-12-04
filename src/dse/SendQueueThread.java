@@ -1,21 +1,23 @@
 package dse;
 
+import network.OverlayNetwork;
 import game.GameModel;
 import constant.Constant;
 
-public class DataProcessingThread extends Thread {
+/**
+ * @author XiaoGeng
+ * 该类用是DSE中专门用来处理sendQueue队列中的数据，当为空时，线程阻塞。
+ */
+public class SendQueueThread extends Thread {
 	
 	private boolean flag;
 	DataStreamEngine dse;
-	private int sleepSpan ;
-	private int msgCount;
+	private int sleepSpan;
 	
-	
-	public DataProcessingThread(DataStreamEngine dataStreamEngine){
+	public SendQueueThread(DataStreamEngine dataStreamEngine){
 		dse = dataStreamEngine;
 		flag = true;
 		sleepSpan = 7;
-		msgCount=0;
 	}
 	
 	@Override
@@ -25,7 +27,8 @@ public class DataProcessingThread extends Thread {
 			GameModel gameModel = dse.getGameModel();
 			String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
 			data = 2+","+data;
-			dse.dataProcessFromGame(1, data);
+			OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
+			overlayNetwork.sendData(data);
 			
 			try {
 				Thread.sleep(sleepSpan);

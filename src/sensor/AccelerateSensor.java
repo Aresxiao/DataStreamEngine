@@ -28,12 +28,11 @@ public class AccelerateSensor implements SensorEventListener{
 		x=values[0];
 		y=values[1];
 		z=values[2];
-		setDSEAccelerate(x, y, z);
+		String dataString = x+","+y+","+z;
+		dseInterface.updateDSEState(2, dataString);
 	}
 	
-	public void setDSEAccelerate(float x,float y,float z){
-		dseInterface.setAccelerate(x, y, z);
-	}
+	
 	
 	/**
 	 * 此方法用来设置传感器的频率。

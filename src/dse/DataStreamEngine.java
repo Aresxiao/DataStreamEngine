@@ -1,5 +1,8 @@
 package dse;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import network.OverlayNetwork;
 import constant.Constant;
 import game.GameModel;
@@ -12,14 +15,20 @@ import game.GameModel;
  */
 public class DataStreamEngine implements DSEInterface{
 	
+	Queue<String> sensorQueue;
+	Queue<String> receiveQueue;
+	Queue<String> sendQueue;
 	float accelearate_x,accelearate_y,accelearate_z;
 	GameModel gameModel;
 	OverlayNetwork overlayNetwork;
 	
-	DataProcessingThread dataProcessingThread;
+	SendQueueThread dataProcessingThread;
 	
 	public DataStreamEngine(GameModel gameModel){
 		this.gameModel = gameModel;
+		sendQueue = new LinkedList<String>();
+		receiveQueue = new LinkedList<String>();
+		sendQueue = new LinkedList<String>();
 	}
 	
 	/**
@@ -37,12 +46,22 @@ public class DataStreamEngine implements DSEInterface{
 	
 	/**
 	 * 这个方法是暴露给OverlayNetwork，OverlayNetwork接收到数据就会调用这个方法。
-	 * @param data为String类型，
+	 * @param data为String类型，type 为int 类型,指明数据来源,1表示接收到网络流数据，2表示来自本地传感器数据。
 	 * @return void。
 	 */
-	public void updateDSEState(String data) {
+	public void updateDSEState(int type,String data) {
+		switch (type) {
+		case 1:
+			addReceiveQueue(data);
+			break;
+		case 2:
+			addSensorQueue(data);
+			break;
+		default:
+			break;
+		}
 		// TODO Auto-generated method stub
-		gameModel.updateGameView(data);
+		// gameModel.updateGameView(data);
 	}
 	
 	/**
@@ -68,11 +87,10 @@ public class DataStreamEngine implements DSEInterface{
 	
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
-		
 	}
 	
 	public void startThread(){
-		dataProcessingThread = new DataProcessingThread(this);
+		dataProcessingThread = new SendQueueThread(this);
 		dataProcessingThread.setFlag(true);
 		dataProcessingThread.start();
 	}
@@ -80,4 +98,18 @@ public class DataStreamEngine implements DSEInterface{
 	public OverlayNetwork getOverlayNetwork(){
 		return overlayNetwork;
 	}
+	
+	public void addReceiveQueue(String data){
+		receiveQueue.offer(data);
+	}
+	
+	public void addSendQueue(String data){
+		sendQueue.offer(data);
+	}
+	
+	public void addSensorQueue(String data){
+		sensorQueue.offer(data);
+	}
 }
+
+
