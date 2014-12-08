@@ -38,5 +38,4 @@ public class SensorQueueThread extends Thread{
 		}
 	}
 	
-	
 }

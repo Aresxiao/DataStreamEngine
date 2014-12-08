@@ -2,6 +2,7 @@ package dse;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import network.OverlayNetwork;
 import constant.Constant;
@@ -28,9 +29,14 @@ public class DataStreamEngine implements DSEInterface{
 	
 	public DataStreamEngine(GameModel gameModel){
 		this.gameModel = gameModel;
+		sendQueue = new LinkedBlockingQueue<String>();
+		receiveQueue = new LinkedBlockingQueue<String>();
+		sensorQueue = new LinkedBlockingQueue<String>();
+		/*
 		sendQueue = new LinkedList<String>();
 		receiveQueue = new LinkedList<String>();
 		sensorQueue = new LinkedList<String>();
+		*/
 	}
 	
 	/**

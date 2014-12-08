@@ -56,7 +56,7 @@ public class APNetwork implements OverlayNetwork {
 		else{
 			try {
 				socket = new Socket(hostIP,port);
-				
+				System.out.println("Client");
 				connectedFalg = true;
 				System.out.println("success connect to server");
 				inputStream = new DataInputStream(socket.getInputStream());
@@ -78,10 +78,8 @@ public class APNetwork implements OverlayNetwork {
 				// TODO Auto-generated method stub
 				while(true){
 					try {
-						
 						String dataString = inputStream.readUTF();
 						dse.updateDSEState(1,dataString);
-						
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
