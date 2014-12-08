@@ -34,7 +34,6 @@ public class AccelerateSensor implements SensorEventListener{
 	}
 	
 	
-	
 	/**
 	 * 此方法用来设置传感器的频率。
 	 * @param type={1,2,3,4}，type只有这四种取值，1对应于传感器中normal的延迟，2对应于UI的延迟，3对应于Game的延迟，4对应于fastest延迟。
