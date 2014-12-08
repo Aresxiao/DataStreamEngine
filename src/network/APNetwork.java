@@ -47,7 +47,21 @@ public class APNetwork implements OverlayNetwork {
 				connectedFalg = true;
 				inputStream = new DataInputStream(socket.getInputStream());
 				outputStream = new DataOutputStream(socket.getOutputStream());
-				
+				new Thread(new Runnable() {
+					
+					public void run() {
+						// TODO Auto-generated method stub
+						while(true){
+							try {
+								String dataString = inputStream.readUTF();
+								dse.updateDSEState(1,dataString);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}).start();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
