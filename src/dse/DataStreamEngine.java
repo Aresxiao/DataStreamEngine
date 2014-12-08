@@ -1,7 +1,7 @@
 package dse;
 
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.OverlayNetwork;
@@ -16,9 +16,9 @@ import game.GameModel;
  */
 public class DataStreamEngine implements DSEInterface{
 	
-	Queue<String> sensorQueue;
-	Queue<String> receiveQueue;
-	Queue<String> sendQueue;
+	BlockingQueue<String> sensorQueue;
+	BlockingQueue<String> receiveQueue;
+	BlockingQueue<String> sendQueue;
 	float accelearate_x,accelearate_y,accelearate_z;
 	GameModel gameModel;
 	OverlayNetwork overlayNetwork;
@@ -32,6 +32,7 @@ public class DataStreamEngine implements DSEInterface{
 		sendQueue = new LinkedBlockingQueue<String>();
 		receiveQueue = new LinkedBlockingQueue<String>();
 		sensorQueue = new LinkedBlockingQueue<String>();
+		
 		/*
 		sendQueue = new LinkedList<String>();
 		receiveQueue = new LinkedList<String>();
