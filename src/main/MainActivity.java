@@ -86,6 +86,7 @@ public class MainActivity extends Activity{
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				System.out.println("ready to connect");
 				network.connect();
 				System.out.println("Thread start");
 				dse.setOverlayNetwork(network);

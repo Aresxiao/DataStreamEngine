@@ -23,8 +23,16 @@ public class SensorQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			String dataString = sensorQueue.poll();
+			int size = sensorQueue.size();
+			if(size!=0){
+				System.out.println("sensorQueue size = "+size);
+			}
 			while(dataString == null){
 				dataString = sensorQueue.poll();
+				size = sensorQueue.size();
+				if(size!=0){
+					System.out.println("sensorQueue size = "+size);
+				}
 			}
 			dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;
 			GameModel gameModel = dse.getGameModel();

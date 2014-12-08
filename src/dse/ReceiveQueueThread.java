@@ -22,6 +22,9 @@ public class ReceiveQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			String dataString = receiveQueue.poll();
+			int size = receiveQueue.size();
+			
+			System.out.println("reciveQueue thread : "+size);
 			while(dataString==null){
 				dataString = receiveQueue.poll();
 			}
