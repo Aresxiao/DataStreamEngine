@@ -3,6 +3,7 @@ package dse;
 import game.GameModel;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 
 import constant.Constant;
 /**
@@ -11,7 +12,7 @@ import constant.Constant;
  */
 public class SensorQueueThread extends Thread{
 	DataStreamEngine dse;
-	Queue<String> sensorQueue;
+	BlockingQueue<String> sensorQueue;
 	
 	public SensorQueueThread(DataStreamEngine dse){
 		this.dse = dse;
@@ -22,6 +23,17 @@ public class SensorQueueThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(true){
+			try {
+				String dataString = sensorQueue.take();
+				
+				dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;
+				GameModel gameModel = dse.getGameModel();
+				gameModel.updateGameView(dataString);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			/*
 			String dataString = sensorQueue.poll();
 			int size = sensorQueue.size();
 			if(size!=0){
@@ -35,6 +47,7 @@ public class SensorQueueThread extends Thread{
 			dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;
 			GameModel gameModel = dse.getGameModel();
 			gameModel.updateGameView(dataString);
+			*/
 		}
 	}
 	

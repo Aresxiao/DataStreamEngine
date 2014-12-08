@@ -3,6 +3,7 @@ package dse;
 import game.GameModel;
 
 import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
 /**
  * 
  * @author XiaoGeng
@@ -11,7 +12,7 @@ import java.util.Queue;
 public class ReceiveQueueThread extends Thread{
 	
 	DataStreamEngine dse;
-	Queue<String> receiveQueue;
+	BlockingQueue<String> receiveQueue;
 	public ReceiveQueueThread(DataStreamEngine dse){
 		this.dse = dse;
 		receiveQueue = dse.receiveQueue;
@@ -21,16 +22,24 @@ public class ReceiveQueueThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(true){
+			try {
+				String dataString = receiveQueue.take();
+				GameModel gameModel = dse.getGameModel();
+				gameModel.updateGameView(dataString);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return;
+			}
+			/*
 			String dataString = receiveQueue.poll();
 			int size = receiveQueue.size();
 			if(size!=0)
 				System.out.println("reciveQueue thread : "+size);
 			while(dataString == null){
 				dataString = receiveQueue.poll();
-			}
+			}*/
 			
-			GameModel gameModel = dse.getGameModel();
-			gameModel.updateGameView(dataString);
 		}
 	}
 	
