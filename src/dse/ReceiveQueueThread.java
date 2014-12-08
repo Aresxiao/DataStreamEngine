@@ -23,6 +23,8 @@ public class ReceiveQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			try {
+				int size = receiveQueue.size();
+				//System.out.println("reciveQueue thread : "+size);
 				String dataString = receiveQueue.take();
 				GameModel gameModel = dse.getGameModel();
 				gameModel.updateGameView(dataString);
