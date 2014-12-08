@@ -29,6 +29,7 @@ public class AccelerateSensor implements SensorEventListener{
 		y=values[1];
 		z=values[2];
 		String dataString = x+","+y+","+z;
+		
 		dseInterface.updateDSEState(2, dataString);
 	}
 	

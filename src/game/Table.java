@@ -13,10 +13,12 @@ public class Table {
 	
 	public Table(){
 		obstacles = new ArrayList<Obstacle>();
+		/*
 		Obstacle obstacle = new Obstacle();
 		obstacle.setFrameXY(200, 200);
 		obstacle.setWidthHeight(40, 230);
 		obstacles.add(obstacle);
+		*/
 	}
 	
 	public void addObstacle(Obstacle obstacle){

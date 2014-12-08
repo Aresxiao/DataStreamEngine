@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.Window;
@@ -78,25 +79,22 @@ public class MainActivity extends Activity{
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
-		
+		dse.startSensorThread();
 		
 		network = new APNetwork(dse);
 		new Thread(){
-			
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				System.out.println("Thread start");
 				network.connect();
+				System.out.println("Thread start");
 				dse.setOverlayNetwork(network);
-				dse.startThread();
+				dse.startNetworkThread();
 			}
 		}.start();
-		
 	}
 	
 	/**
-	 * 
 	 * @return network
 	 */
 	public APNetwork getNetwork(){

@@ -23,14 +23,9 @@ public class ReceiveQueueThread extends Thread{
 		while(true){
 			String dataString = receiveQueue.poll();
 			while(dataString==null){
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				dataString = receiveQueue.poll();
 			}
+			
 			GameModel gameModel = dse.getGameModel();
 			gameModel.updateGameView(dataString);
 		}

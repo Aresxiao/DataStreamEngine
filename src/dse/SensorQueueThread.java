@@ -3,6 +3,8 @@ package dse;
 import game.GameModel;
 
 import java.util.Queue;
+
+import constant.Constant;
 /**
  * @author XiaoGeng
  * 该类用来专门处理sensorQueue队列中的数据，如果队列为空，就阻塞。
@@ -22,14 +24,9 @@ public class SensorQueueThread extends Thread{
 		while(true){
 			String dataString = sensorQueue.poll();
 			while(dataString == null){
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				dataString = sensorQueue.poll();
 			}
+			dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;
 			GameModel gameModel = dse.getGameModel();
 			gameModel.updateGameView(dataString);
 		}

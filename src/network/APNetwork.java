@@ -37,7 +37,7 @@ public class APNetwork implements OverlayNetwork {
 	}
 	
 	public void connect(){
-		System.out.println(port+" : "+hostIP);
+		//System.out.println(port+" : "+hostIP);
 		if(serverFlag){
 			try {
 				
@@ -71,7 +71,6 @@ public class APNetwork implements OverlayNetwork {
 				e.printStackTrace();
 				System.out.println("failed to  connect");
 			}
-			
 		}
 		new Thread(new Runnable() {
 			

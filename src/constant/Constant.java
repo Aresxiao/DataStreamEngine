@@ -56,19 +56,16 @@ public class Constant {
 		FRAMEA_X = TABLE_WIDTH/2-FRAMEA_WIDTH/2;
 		FRAMEA_Y = 0;
 		
-		
 		SERVERFLAG = 1;
 		HOST_IP = null;
 		//writeConfig();
-		//readConfig();
+		readConfig();
 	}
 	
 	public static void readConfig(){
 		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-			System.out.println("hello,readConfig");
 			File sdCardDir = Environment.getExternalStorageDirectory();
-			String fileName = sdCardDir.getPath()+"/DSE/DSEconf.txt";
-			System.out.println(fileName);
+			String fileName = sdCardDir.getPath()+"/DSEconf.txt";
 			try {
 				FileInputStream fis = new FileInputStream(fileName);
 				BufferedReader br = new BufferedReader(new InputStreamReader(fis));
@@ -79,8 +76,12 @@ public class Constant {
 				
 				tempString = br.readLine();
 				HOST_IP = tempString;
+				tempString = br.readLine();
+				LOCAL_BALL_ID = Integer.parseInt(tempString);
+				tempString = br.readLine();
+				CLIENT_BALL_ID = Integer.parseInt(tempString);
 				br.close();
-				System.out.println("read from sdcard "+HOST_IP);
+				System.out.println("read from sdcard "+SERVERFLAG+","+HOST_IP+","+LOCAL_BALL_ID+","+CLIENT_BALL_ID);
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -89,34 +90,6 @@ public class Constant {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.out.println("failed read file from sdcard");
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static void writeConfig(){
-		if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-			File sdCardDir = Environment.getExternalStorageDirectory();
-			String fileName = sdCardDir.getPath()+"/DSE";
-			
-			System.out.println("writeConfig "+fileName);
-			try {
-				File file = new File(fileName);
-				if(!file.exists()){
-					file.mkdir();
-					System.out.println("mkdir");
-				}
-				System.out.println("the dir is existed");
-				fileName = fileName+"/DSEconf.txt";
-				FileOutputStream fos = new FileOutputStream(fileName);
-				System.out.println("new create file");
-				PrintWriter pw = new PrintWriter(fos);
-				pw.println("can't read success");
-				pw.flush();
-				pw.close();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				System.out.println("writeconfig can't find file");
 				e.printStackTrace();
 			}
 		}

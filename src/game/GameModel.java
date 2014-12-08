@@ -1,9 +1,12 @@
 package game;
 
+import dse.DataStreamEngine;
+
 
 public class GameModel {
 	
 	GameView gameView;
+	DataStreamEngine dse;
 	
 	GameViewDrawThread drawThread;
 	BallGoThread ballGoThread;
@@ -12,6 +15,10 @@ public class GameModel {
 		// TODO Auto-generated constructor stub
 		this.gameView = gameView;
 		//isOver = false;
+	}
+	
+	public void setDSE(DataStreamEngine dse){
+		this.dse = dse;
 	}
 	
 	/**

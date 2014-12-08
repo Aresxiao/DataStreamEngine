@@ -22,13 +22,15 @@ public class DataStreamEngine implements DSEInterface{
 	GameModel gameModel;
 	OverlayNetwork overlayNetwork;
 	
-	SendQueueThread dataProcessingThread;
+	SendQueueThread sendQueueThread;
+	ReceiveQueueThread receiveQueueThread;
+	SensorQueueThread sensorQueueThread;
 	
 	public DataStreamEngine(GameModel gameModel){
 		this.gameModel = gameModel;
 		sendQueue = new LinkedList<String>();
 		receiveQueue = new LinkedList<String>();
-		sendQueue = new LinkedList<String>();
+		sensorQueue = new LinkedList<String>();
 	}
 	
 	/**
@@ -50,6 +52,8 @@ public class DataStreamEngine implements DSEInterface{
 	 * @return void。
 	 */
 	public void updateDSEState(int type,String data) {
+		//System.out.println(type+"---"+data);
+		
 		switch (type) {
 		case 1:
 			addReceiveQueue(data);
@@ -60,6 +64,7 @@ public class DataStreamEngine implements DSEInterface{
 		default:
 			break;
 		}
+		
 		// TODO Auto-generated method stub
 		// gameModel.updateGameView(data);
 	}
@@ -89,10 +94,17 @@ public class DataStreamEngine implements DSEInterface{
 		this.overlayNetwork = overlayNetwork;
 	}
 	
-	public void startThread(){
-		dataProcessingThread = new SendQueueThread(this);
-		dataProcessingThread.setFlag(true);
-		dataProcessingThread.start();
+	public void startSensorThread(){
+		
+		sensorQueueThread = new SensorQueueThread(this);
+		sensorQueueThread.start();
+		
+	}
+	public void startNetworkThread(){
+		receiveQueueThread = new ReceiveQueueThread(this);
+		sendQueueThread = new SendQueueThread(this);
+		receiveQueueThread.start();
+		sendQueueThread.start();
 	}
 	
 	public OverlayNetwork getOverlayNetwork(){
