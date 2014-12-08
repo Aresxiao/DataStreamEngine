@@ -30,9 +30,7 @@ public class SensorQueueThread extends Thread{
 			while(dataString == null){
 				dataString = sensorQueue.poll();
 				size = sensorQueue.size();
-				if(size!=0){
-					System.out.println("sensorQueue size = "+size);
-				}
+				
 			}
 			dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;
 			GameModel gameModel = dse.getGameModel();

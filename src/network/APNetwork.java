@@ -40,7 +40,7 @@ public class APNetwork implements OverlayNetwork {
 		//System.out.println(port+" : "+hostIP);
 		if(serverFlag){
 			try {
-				
+				System.out.println("Server,Listen");
 				serverSocket = new ServerSocket(port);
 				socket = serverSocket.accept();
 				System.out.println("server: Connect success");
