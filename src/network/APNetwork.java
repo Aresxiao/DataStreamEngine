@@ -62,6 +62,21 @@ public class APNetwork implements OverlayNetwork {
 				inputStream = new DataInputStream(socket.getInputStream());
 				outputStream = new DataOutputStream(socket.getOutputStream());
 				System.out.println("Success connect");
+				new Thread(new Runnable() {
+					
+					public void run() {
+						// TODO Auto-generated method stub
+						while(true){
+							try {
+								String dataString = inputStream.readUTF();
+								dse.updateDSEState(1,dataString);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+				}).start();
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -72,21 +87,7 @@ public class APNetwork implements OverlayNetwork {
 				System.out.println("failed to  connect");
 			}
 		}
-		new Thread(new Runnable() {
-			
-			public void run() {
-				// TODO Auto-generated method stub
-				while(true){
-					try {
-						String dataString = inputStream.readUTF();
-						dse.updateDSEState(1,dataString);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}).start();
+		
 	}
 	
 	public boolean getStatus(){
