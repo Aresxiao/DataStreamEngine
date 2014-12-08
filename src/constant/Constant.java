@@ -56,8 +56,6 @@ public class Constant {
 		FRAMEA_X = TABLE_WIDTH/2-FRAMEA_WIDTH/2;
 		FRAMEA_Y = 0;
 		
-		SERVERFLAG = 1;
-		HOST_IP = null;
 		//writeConfig();
 		readConfig();
 	}
