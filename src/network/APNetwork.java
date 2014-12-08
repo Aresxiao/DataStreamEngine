@@ -53,6 +53,7 @@ public class APNetwork implements OverlayNetwork {
 						// TODO Auto-generated method stub
 						while(true){
 							try {
+								
 								String dataString = inputStream.readUTF();
 								dse.updateDSEState(1,dataString);
 							} catch (IOException e) {
