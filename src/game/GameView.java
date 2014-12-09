@@ -15,6 +15,7 @@ import android.graphics.Paint;
 
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.Toast;
 
 
 /**
@@ -115,14 +116,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			drawThread.join();
 			ballGoThread.join();
 			
-			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void overGame(){
+	public void overGame(int whichHole){
+		
 		isOver=true;
 		stopAllThread();
 	}

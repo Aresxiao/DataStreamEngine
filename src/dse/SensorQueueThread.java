@@ -24,11 +24,11 @@ public class SensorQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			try {
-				/*
+				
 				int size = sensorQueue.size();
 				if(size!=0){
 					System.out.println("sensorQueue size = "+size);
-				}*/
+				}
 				String dataString = sensorQueue.take();
 				
 				dataString = 1+","+Constant.LOCAL_BALL_ID+","+dataString;

@@ -51,8 +51,9 @@ public class Table {
 		paint.setColor(Color.BLACK);
 		paint.setStyle(Paint.Style.STROKE);
 		
-		canvas.drawRect(Constant.FRAMEA_X, Constant.FRAMEA_Y,Constant.FRAMEA_X+Constant.FRAMEA_WIDTH, 
-				Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT, paint);
-		
+		canvas.drawRect(Constant.NFRAMEA_X, Constant.NFRAMEA_Y,Constant.NFRAMEA_X+Constant.NFRAMEA_WIDTH, 
+				Constant.NFRAMEA_Y+Constant.NFRAMEA_HEIGHT, paint);
+		canvas.drawRect(Constant.SFRAMEA_X, Constant.SFRAMEA_Y, Constant.SFRAMEA_X+Constant.SFRAMEA_WIDTH, 
+				Constant.SFRAMEA_Y+Constant.SFRAMEA_HEIGHT, paint);
 	}
 }

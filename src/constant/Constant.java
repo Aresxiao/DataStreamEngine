@@ -40,10 +40,14 @@ public class Constant {
 	public static int PORT=9000;
 	public static String HOST_IP;
 	
-	public static int FRAMEA_X;
-	public static int FRAMEA_Y;
-	public static int FRAMEA_HEIGHT;
-	public static int FRAMEA_WIDTH;
+	public static int NFRAMEA_X;
+	public static int NFRAMEA_Y;
+	public static int NFRAMEA_HEIGHT;
+	public static int NFRAMEA_WIDTH;
+	public static int SFRAMEA_X;
+	public static int SFRAMEA_Y;
+	public static int SFRAMEA_HEIGHT;
+	public static int SFRAMEA_WIDTH;
 	public static int LOCAL_BALL_ID=1;
 	public static int CLIENT_BALL_ID=2;
 	
@@ -51,11 +55,15 @@ public class Constant {
 		TABLE_WIDTH = screenWidth;
 		TABLE_HEIGHT = screenHeight;
 		
-		FRAMEA_HEIGHT = (int) (GOAL_BALL_SIZE+50);
-		FRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+66);
-		FRAMEA_X = TABLE_WIDTH/2-FRAMEA_WIDTH/2;
-		FRAMEA_Y = 0;
+		NFRAMEA_HEIGHT = (int) (GOAL_BALL_SIZE+50);
+		NFRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+66);
+		NFRAMEA_X = TABLE_WIDTH/2-NFRAMEA_WIDTH/2;
+		NFRAMEA_Y = 0;
 		
+		SFRAMEA_HEIGHT = (int) (GOAL_BALL_SIZE+50);
+		SFRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+66);
+		SFRAMEA_X = TABLE_WIDTH/2 - NFRAMEA_WIDTH/2;
+		SFRAMEA_Y = TABLE_HEIGHT - SFRAMEA_HEIGHT;
 		//writeConfig();
 		readConfig();
 	}

@@ -9,10 +9,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.widget.Toast;
 
 public class Ball {
 	static int id=0;
 	
+	int whichHole;
 	int ballId;
 	GameView gameView;
 	boolean goalBall;
@@ -33,6 +35,7 @@ public class Ball {
 	static ArrayList<Double> locationXY = new ArrayList<Double>();
 	
 	public Ball(boolean goal,GameView gameView,float x,float y){
+		whichHole = -1;
 		this.gameView = gameView;
 		goalBall=goal;
 		this.x = x;
@@ -82,9 +85,16 @@ public class Ball {
 		float[] center = {tempX+radius,tempY+radius};
 		
 		if(isGoalBall()){
-			if(tempX>Constant.FRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.FRAMEA_X+Constant.FRAMEA_WIDTH)&&
-					tempY>Constant.FRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.FRAMEA_Y+Constant.FRAMEA_HEIGHT)){
+			if(tempX>Constant.NFRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.NFRAMEA_X+Constant.NFRAMEA_WIDTH)&&
+					tempY>Constant.NFRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.NFRAMEA_Y+Constant.NFRAMEA_HEIGHT)){
 				InHoleflag=true;
+				whichHole = 1;
+				return true;
+			}
+			if(tempX>Constant.SFRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.SFRAMEA_X+Constant.SFRAMEA_WIDTH)&&
+					tempY>Constant.SFRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.SFRAMEA_Y+Constant.SFRAMEA_HEIGHT)){
+				InHoleflag=true;
+				whichHole = 2;
 				return true;
 			}
 		}
@@ -217,5 +227,9 @@ public class Ball {
 	public float[] getCenterLocation(){
 		float[] center = {x+radius,y+radius};
 		return center;
+	}
+	
+	public int getWhichHole(){
+		return whichHole;
 	}
 }

@@ -161,8 +161,8 @@ public class CollisionUtil {
 		//此处调用播放桌球碰撞声音的代码
 		//此处调用播放桌球碰撞声音的代码
 		//========================================
-		System.out.println("ball aaaaaaaaaaaaaaaaaaaaaaaaaaaa "+balla.vx+" ======= "+balla.vy);
-		System.out.println("ball bbbbbbbbbbbbbbbbbbbbbb "+ballb.vx+" ======= "+ballb.vy);
+		//System.out.println("ball aaaaaaaaaaaaaaaaaaaaaaaaaaaa "+balla.vx+" ======= "+balla.vy);
+		//System.out.println("ball bbbbbbbbbbbbbbbbbbbbbb "+ballb.vx+" ======= "+ballb.vy);
 		return true;
 	}
 	
