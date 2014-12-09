@@ -23,9 +23,10 @@ public class BallGoThread extends Thread {
 				if(b.isGoalBall()){
 					if(b.InHoleflag){
 						b.stopBall();
+						int whichHole = b.getWhichHole();
 						flag=false;
 						//gameModel.overGame();
-						gameView.overGame();
+						gameView.overGame(whichHole);
 					}
 				}
 			}
