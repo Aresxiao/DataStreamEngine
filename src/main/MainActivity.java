@@ -78,7 +78,7 @@ public class MainActivity extends Activity{
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
-		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
+		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 4); //maybe this will have some problem
 		dse.startSensorThread();
 		
 		network = new APNetwork(dse);

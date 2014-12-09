@@ -18,7 +18,7 @@ public class SensorQueueThread extends Thread{
 		this.dse = dse;
 		sensorQueue = dse.sensorQueue;
 	}
-
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -27,7 +27,7 @@ public class SensorQueueThread extends Thread{
 				
 				int size = sensorQueue.size();
 				if(size!=0){
-					System.out.println("sensorQueue size = "+size);
+					System.out.println("sensorQueue size = "+size+"<<<<<<<<<<<<<<<<<<<<<");
 				}
 				String dataString = sensorQueue.take();
 				
