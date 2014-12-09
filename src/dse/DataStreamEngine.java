@@ -128,6 +128,8 @@ public class DataStreamEngine implements DSEInterface{
 	
 	public void addSensorQueue(String data){
 		sensorQueue.offer(data);
+		int size = sensorQueue.size();
+		System.out.println("sensorQueue size ======= "+size);
 	}
 }
 
