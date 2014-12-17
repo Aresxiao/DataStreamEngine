@@ -2,18 +2,22 @@ package main;
 
 import game.GameModel;
 import game.GameView;
+import game.GameWinNView;
 import network.APNetwork;
 import sensor.AccelerateSensor;
 
 import com.example.datastreamengine.R;
 
 import constant.Constant;
+import constant.WhatMessage;
 import dse.DSEInterface;
 import dse.DataStreamEngine;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -34,6 +38,7 @@ import android.view.WindowManager;
 
 public class MainActivity extends Activity{
 
+	int currentView;
 	SensorManager sensorManager;
 	Sensor mAccelerometer;
 	
@@ -45,6 +50,27 @@ public class MainActivity extends Activity{
 	private int tableWidth;
 	private int tableHeight;
 	
+	GameWinNView gameWinNView;
+	GameView gameView;
+	
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			switch (msg.what) {
+			case WhatMessage.GAME_VIEW:
+				gotoGameView();
+				break;
+			case WhatMessage.OVER_GAMEWINN:
+				gotoWinNView();
+				break;
+			case WhatMessage.OVER_GAMEWINS:
+				gotoWinSView();
+				break;
+			default:
+				break;
+			}
+			
+		}
+	};
 	
 	int flag;
 	@Override
@@ -67,7 +93,7 @@ public class MainActivity extends Activity{
         
         Constant.initConst(tableWidth, tableHeight);
         
-        final GameView gameView = new GameView(this);
+        gameView = new GameView(this);
         setContentView(gameView);
         
         GameModel gameModel = new GameModel(gameView);
@@ -102,7 +128,35 @@ public class MainActivity extends Activity{
 		return network;
 	}
 	
+	//向Handler发送信息的方法
+    public void sendMessage(int what){
+    	Message msg1 = handler.obtainMessage(what); 
+    	handler.sendMessage(msg1);
+    	System.out.println("send msg");
+    }
 	
+    private void gotoWinNView(){
+    	if(gameWinNView==null){
+    		gameWinNView = new GameWinNView(this);
+    	}
+    	this.setContentView(gameWinNView);
+    	currentView = WhatMessage.OVER_GAMEWINN;
+    }
+    
+    private void gotoWinSView() {
+    	if(gameWinNView==null){
+    		gameWinNView = new GameWinNView(this);
+    	}
+    	this.setContentView(gameWinNView);
+    	currentView = WhatMessage.OVER_GAMEWINN;
+	}
+    
+    private void gotoGameView(){
+    	
+    	this.setContentView(gameView);
+    	currentView = WhatMessage.GAME_VIEW;
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -116,7 +170,7 @@ public class MainActivity extends Activity{
 		super.onDestroy();
 		sensorManager.unregisterListener(accelerateSensor);
 	}
-
+	
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
@@ -124,7 +178,7 @@ public class MainActivity extends Activity{
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3);
 	}
-
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub

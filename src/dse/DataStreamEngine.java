@@ -1,6 +1,6 @@
 package dse;
 
-import java.util.Queue;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -128,8 +128,8 @@ public class DataStreamEngine implements DSEInterface{
 	
 	public void addSensorQueue(String data){
 		sensorQueue.offer(data);
-		int size = sensorQueue.size();
-		System.out.println("sensorQueue size ======= "+size);
+		//int size = sensorQueue.size();
+		//System.out.println("sensorQueue size ======= "+size);
 	}
 }
 

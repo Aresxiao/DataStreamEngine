@@ -7,6 +7,7 @@ import java.util.List;
 
 import main.MainActivity;
 import constant.Constant;
+import constant.WhatMessage;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -56,6 +57,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			Ball ball = alBallsTemp.get(i);
 			ball.drawSelf(canvas, paint);
 		}
+		
 	}
 
 	
@@ -126,6 +128,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		isOver=true;
 		stopAllThread();
+		if(whichHole == 1){
+			activity.sendMessage(WhatMessage.OVER_GAMEWINN);
+		}
+		else {
+			activity.sendMessage(WhatMessage.OVER_GAMEWINS);
+		}
 	}
 	
 	public void repaint(){

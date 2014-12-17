@@ -51,6 +51,11 @@ public class Constant {
 	public static int LOCAL_BALL_ID=1;
 	public static int CLIENT_BALL_ID=2;
 	
+	public static String WINNTEXT = "1球获胜，好机智，是否继续?";
+	public static String WINSTEXT = "2求获胜，好厉害，是否继续?";
+	public static float WINTEXTLOCX;
+	public static float WINTEXTLOCY;
+	
 	public static void initConst(int screenWidth,int screenHeight){
 		TABLE_WIDTH = screenWidth;
 		TABLE_HEIGHT = screenHeight;
@@ -64,6 +69,8 @@ public class Constant {
 		SFRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+66);
 		SFRAMEA_X = TABLE_WIDTH/2 - NFRAMEA_WIDTH/2;
 		SFRAMEA_Y = TABLE_HEIGHT - SFRAMEA_HEIGHT;
+		WINTEXTLOCX = TABLE_WIDTH/4;
+		WINTEXTLOCY = TABLE_HEIGHT/3;
 		//writeConfig();
 		readConfig();
 	}
