@@ -41,7 +41,7 @@ public class DataStreamEngine implements DSEInterface{
 	}
 	
 	/**
-	 * è¯¥æ–¹æ³•ç”¨æ¥æš´éœ²ç»™Sensoræ¨¡å—ï¼ŒSensoräº§ç”Ÿæ•°æ®å°±ä¼šè°ƒç”¨è¯¥æ–¹æ³•ã€‚
+	 * ¸Ã·½·¨ÓÃÀ´±©Â¶¸øSensorÄ£¿é£¬Sensor²úÉúÊı¾İ¾Í»áµ÷ÓÃ¸Ã·½·¨¡£
 	 */
 	public void setAccelerate(float x, float y, float z){
 		// TODO Auto-generated method stub
@@ -54,9 +54,9 @@ public class DataStreamEngine implements DSEInterface{
 	}
 	
 	/**
-	 * è¿™ä¸ªæ–¹æ³•æ˜¯æš´éœ²ç»™OverlayNetworkï¼ŒOverlayNetworkæ¥æ”¶åˆ°æ•°æ®å°±ä¼šè°ƒç”¨è¿™ä¸ªæ–¹æ³•ã€‚
-	 * @param dataä¸ºStringç±»å‹ï¼Œtype ä¸ºint ç±»å‹,æŒ‡æ˜æ•°æ®æ¥æº,1è¡¨ç¤ºæ¥æ”¶åˆ°ç½‘ç»œæµæ•°æ®ï¼Œ2è¡¨ç¤ºæ¥è‡ªæœ¬åœ°ä¼ æ„Ÿå™¨æ•°æ®ã€‚
-	 * @return voidã€‚
+	 * Õâ¸ö·½·¨ÊÇ±©Â¶¸øOverlayNetwork£¬OverlayNetwork½ÓÊÕµ½Êı¾İ¾Í»áµ÷ÓÃÕâ¸ö·½·¨¡£
+	 * @param data
+	 * ÎªStringÀàĞÍ£¬type Îªint ÀàĞÍ,Ö¸Ã÷Êı¾İÀ´Ô´,1±íÊ¾½ÓÊÕµ½ÍøÂçÁ÷Êı¾İ£¬2±íÊ¾À´×Ô±¾µØ´«¸ĞÆ÷Êı¾İ¡£
 	 */
 	public void updateDSEState(int type,String data) {
 		//System.out.println(type+"---"+data);
@@ -77,10 +77,11 @@ public class DataStreamEngine implements DSEInterface{
 	}
 	
 	/**
-	 * è¿™é‡Œæœ‰å¾ˆå¤šç§å¤„ç†æ–¹å¼
-	 * @param typeä¸ºintç±»å‹ï¼ŒæŒ‡æ˜è¦è¿›è¡Œä»€ä¹ˆæ ·çš„å¤„ç†ï¼Œdataä¸ºStringç±»å‹ï¼Œä¸ºæ‰€è¦è¿›è¡Œå¤„ç†çš„æ•°æ®ã€‚
-	 * typeä¸º1ï¼Œè¡¨ç¤ºéœ€è¦å‘é€æ•°æ®ï¼›
-	 * ç›®å‰typeè¿˜æ²¡æœ‰æ‰©å……ã€‚
+	 * ÕâÀïÓĞºÜ¶àÖÖ´¦Àí·½Ê½
+	 * @param type
+	 * ÎªintÀàĞÍ£¬Ö¸Ã÷Òª½øĞĞÊ²Ã´ÑùµÄ´¦Àí£¬dataÎªStringÀàĞÍ£¬ÎªËùÒª½øĞĞ´¦ÀíµÄÊı¾İ¡£
+	 * typeÎª1£¬±íÊ¾ĞèÒª·¢ËÍÊı¾İ£»
+	 * Ä¿Ç°type»¹Ã»ÓĞÀ©³ä¡£
 	 */
 	public void dataProcessFromGame(int type, String data) {
 		// TODO Auto-generated method stub

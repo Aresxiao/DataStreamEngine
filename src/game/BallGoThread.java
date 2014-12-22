@@ -17,7 +17,7 @@ public class BallGoThread extends Thread {
 		// TODO Auto-generated method stub
 		
 		while(flag){
-			//璁╂墍鏈夌殑鐞冭蛋
+			//让所有的球走
 			for(Ball b:gameView.alBalls){
 				b.go();
 				if(b.isGoalBall()){

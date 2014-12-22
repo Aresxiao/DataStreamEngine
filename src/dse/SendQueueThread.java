@@ -6,7 +6,7 @@ import constant.Constant;
 
 /**
  * @author XiaoGeng
- * è¯¥ç±»ç”¨æ˜¯DSEä¸­ä¸“é—¨ç”¨æ¥å¤„ç†sendQueueé˜Ÿåˆ—ä¸­çš„æ•°æ®ï¼Œå½“ä¸ºç©ºæ—¶ï¼Œçº¿ç¨‹é˜»å¡ã€‚
+ * ¸ÃÀàÓÃÊÇDSEÖĞ×¨ÃÅÓÃÀ´´¦ÀísendQueue¶ÓÁĞÖĞµÄÊı¾İ£¬µ±Îª¿ÕÊ±£¬Ïß³Ì×èÈû¡£
  */
 public class SendQueueThread extends Thread {
 	

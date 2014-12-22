@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 
 /**
- * è¿™æ˜¯GameViewç±»ï¼Œä¸»è¦æ˜¯å±•ç¤ºçš„åŠŸèƒ½ã€‚
+ * ÕâÊÇGameViewÀà£¬Ö÷ÒªÊÇÕ¹Ê¾µÄ¹¦ÄÜ¡£
  * @author GengXiao
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
@@ -41,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		this.activity = activity;
 		isOver=false;
-		getHolder().addCallback(this);	//æ³¨å†Œå›è°ƒæ¥å£		
+		getHolder().addCallback(this);	//×¢²á»Øµ÷½Ó¿Ú		
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		table = new Table();
 		paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
-        // è®¾ç½®å»é”¯é½¿
+        // ÉèÖÃÈ¥¾â³İ
         paint.setAntiAlias(true);
         
 		alBalls = new ArrayList<Ball>();
@@ -86,7 +86,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceDestroyed(SurfaceHolder arg0) {
 		// TODO Auto-generated method stub
 		boolean retry = true;
-		while (retry){//ä¸æ–­åœ°å¾ªç¯ï¼Œç›´åˆ°å…¶å®ƒçº¿ç¨‹ç»“æŸ
+		while (retry){//²»¶ÏµØÑ­»·£¬Ö±µ½ÆäËüÏß³Ì½áÊø
         	joinAllThread();
             retry = false;
         }

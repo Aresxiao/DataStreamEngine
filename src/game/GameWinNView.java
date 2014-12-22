@@ -27,7 +27,7 @@ public class GameWinNView extends SurfaceView implements SurfaceHolder.Callback{
 		super.draw(canvas);
 		paint.setTextSize(40);
 		
-		canvas.drawColor(Color.WHITE);	//ç»˜åˆ¶èƒŒæ™¯
+		canvas.drawColor(Color.WHITE);	//»æÖÆ±³¾°
 		paint.setColor(Color.MAGENTA);
 		canvas.drawText(Constant.WINNTEXT, Constant.WINTEXTLOCX, Constant.WINTEXTLOCY, paint);
 		

@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import constant.Constant;
 /**
  * @author XiaoGeng
- * è¯¥ç±»ç”¨æ¥ä¸“é—¨å¤„ç†sensorQueueé˜Ÿåˆ—ä¸­çš„æ•°æ®ï¼Œå¦‚æœé˜Ÿåˆ—ä¸ºç©ºï¼Œå°±é˜»å¡ã€‚
+ * ¸ÃÀàÓÃÀ´×¨ÃÅ´¦ÀísensorQueue¶ÓÁĞÖĞµÄÊı¾İ£¬Èç¹û¶ÓÁĞÎª¿Õ£¬¾Í×èÈû¡£
  */
 public class SensorQueueThread extends Thread{
 	DataStreamEngine dse;

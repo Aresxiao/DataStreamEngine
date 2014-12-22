@@ -18,16 +18,16 @@ public class Ball {
 	int ballId;
 	GameView gameView;
 	boolean goalBall;
-	private float x;		// xå’Œyæ˜¯å°çƒåœ¨ç»˜åˆ¶çš„æ—¶å€™å·¦ä¸Šè§’çš„åæ ‡ä½ç½®
+	private float x;		// xºÍyÊÇĞ¡ÇòÔÚ»æÖÆµÄÊ±ºò×óÉÏ½ÇµÄ×ø±êÎ»ÖÃ
 	private float y;
 	private float radius;
 	
 	static float d;
-	static final float vMax = Constant.V_MAX;	//å®šä¹‰æœ€å¤§é€Ÿåº¦ï¼Œæ‰€æœ‰çƒçš„æœ€å¤§é€Ÿåº¦ä¸èƒ½è¶…è¿‡è¿™ä¸ªé€Ÿåº¦ã€‚
-	//å®šä¹‰ä¸¤ä¸ªæ–¹å‘ä¸Šçš„é€Ÿåº¦ã€‚
+	static final float vMax = Constant.V_MAX;	//¶¨Òå×î´óËÙ¶È£¬ËùÓĞÇòµÄ×î´óËÙ¶È²»ÄÜ³¬¹ıÕâ¸öËÙ¶È¡£
+	//¶¨ÒåÁ½¸ö·½ÏòÉÏµÄËÙ¶È¡£
 	float vx;
 	float vy;
-	boolean InHoleflag=false;//çƒæ˜¯å¦è¿›æ´çš„æ ‡å¿—
+	boolean InHoleflag=false;//ÇòÊÇ·ñ½ø¶´µÄ±êÖ¾
 	
 	float vAttenuation = Constant.V_ATTENUATION;
 	float timeSpan = Constant.TIME_SPAN;
@@ -62,12 +62,12 @@ public class Ball {
 	public void drawSelf(Canvas canvas,Paint paint){
 		Matrix m1 = new Matrix();
 		m1.setTranslate( x+Constant.X_OFFSET,y+Constant.Y_OFFSET );
-		if(goalBall){			//æ˜¯ç›®æ ‡çƒ
+		if(goalBall){			//ÊÇÄ¿±êÇò
 			paint.reset();
 			paint.setColor(Color.BLUE);
 			canvas.drawCircle(x+Constant.GOAL_BALL_SIZE/2, y+Constant.GOAL_BALL_SIZE/2, radius, paint);
 		}
-		else{					//ç©å®¶å°çƒ
+		else{					//Íæ¼ÒĞ¡Çò
 			paint.reset();
 			paint.setColor(Color.BLACK);
 			paint.setStyle(Paint.Style.STROKE);
@@ -81,7 +81,7 @@ public class Ball {
 	public boolean canGo(float tempX,float tempY){
 		boolean canGoFlag=true;
 		
-		//å¯¹äºç›®æ ‡çƒï¼Œè¦åˆ¤æ–­æ˜¯å¦å·²ç»è¿›æ¡†
+		//¶ÔÓÚÄ¿±êÇò£¬ÒªÅĞ¶ÏÊÇ·ñÒÑ¾­½ø¿ò
 		float[] center = {tempX+radius,tempY+radius};
 		
 		if(isGoalBall()){
@@ -108,7 +108,7 @@ public class Ball {
 		ArrayList<Obstacle> obstacles = gameView.table.getObstacles();
 		for(Obstacle obstacle: obstacles){
 			//boolean collisionWithCornerFlag=false;
-			float[][] p = obstacle.getFourCornerLocation();		//é¦–å…ˆè®¡ç®—å’Œéšœç¢ç‰©è§’çš„ç¢°æ’ã€‚
+			float[][] p = obstacle.getFourCornerLocation();		//Ê×ÏÈ¼ÆËãºÍÕÏ°­Îï½ÇµÄÅö×²¡£
 			for(int i = 0;i < p.length;i++){
 				if(CollisionUtil.calcuDisSquare(p[i], center)<radius*radius){
 					vx = -vx;
@@ -150,7 +150,7 @@ public class Ball {
 			return ;
 		}
 		//System.out.println(ballId+"can go");
-		float tempX = x+vx*timeSpan;	//çƒè¦å»çš„ä¸‹ä¸€ä¸ªä½ç½®
+		float tempX = x+vx*timeSpan;	//ÇòÒªÈ¥µÄÏÂÒ»¸öÎ»ÖÃ
 		float tempY = y+vy*timeSpan;
 		
 		if(this.canGo(tempX, tempY)){
@@ -167,7 +167,7 @@ public class Ball {
 		vy=0;
 	}
 	
-	//åˆ¤æ–­çƒæ˜¯å¦åœæ­¢çš„æ–¹æ³•
+	//ÅĞ¶ÏÇòÊÇ·ñÍ£Ö¹µÄ·½·¨
 	public boolean isStoped(){
 		return (vx==0 && vy==0);
 	}
@@ -176,11 +176,11 @@ public class Ball {
 		return InHoleflag;
 	}
 	
-	//æ ¹æ®é€Ÿåº¦å’Œæ–¹å‘æ”¹å˜çƒé€Ÿåº¦çš„æ–¹æ³•
+	//¸ù¾İËÙ¶ÈºÍ·½Ïò¸Ä±äÇòËÙ¶ÈµÄ·½·¨
 	public void changeVxy(float v,float angle)
 	{
-		double angrad=Math.toRadians(angle);//å°†è§’åº¦è½¬æ¢æˆå¼§åº¦
-		vx=(float) (v*Math.cos(angrad));//è®¡ç®—x,yæ–¹å‘çš„é€Ÿåº¦
+		double angrad=Math.toRadians(angle);//½«½Ç¶È×ª»»³É»¡¶È
+		vx=(float) (v*Math.cos(angrad));//¼ÆËãx,y·½ÏòµÄËÙ¶È
 		vy=(float) (v*Math.sin(angrad));
 	}
 	

@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 /**
  * 
  * @author XiaoGeng
- * è¯¥ç±»ä¸“é—¨ç”¨æ¥å¤„ç†receiveQueueé˜Ÿåˆ—ä¸­çš„æ•°æ®ï¼Œå½“é˜Ÿåˆ—ä¸ºç©ºæ—¶ï¼Œé˜»å¡ã€‚
+ * ¸ÃÀà×¨ÃÅÓÃÀ´´¦ÀíreceiveQueue¶ÓÁĞÖĞµÄÊı¾İ£¬µ±¶ÓÁĞÎª¿ÕÊ±£¬×èÈû¡£
  */
 public class ReceiveQueueThread extends Thread{
 	

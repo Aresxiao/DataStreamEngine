@@ -46,7 +46,7 @@ public class MainActivity extends Activity{
 	/** */
 	APNetwork network;
 	DataStreamEngine dse;
-	//å±å¹•å®½åº¦å’Œé«˜åº¦
+	//ÆÁÄ»¿í¶ÈºÍ¸ß¶È
 	private int tableWidth;
 	private int tableHeight;
 	
@@ -78,12 +78,12 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // å…¨å±æ˜¾ç¤º
+        // È«ÆÁÏÔÊ¾
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         
-        // è·å–çª—å£ç®¡ç†å™¨,è·å¾—å±å¹•å®½å’Œé«˜
+        // »ñÈ¡´°¿Ú¹ÜÀíÆ÷,»ñµÃÆÁÄ»¿íºÍ¸ß
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -128,7 +128,7 @@ public class MainActivity extends Activity{
 		return network;
 	}
 	
-	//å‘Handlerå‘é€ä¿¡æ¯çš„æ–¹æ³•
+	//ÏòHandler·¢ËÍĞÅÏ¢µÄ·½·¨
     public void sendMessage(int what){
     	Message msg1 = handler.obtainMessage(what); 
     	handler.sendMessage(msg1);

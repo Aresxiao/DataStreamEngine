@@ -2,8 +2,9 @@ package network;
 
 public interface OverlayNetwork {
 	/**
-	 * ç”¨æ¥å‘é€æ•°æ®
-	 * @param string,å‘é€çš„æ—¶å€™éœ€è¦æŠŠæ•°æ®ç»„ç»‡æˆstringç±»å‹æ•°æ®ã€‚
+	 * ÓÃÀ´·¢ËÍÊı¾İ
+	 * @param string
+	 * ·¢ËÍµÄÊ±ºòĞèÒª°ÑÊı¾İ×éÖ¯³ÉstringÀàĞÍÊı¾İ¡£
 	 */
 	public void sendData(String string);
 	

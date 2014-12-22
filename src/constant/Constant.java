@@ -4,31 +4,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import android.R.integer;
 import android.os.Environment;
-import android.widget.Toast;
 
 public class Constant {
-	//public static int SCREEN_WIDTH;//å±å¹•çš„å®½åº¦
-	//public static int SCREEN_HEIGHT;//å±å¹•çš„é«˜åº¦
+	//public static int SCREEN_WIDTH;//ÆÁÄ»µÄ¿í¶È
+	//public static int SCREEN_HEIGHT;//ÆÁÄ»µÄ¸ß¶È
 	
 	//public static ArrayList<Integer> ballIdList;
 	
-	public static float PLAYER_BALL_SIZE=80;//ç©å®¶çƒçš„åŠå¾„
-	public static float GOAL_BALL_SIZE=80;//ç›®æ ‡çƒçš„åŠå¾„
+	public static float PLAYER_BALL_SIZE=80;//Íæ¼ÒÇòµÄ°ë¾¶
+	public static float GOAL_BALL_SIZE=80;//Ä¿±êÇòµÄ°ë¾¶
 	
-	public static float TIME_SPAN=0.05f;//çƒè¿åŠ¨çš„æ¨¡æ‹Ÿæ—¶é—´é—´éš”ï¼ˆè§„å®š: timeSpanä¸å¯ä»¥>=Ball.dï¼‰
-	public static float V_ATTENUATION=0.996f;//é€Ÿåº¦è¡°å‡æ¯”ä¾‹
-	public static float V_MAX=150;		//çƒçš„æœ€å¤§é€Ÿåº¦ï¼ˆè§„å®šï¼šçƒçš„æœ€å¤§é€Ÿåº¦ä¸å¯ä»¥è¶…è¿‡150ï¼‰
-	public static float V_MIN=0.5f;		//é€Ÿåº¦æœ€å°å€¼ï¼Œå½“é€Ÿåº¦å°äºæ­¤å€¼æ—¶çƒåœæ­¢è¿åŠ¨
-	public static float SENSITIVITY = 4;		//å°çƒè¿åŠ¨çš„çµæ•åº¦
+	public static float TIME_SPAN=0.05f;//ÇòÔË¶¯µÄÄ£ÄâÊ±¼ä¼ä¸ô£¨¹æ¶¨: timeSpan²»¿ÉÒÔ>=Ball.d£©
+	public static float V_ATTENUATION=0.996f;//ËÙ¶ÈË¥¼õ±ÈÀı
+	public static float V_MAX=150;		//ÇòµÄ×î´óËÙ¶È£¨¹æ¶¨£ºÇòµÄ×î´óËÙ¶È²»¿ÉÒÔ³¬¹ı150£©
+	public static float V_MIN=0.5f;		//ËÙ¶È×îĞ¡Öµ£¬µ±ËÙ¶ÈĞ¡ÓÚ´ËÖµÊ±ÇòÍ£Ö¹ÔË¶¯
+	public static float SENSITIVITY = 4;		//Ğ¡ÇòÔË¶¯µÄÁéÃô¶È
 	
 	public static float X_OFFSET;
 	public static float Y_OFFSET;
@@ -51,8 +44,8 @@ public class Constant {
 	public static int LOCAL_BALL_ID=1;
 	public static int CLIENT_BALL_ID=2;
 	
-	public static String WINNTEXT = "1çƒè·èƒœï¼Œå¥½æœºæ™ºï¼Œæ˜¯å¦ç»§ç»­?";
-	public static String WINSTEXT = "2æ±‚è·èƒœï¼Œå¥½å‰å®³ï¼Œæ˜¯å¦ç»§ç»­?";
+	public static String WINNTEXT = "1Çò»ñÊ¤£¬ºÃ»úÖÇ£¬ÊÇ·ñ¼ÌĞø?";
+	public static String WINSTEXT = "2Çó»ñÊ¤£¬ºÃÀ÷º¦£¬ÊÇ·ñ¼ÌĞø?";
 	public static float WINTEXTLOCX;
 	public static float WINTEXTLOCY;
 	
