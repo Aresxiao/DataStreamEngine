@@ -128,11 +128,14 @@ public class MainActivity extends Activity{
 		return network;
 	}
 	
-	//向Handler发送信息的方法
+	/**
+	 * @param what
+	 * 发送Handler消息的方法。
+	 */
     public void sendMessage(int what){
-    	Message msg1 = handler.obtainMessage(what); 
-    	handler.sendMessage(msg1);
-    	System.out.println("send msg");
+    	//Message msg1 = handler.obtainMessage(what); 
+    	//handler.sendMessage(msg1);
+    	//System.out.println("send msg");
     }
 	
     private void gotoWinNView(){
