@@ -117,6 +117,7 @@ public class MainActivity extends Activity{
 				System.out.println("Thread start");
 				dse.setOverlayNetwork(network);
 				dse.startNetworkThread();
+				
 			}
 		}.start();
 	}
