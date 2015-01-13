@@ -32,7 +32,7 @@ public class DataStreamEngine implements DSEInterface{
 		sendQueue = new LinkedBlockingQueue<String>();
 		receiveQueue = new LinkedBlockingQueue<String>();
 		sensorQueue = new LinkedBlockingQueue<String>();
-		
+		overlayNetwork = null;
 		/*
 		sendQueue = new LinkedList<String>();
 		receiveQueue = new LinkedList<String>();
@@ -59,7 +59,6 @@ public class DataStreamEngine implements DSEInterface{
 	 * 为String类型，type 为int 类型,指明数据来源,1表示接收到网络流数据，2表示来自本地传感器数据。
 	 */
 	public void updateDSEState(int type,String data) {
-		//System.out.println(type+"---"+data);
 		
 		switch (type) {
 		case 1:
@@ -87,7 +86,8 @@ public class DataStreamEngine implements DSEInterface{
 		// TODO Auto-generated method stub
 		switch (type) {
 		case 1:
-			overlayNetwork.sendData(data);
+			if(overlayNetwork!=null)
+				overlayNetwork.sendData(data);
 			break;
 		default:
 			break;
@@ -129,8 +129,7 @@ public class DataStreamEngine implements DSEInterface{
 	
 	public void addSensorQueue(String data){
 		sensorQueue.offer(data);
-		//int size = sensorQueue.size();
-		//System.out.println("sensorQueue size ======= "+size);
+		
 	}
 }
 

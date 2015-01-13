@@ -92,14 +92,13 @@ public class MainActivity extends Activity{
         tableHeight = metrics.heightPixels;
         
         Constant.initConst(tableWidth, tableHeight);
-        
-        gameView = new GameView(this);
+        GameModel gameModel = new GameModel();
+        gameView = new GameView(this,gameModel);
         setContentView(gameView);
         
-        GameModel gameModel = new GameModel(gameView);
         
         dse = new DataStreamEngine(gameModel);
-        
+        gameModel.setDSE(dse);
         accelerateSensor = new AccelerateSensor(dse);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -117,7 +116,6 @@ public class MainActivity extends Activity{
 				System.out.println("Thread start");
 				dse.setOverlayNetwork(network);
 				dse.startNetworkThread();
-				
 			}
 		}.start();
 	}

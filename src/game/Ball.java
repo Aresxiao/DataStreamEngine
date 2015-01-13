@@ -16,7 +16,8 @@ public class Ball {
 	
 	int whichHole;
 	int ballId;
-	GameView gameView;
+	//GameView gameView;
+	GameModel gameModel;
 	boolean goalBall;
 	private float x;		// x和y是小球在绘制的时候左上角的坐标位置
 	private float y;
@@ -34,15 +35,17 @@ public class Ball {
 	float vMin = Constant.V_MIN;
 	static ArrayList<Double> locationXY = new ArrayList<Double>();
 	
-	public Ball(boolean goal,GameView gameView,float x,float y){
+	public Ball(boolean goal,float x,float y, GameModel gameModel){
 		whichHole = -1;
-		this.gameView = gameView;
+		//this.gameView = gameView;
+		this.gameModel = gameModel;
 		goalBall=goal;
 		this.x = x;
 		this.y = y;
 		vx = 0;
 		vy = 0;
 		if (goalBall) {
+			ballId = 0;
 			d=Constant.GOAL_BALL_SIZE;
 			radius=Constant.GOAL_BALL_SIZE/2;
 		} 
@@ -99,15 +102,26 @@ public class Ball {
 			}
 		}
 		
-		for(Ball b:gameView.alBalls){
+		//判断和其他小球发生碰撞
+		for(Ball b:gameModel.ballList){
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
+				
 				canGoFlag = false;
+				if(b.goalBall||this.goalBall){
+					if(b.goalBall)
+						System.out.println("gobalball:"+b.ballId+" "+this.ballId);
+					else {
+						System.out.println("gobalball:"+this.ballId+" "+b.ballId);
+					}
+					gameModel.pushState(new int[]{b.ballId,this.ballId});
+				}
 			}
+			
 		}
 		
-		ArrayList<Obstacle> obstacles = gameView.table.getObstacles();
+		ArrayList<Obstacle> obstacles = gameModel.table.getObstacles();
 		for(Obstacle obstacle: obstacles){
-			//boolean collisionWithCornerFlag=false;
+			
 			float[][] p = obstacle.getFourCornerLocation();		//首先计算和障碍物角的碰撞。
 			for(int i = 0;i < p.length;i++){
 				if(CollisionUtil.calcuDisSquare(p[i], center)<radius*radius){
@@ -152,6 +166,7 @@ public class Ball {
 		//System.out.println(ballId+"can go");
 		float tempX = x+vx*timeSpan;	//球要去的下一个位置
 		float tempY = y+vy*timeSpan;
+		
 		
 		if(this.canGo(tempX, tempY)){
 			vx*=vAttenuation;
