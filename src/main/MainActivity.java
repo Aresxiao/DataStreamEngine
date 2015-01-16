@@ -1,16 +1,16 @@
 package main;
 
+import com.example.datastreamengine.R;
+
 import game.GameModel;
 import game.GameView;
 import game.GameWinNView;
 import network.APNetwork;
 import sensor.AccelerateSensor;
 
-import com.example.datastreamengine.R;
 
 import constant.Constant;
 import constant.WhatMessage;
-import dse.DSEInterface;
 import dse.DataStreamEngine;
 
 import android.hardware.Sensor;
@@ -21,7 +21,6 @@ import android.os.Message;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.Window;

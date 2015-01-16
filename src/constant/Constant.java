@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import android.os.Environment;
 
 public class Constant {
+	public static final boolean isDebug = true;
 	//public static int SCREEN_WIDTH;//屏幕的宽度
 	//public static int SCREEN_HEIGHT;//屏幕的高度
 	
@@ -87,7 +88,8 @@ public class Constant {
 				tempString = br.readLine();
 				CLIENT_BALL_ID = Integer.parseInt(tempString);
 				br.close();
-				System.out.println("read from sdcard "+SERVERFLAG+","+HOST_IP+","+LOCAL_BALL_ID+","+CLIENT_BALL_ID);
+				if(Constant.isDebug)
+					System.out.println("read from sdcard "+SERVERFLAG+","+HOST_IP+","+LOCAL_BALL_ID+","+CLIENT_BALL_ID);
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

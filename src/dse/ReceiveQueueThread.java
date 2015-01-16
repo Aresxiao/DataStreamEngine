@@ -24,10 +24,6 @@ public class ReceiveQueueThread extends Thread{
 		while(true){
 			try {
 				
-				int size = receiveQueue.size();
-				//if(size!=0)
-					//System.out.println("reciveQueue thread : "+size);
-				
 				String dataString = receiveQueue.take();
 				GameModel gameModel = dse.getGameModel();
 				gameModel.updateGameView(dataString);
@@ -36,6 +32,7 @@ public class ReceiveQueueThread extends Thread{
 				e.printStackTrace();
 				return;
 			}
+			
 			/*
 			String dataString = receiveQueue.poll();
 			int size = receiveQueue.size();
