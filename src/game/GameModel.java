@@ -10,7 +10,6 @@ import dse.DataStreamEngine;
 
 public class GameModel {
 	
-	//GameView gameView;
 	DataStreamEngine dse;
 	
 	GameViewDrawThread drawThread;
@@ -21,7 +20,6 @@ public class GameModel {
 	//boolean isOver;
 	public GameModel() {
 		// TODO Auto-generated constructor stub
-		//this.gameView = gameView;
 		dse=null;
 		init();
 		startThread();
@@ -91,7 +89,6 @@ public class GameModel {
 			break;
 		}
 	}
-	
 	
 	public String getBallState(int ballId){
 		Ball ball = ballList.get(ballId);

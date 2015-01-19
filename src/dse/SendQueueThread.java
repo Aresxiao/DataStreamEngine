@@ -36,6 +36,7 @@ public class SendQueueThread extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 		}
 	}
 	
