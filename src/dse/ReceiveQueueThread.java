@@ -4,6 +4,8 @@ import game.GameModel;
 
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+
+import constant.Constant;
 /**
  * 
  * @author XiaoGeng
@@ -11,6 +13,7 @@ import java.util.concurrent.BlockingQueue;
  */
 public class ReceiveQueueThread extends Thread{
 	
+	int receiveCount = 0;
 	DataStreamEngine dse;
 	BlockingQueue<String> receiveQueue;
 	public ReceiveQueueThread(DataStreamEngine dse){
@@ -27,6 +30,14 @@ public class ReceiveQueueThread extends Thread{
 				String dataString = receiveQueue.take();
 				GameModel gameModel = dse.getGameModel();
 				gameModel.updateGameView(dataString);
+				
+				receiveCount++;
+				if(Constant.isDebug)
+					System.out.println("receiveQueueThread: receiveCount = "+receiveCount);
+				synchronized (Constant.MUTEX_OBJECT) {
+					Constant.MUTEX_OBJECT.notify();
+				}
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

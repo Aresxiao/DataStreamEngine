@@ -105,14 +105,17 @@ public class Ball {
 		//判断和其他小球发生碰撞
 		for(Ball b:gameModel.ballList){
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
-				
 				canGoFlag = false;
 				if(b.goalBall||this.goalBall){
-					if(b.goalBall)
-						System.out.println("gobalball:"+b.ballId+" "+this.ballId);
-					else {
-						System.out.println("gobalball:"+this.ballId+" "+b.ballId);
+					/*
+					if(Constant.isDebug){
+						if(b.goalBall)
+							System.out.println("gobalball:"+b.ballId+" "+this.ballId);
+						else {
+							System.out.println("gobalball:"+this.ballId+" "+b.ballId);
+						}
 					}
+					*/
 					gameModel.pushState(new int[]{b.ballId,this.ballId});
 				}
 			}

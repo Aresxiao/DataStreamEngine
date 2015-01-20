@@ -15,13 +15,13 @@ public class GameModel {
 	
 	GameViewDrawThread drawThread;
 	BallGoThread ballGoThread;
+	GameSyncThread synchThread;
 	
 	List<Ball> ballList;
 	Table table;
 	//boolean isOver;
 	public GameModel() {
 		// TODO Auto-generated constructor stub
-		//this.gameView = gameView;
 		dse=null;
 		init();
 		startThread();
@@ -40,12 +40,16 @@ public class GameModel {
 	
 	public void startThread(){
 		ballGoThread = new BallGoThread(this);
+		synchThread = new GameSyncThread(this);
+		synchThread.setFlag(true);
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
+		synchThread.start();
 	}
 	
 	public void stopThread(){
 		ballGoThread.setFlag(false);
+		synchThread.setFlag(false);
 	}
 	
 	public void setDSE(DataStreamEngine dse){
@@ -78,14 +82,24 @@ public class GameModel {
 			float y_Loc = Float.parseFloat(strArray[5]);
 			ball.setBallSpeedBySpeed(x_Speed, y_Speed);
 			ball.setBallLocation(x_Loc, y_Loc);
+			
+			
 		}
 			break;
 		case 3:{
-				int len = Integer.parseInt(strArray[1]);
-				for(int i = 0;i < len;i++){
-					
-				}
+			String[] tokens = data.split(" ");
+			for(int i = 1;i < tokens.length;i++){
+				String[] ballState = tokens[i].split(",");
+				int ballId = Integer.parseInt(ballState[0]);
+				Ball ball = ballList.get(ballId);
+				float x_Speed = Float.parseFloat(ballState[1]);
+				float y_Speed = Float.parseFloat(ballState[2]);
+				float x_Loc = Float.parseFloat(ballState[3]);
+				float y_Loc = Float.parseFloat(ballState[4]);
+				ball.setBallSpeedBySpeed(x_Speed, y_Speed);
+				ball.setBallLocation(x_Loc, y_Loc);
 			}
+		}
 			break;
 		default:
 			break;
@@ -112,12 +126,13 @@ public class GameModel {
 	 */
 	public void pushState(int[] buff){
 		if(dse!=null){
+			String sendString="";
 			for(int i = 0;i < buff.length;i++){
 				String data = getBallState(buff[i]);
-				data = 2+","+data;
-				dse.dataProcessFromGame(1, data);
-				System.out.println("push current state");
+				sendString += " "+data;
 			}
+			sendString = 3+","+sendString;
+			dse.updateDSEState(3, sendString);
 		}
 	}
 	

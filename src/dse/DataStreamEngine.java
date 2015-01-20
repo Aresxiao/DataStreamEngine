@@ -67,6 +67,8 @@ public class DataStreamEngine implements DSEInterface{
 		case 2:
 			addSensorQueue(data);
 			break;
+		case 3:
+			addSendQueue(data);
 		default:
 			break;
 		}
@@ -119,15 +121,15 @@ public class DataStreamEngine implements DSEInterface{
 		return overlayNetwork;
 	}
 	
-	public void addReceiveQueue(String data){
+	void addReceiveQueue(String data){
 		receiveQueue.offer(data);
 	}
 	
-	public void addSendQueue(String data){
+	void addSendQueue(String data){
 		sendQueue.offer(data);
 	}
 	
-	public void addSensorQueue(String data){
+	void addSensorQueue(String data){
 		sensorQueue.offer(data);
 		
 	}
