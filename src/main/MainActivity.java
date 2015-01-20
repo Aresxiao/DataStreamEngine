@@ -95,7 +95,6 @@ public class MainActivity extends Activity{
         gameView = new GameView(this,gameModel);
         setContentView(gameView);
         
-        
         dse = new DataStreamEngine(gameModel);
         gameModel.setDSE(dse);
         accelerateSensor = new AccelerateSensor(dse);

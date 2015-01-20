@@ -33,11 +33,7 @@ public class DataStreamEngine implements DSEInterface{
 		receiveQueue = new LinkedBlockingQueue<String>();
 		sensorQueue = new LinkedBlockingQueue<String>();
 		overlayNetwork = null;
-		/*
-		sendQueue = new LinkedList<String>();
-		receiveQueue = new LinkedList<String>();
-		sensorQueue = new LinkedList<String>();
-		*/
+		
 	}
 	
 	/**
@@ -74,7 +70,6 @@ public class DataStreamEngine implements DSEInterface{
 		}
 		
 		// TODO Auto-generated method stub
-		// gameModel.updateGameView(data);
 	}
 	
 	/**
@@ -82,7 +77,6 @@ public class DataStreamEngine implements DSEInterface{
 	 * @param type
 	 * 为int类型，指明要进行什么样的处理，data为String类型，为所要进行处理的数据。
 	 * type为1，表示需要发送数据；
-	 * 目前type还没有扩充。
 	 */
 	public void dataProcessFromGame(int type, String data) {
 		// TODO Auto-generated method stub
@@ -96,20 +90,22 @@ public class DataStreamEngine implements DSEInterface{
 		}
 	}
 	
-	public GameModel getGameModel (){
+	public GameModel getGameModel(){
 		return gameModel;
 	}
-	
+	/**
+	 * 设置网络
+	 * @param overlayNetwork
+	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
 	}
 	
 	public void startSensorThread(){
-		
 		sensorQueueThread = new SensorQueueThread(this);
 		sensorQueueThread.start();
-		
 	}
+	
 	public void startNetworkThread(){
 		receiveQueueThread = new ReceiveQueueThread(this);
 		sendQueueThread = new SendQueueThread(this);

@@ -10,7 +10,6 @@ import dse.DataStreamEngine;
 
 public class GameModel {
 	
-	//GameView gameView;
 	DataStreamEngine dse;
 	
 	GameViewDrawThread drawThread;
@@ -105,7 +104,6 @@ public class GameModel {
 			break;
 		}
 	}
-	
 	
 	public String getBallState(int ballId){
 		Ball ball = ballList.get(ballId);
