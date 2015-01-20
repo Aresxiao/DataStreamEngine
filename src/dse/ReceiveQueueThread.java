@@ -33,9 +33,6 @@ public class ReceiveQueueThread extends Thread{
 				receiveCount++;
 				if(Constant.isDebug)
 					System.out.println("receiveQueueThread: receiveCount = "+receiveCount);
-				synchronized (Constant.MUTEX_OBJECT) {
-					Constant.MUTEX_OBJECT.notify();
-				}
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

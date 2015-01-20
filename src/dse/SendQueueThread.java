@@ -34,19 +34,12 @@ public class SendQueueThread extends Thread {
 			try {
 				String data = sendQueue.take();
 				OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
-				synchronized (Constant.MUTEX_OBJECT) {
-					overlayNetwork.sendData(data);
-					sendCount++;
-					if(Constant.isDebug)
-						System.out.println("sendQueueThread: sendCount = "+sendCount);
-					try {
-						Constant.MUTEX_OBJECT.wait();
-						System.out.println("run again");
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
+				
+				overlayNetwork.sendData(data);
+				sendCount++;
+				if(Constant.isDebug)
+					System.out.println("sendQueueThread: sendCount = "+sendCount);
+			
 				
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
