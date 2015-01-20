@@ -48,7 +48,7 @@ public class ReceiveQueueThread extends Thread{
 			int size = receiveQueue.size();
 			if(size!=0)
 				System.out.println("reciveQueue thread : "+size);
-			while(dataString == null){
+			while(dataString==null){
 				dataString = receiveQueue.poll();
 			}*/
 			

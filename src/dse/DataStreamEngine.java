@@ -99,6 +99,7 @@ public class DataStreamEngine implements DSEInterface{
 	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
+		sendQueue.clear();
 	}
 	
 	public void startSensorThread(){
@@ -122,12 +123,12 @@ public class DataStreamEngine implements DSEInterface{
 	}
 	
 	void addSendQueue(String data){
+		
 		sendQueue.offer(data);
 	}
 	
 	void addSensorQueue(String data){
 		sensorQueue.offer(data);
-		
 	}
 }
 
