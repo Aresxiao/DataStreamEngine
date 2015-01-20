@@ -7,11 +7,11 @@ public class GameViewDrawThread extends Thread{
 	private boolean flag = true;
 	private int sleepSpan = 10;
 	GameView gameView;
-	SurfaceHolder surfaceHolder;
+	//SurfaceHolder surfaceHolder;
 	
 	public GameViewDrawThread(GameView gameView){
 		this.gameView = gameView;
-		this.surfaceHolder = gameView.getHolder();
+		//this.surfaceHolder = gameView.getHolder();
 	}
 	
 	@Override

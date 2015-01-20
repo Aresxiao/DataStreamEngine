@@ -130,9 +130,10 @@ public class APNetwork implements OverlayNetwork {
 	public void sendData(String string) {
 		// TODO Auto-generated method stub
 		try {
-			
-			outputStream.writeUTF(string);
-			outputStream.flush();
+			if(connectedFalg){
+				outputStream.writeUTF(string);
+				outputStream.flush();
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

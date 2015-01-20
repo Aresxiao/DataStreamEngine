@@ -29,15 +29,16 @@ public class AccelerateSensor implements SensorEventListener{
 		y=values[1];
 		z=values[2];
 		String dataString = x+","+y+","+z;
-		//System.out.println(dataString+"ooooooooooooooooooooooo");
+		//System.out.println(dataString+"-----------------");
 		dseInterface.updateDSEState(2, dataString);
 	}
 	
 	
 	/**
-	 * æ­¤æ–¹æ³•ç”¨æ¥è®¾ç½®ä¼ æ„Ÿå™¨çš„é¢‘ç‡ã€‚
-	 * @param type={1,2,3,4}ï¼Œtypeåªæœ‰è¿™å››ç§å–å€¼ï¼Œ1å¯¹åº”äºä¼ æ„Ÿå™¨ä¸­normalçš„å»¶è¿Ÿï¼Œ2å¯¹åº”äºUIçš„å»¶è¿Ÿï¼Œ3å¯¹åº”äºGameçš„å»¶è¿Ÿï¼Œ4å¯¹åº”äºfastestå»¶è¿Ÿã€‚
-	 * å¦‚æœå–å…¶ä»–å€¼ï¼Œé»˜è®¤é‡‡ç”¨çš„æ˜¯Gameå»¶è¿Ÿã€‚
+	 * ´Ë·½·¨ÓÃÀ´ÉèÖÃ´«¸ĞÆ÷µÄÆµÂÊ¡£
+	 * @param type
+	 * ={1,2,3,4}£¬typeÖ»ÓĞÕâËÄÖÖÈ¡Öµ£¬1¶ÔÓ¦ÓÚ´«¸ĞÆ÷ÖĞnormalµÄÑÓ³Ù£¬2¶ÔÓ¦ÓÚUIµÄÑÓ³Ù£¬3¶ÔÓ¦ÓÚGameµÄÑÓ³Ù£¬4¶ÔÓ¦ÓÚfastestÑÓ³Ù¡£
+	 * Èç¹ûÈ¡ÆäËûÖµ£¬Ä¬ÈÏ²ÉÓÃµÄÊÇGameÑÓ³Ù¡£
 	 */
 	public void setFrequecy(SensorManager sensorManager,Sensor sensor, int type){
 		switch (type) {

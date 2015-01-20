@@ -4,13 +4,16 @@ import game.GameModel;
 
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
+
+import constant.Constant;
 /**
  * 
  * @author XiaoGeng
- * è¯¥ç±»ä¸“é—¨ç”¨æ¥å¤„ç†receiveQueueé˜Ÿåˆ—ä¸­çš„æ•°æ®ï¼Œå½“é˜Ÿåˆ—ä¸ºç©ºæ—¶ï¼Œé˜»å¡ã€‚
+ * ¸ÃÀà×¨ÃÅÓÃÀ´´¦ÀíreceiveQueue¶ÓÁĞÖĞµÄÊı¾İ£¬µ±¶ÓÁĞÎª¿ÕÊ±£¬×èÈû¡£
  */
 public class ReceiveQueueThread extends Thread{
 	
+	int receiveCount = 0;
 	DataStreamEngine dse;
 	BlockingQueue<String> receiveQueue;
 	public ReceiveQueueThread(DataStreamEngine dse){
@@ -24,18 +27,23 @@ public class ReceiveQueueThread extends Thread{
 		while(true){
 			try {
 				
-				int size = receiveQueue.size();
-				if(size!=0)
-					System.out.println("reciveQueue thread : "+size);
-				
 				String dataString = receiveQueue.take();
 				GameModel gameModel = dse.getGameModel();
 				gameModel.updateGameView(dataString);
+				
+				receiveCount++;
+				if(Constant.isDebug)
+					System.out.println("receiveQueueThread: receiveCount = "+receiveCount);
+				synchronized (Constant.MUTEX_OBJECT) {
+					Constant.MUTEX_OBJECT.notify();
+				}
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return;
 			}
+			
 			/*
 			String dataString = receiveQueue.poll();
 			int size = receiveQueue.size();

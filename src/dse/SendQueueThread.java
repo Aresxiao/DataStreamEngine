@@ -1,21 +1,26 @@
 package dse;
 
+import java.util.concurrent.BlockingQueue;
+
 import network.OverlayNetwork;
-import game.GameModel;
+
 import constant.Constant;
 
 /**
  * @author XiaoGeng
- * è¯¥ç±»ç”¨æ˜¯DSEä¸­ä¸“é—¨ç”¨æ¥å¤„ç†sendQueueé˜Ÿåˆ—ä¸­çš„æ•°æ®ï¼Œå½“ä¸ºç©ºæ—¶ï¼Œçº¿ç¨‹é˜»å¡ã€‚
+ * ¸ÃÀàÓÃÊÇDSEÖĞ×¨ÃÅÓÃÀ´´¦ÀísendQueue¶ÓÁĞÖĞµÄÊı¾İ£¬µ±Îª¿ÕÊ±£¬Ïß³Ì×èÈû¡£
  */
 public class SendQueueThread extends Thread {
 	
 	private boolean flag;
 	DataStreamEngine dse;
+	BlockingQueue<String> sendQueue;
 	private int sleepSpan;
+	int sendCount = 0;
 	
 	public SendQueueThread(DataStreamEngine dataStreamEngine){
 		dse = dataStreamEngine;
+		sendQueue = dataStreamEngine.sendQueue;
 		flag = true;
 		sleepSpan = 7;
 	}
@@ -24,18 +29,28 @@ public class SendQueueThread extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		while(flag){
-			GameModel gameModel = dse.getGameModel();
-			String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
-			data = 2+","+data;
-			OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
-			overlayNetwork.sendData(data);
+			
 			
 			try {
-				Thread.sleep(sleepSpan);
-			} catch (InterruptedException e) {
+				String data = sendQueue.take();
+				OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
+				overlayNetwork.sendData(data);
+				sendCount++;
+			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
+			if(Constant.isDebug)
+				System.out.println("sendQueueThread: sendCount = "+sendCount);
+			synchronized (Constant.MUTEX_OBJECT) {
+				try {
+					Constant.MUTEX_OBJECT.wait();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		}
 	}
 	

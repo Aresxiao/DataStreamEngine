@@ -4,17 +4,18 @@ public class GameData {
 	
 	
 	/**
-	 * ç”¨æ¥å­˜å‚¨æ•°æ®ï¼Œ
-	 * @param typeä¸ºintå‹ï¼ŒæŒ‡æ˜è¦ä¿å­˜çš„æ•°æ®ç±»åˆ«ã€‚
-	 * @param dataä¸ºStringå‹ï¼Œä¸ºè¦å­˜å‚¨çš„æ•°æ®
+	 * ÓÃÀ´´æ´¢Êı¾İ£¬
+	 * @param type 
+	 * ÎªintĞÍ£¬Ö¸Ã÷Òª±£´æµÄÊı¾İÀà±ğ¡£dataÎªStringĞÍ£¬ÎªÒª´æ´¢µÄÊı¾İ¡£
 	 */
 	public void storeData(int type,String data){
 		
 	}
 	
 	/**
-	 * @param type ä¸ºintç±»å‹ï¼Œéœ€è¦çš„æ•°æ®ã€‚
-	 * @return ä¸ºStringç±»å‹
+	 * @param type 
+	 * ÎªintÀàĞÍ£¬ĞèÒªµÄÊı¾İ¡£
+	 * @return ÎªStringÀàĞÍ
 	 */
 	public String loadData(int type){
 		switch (type) {

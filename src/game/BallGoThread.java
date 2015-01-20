@@ -3,13 +3,14 @@ package game;
 
 public class BallGoThread extends Thread {
 	
-	GameView gameView;
+	GameModel gameModel;
 	private boolean flag = true;
 	//ArrayList<Ball> 
 	
 	private int sleepSpan=7;
-	public BallGoThread(GameView gameView ){
-		this.gameView = gameView;
+	public BallGoThread(GameModel gameModel){
+		
+		this.gameModel = gameModel;
 		
 	}
 	@Override
@@ -17,16 +18,16 @@ public class BallGoThread extends Thread {
 		// TODO Auto-generated method stub
 		
 		while(flag){
-			//璁╂墍鏈夌殑鐞冭蛋
-			for(Ball b:gameView.alBalls){
+			//让所有的球走
+			for(Ball b:gameModel.ballList){
 				b.go();
 				if(b.isGoalBall()){
 					if(b.InHoleflag){
 						b.stopBall();
 						int whichHole = b.getWhichHole();
 						flag=false;
-						//gameModel.overGame();
-						gameView.overGame(whichHole);
+						gameModel.overGame();
+						//gameModel.overGame(whichHole);
 					}
 				}
 			}

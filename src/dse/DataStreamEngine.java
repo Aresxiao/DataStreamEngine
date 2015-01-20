@@ -1,6 +1,6 @@
 package dse;
 
-import java.util.Queue;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -32,16 +32,12 @@ public class DataStreamEngine implements DSEInterface{
 		sendQueue = new LinkedBlockingQueue<String>();
 		receiveQueue = new LinkedBlockingQueue<String>();
 		sensorQueue = new LinkedBlockingQueue<String>();
+		overlayNetwork = null;
 		
-		/*
-		sendQueue = new LinkedList<String>();
-		receiveQueue = new LinkedList<String>();
-		sensorQueue = new LinkedList<String>();
-		*/
 	}
 	
 	/**
-	 * è¯¥æ–¹æ³•ç”¨æ¥æš´éœ²ç»™Sensoræ¨¡å—ï¼ŒSensoräº§ç”Ÿæ•°æ®å°±ä¼šè°ƒç”¨è¯¥æ–¹æ³•ã€‚
+	 * ¸Ã·½·¨ÓÃÀ´±©Â¶¸øSensorÄ£¿é£¬Sensor²úÉúÊı¾İ¾Í»áµ÷ÓÃ¸Ã·½·¨¡£
 	 */
 	public void setAccelerate(float x, float y, float z){
 		// TODO Auto-generated method stub
@@ -54,12 +50,11 @@ public class DataStreamEngine implements DSEInterface{
 	}
 	
 	/**
-	 * è¿™ä¸ªæ–¹æ³•æ˜¯æš´éœ²ç»™OverlayNetworkï¼ŒOverlayNetworkæ¥æ”¶åˆ°æ•°æ®å°±ä¼šè°ƒç”¨è¿™ä¸ªæ–¹æ³•ã€‚
-	 * @param dataä¸ºStringç±»å‹ï¼Œtype ä¸ºint ç±»å‹,æŒ‡æ˜æ•°æ®æ¥æº,1è¡¨ç¤ºæ¥æ”¶åˆ°ç½‘ç»œæµæ•°æ®ï¼Œ2è¡¨ç¤ºæ¥è‡ªæœ¬åœ°ä¼ æ„Ÿå™¨æ•°æ®ã€‚
-	 * @return voidã€‚
+	 * Õâ¸ö·½·¨ÊÇ±©Â¶¸øOverlayNetwork£¬OverlayNetwork½ÓÊÕµ½Êı¾İ¾Í»áµ÷ÓÃÕâ¸ö·½·¨¡£
+	 * @param data
+	 * ÎªStringÀàĞÍ£¬type Îªint ÀàĞÍ,Ö¸Ã÷Êı¾İÀ´Ô´,1±íÊ¾½ÓÊÕµ½ÍøÂçÁ÷Êı¾İ£¬2±íÊ¾À´×Ô±¾µØ´«¸ĞÆ÷Êı¾İ¡£
 	 */
 	public void updateDSEState(int type,String data) {
-		//System.out.println(type+"---"+data);
 		
 		switch (type) {
 		case 1:
@@ -68,45 +63,49 @@ public class DataStreamEngine implements DSEInterface{
 		case 2:
 			addSensorQueue(data);
 			break;
+		case 3:
+			addSendQueue(data);
 		default:
 			break;
 		}
 		
 		// TODO Auto-generated method stub
-		// gameModel.updateGameView(data);
 	}
 	
 	/**
-	 * è¿™é‡Œæœ‰å¾ˆå¤šç§å¤„ç†æ–¹å¼
-	 * @param typeä¸ºintç±»å‹ï¼ŒæŒ‡æ˜è¦è¿›è¡Œä»€ä¹ˆæ ·çš„å¤„ç†ï¼Œdataä¸ºStringç±»å‹ï¼Œä¸ºæ‰€è¦è¿›è¡Œå¤„ç†çš„æ•°æ®ã€‚
-	 * typeä¸º1ï¼Œè¡¨ç¤ºéœ€è¦å‘é€æ•°æ®ï¼›
-	 * ç›®å‰typeè¿˜æ²¡æœ‰æ‰©å……ã€‚
+	 * ÕâÀïÓĞºÜ¶àÖÖ´¦Àí·½Ê½
+	 * @param type
+	 * ÎªintÀàĞÍ£¬Ö¸Ã÷Òª½øĞĞÊ²Ã´ÑùµÄ´¦Àí£¬dataÎªStringÀàĞÍ£¬ÎªËùÒª½øĞĞ´¦ÀíµÄÊı¾İ¡£
+	 * typeÎª1£¬±íÊ¾ĞèÒª·¢ËÍÊı¾İ£»
 	 */
 	public void dataProcessFromGame(int type, String data) {
 		// TODO Auto-generated method stub
 		switch (type) {
 		case 1:
-			overlayNetwork.sendData(data);
+			if(overlayNetwork!=null)
+				overlayNetwork.sendData(data);
 			break;
 		default:
 			break;
 		}
 	}
 	
-	public GameModel getGameModel (){
+	public GameModel getGameModel(){
 		return gameModel;
 	}
-	
+	/**
+	 * ÉèÖÃÍøÂç
+	 * @param overlayNetwork
+	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
 	}
 	
 	public void startSensorThread(){
-		
 		sensorQueueThread = new SensorQueueThread(this);
 		sensorQueueThread.start();
-		
 	}
+	
 	public void startNetworkThread(){
 		receiveQueueThread = new ReceiveQueueThread(this);
 		sendQueueThread = new SendQueueThread(this);
@@ -118,18 +117,17 @@ public class DataStreamEngine implements DSEInterface{
 		return overlayNetwork;
 	}
 	
-	public void addReceiveQueue(String data){
+	void addReceiveQueue(String data){
 		receiveQueue.offer(data);
 	}
 	
-	public void addSendQueue(String data){
+	void addSendQueue(String data){
 		sendQueue.offer(data);
 	}
 	
-	public void addSensorQueue(String data){
+	void addSensorQueue(String data){
 		sensorQueue.offer(data);
-		int size = sensorQueue.size();
-		System.out.println("sensorQueue size ======= "+size);
+		
 	}
 }
 

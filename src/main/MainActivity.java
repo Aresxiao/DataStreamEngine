@@ -1,23 +1,26 @@
 package main;
 
+import com.example.datastreamengine.R;
+
 import game.GameModel;
 import game.GameView;
+import game.GameWinNView;
 import network.APNetwork;
 import sensor.AccelerateSensor;
 
-import com.example.datastreamengine.R;
 
 import constant.Constant;
-import dse.DSEInterface;
+import constant.WhatMessage;
 import dse.DataStreamEngine;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.Window;
@@ -34,6 +37,7 @@ import android.view.WindowManager;
 
 public class MainActivity extends Activity{
 
+	int currentView;
 	SensorManager sensorManager;
 	Sensor mAccelerometer;
 	
@@ -41,10 +45,31 @@ public class MainActivity extends Activity{
 	/** */
 	APNetwork network;
 	DataStreamEngine dse;
-	//å±å¹•å®½åº¦å’Œé«˜åº¦
+	//ÆÁÄ»¿í¶ÈºÍ¸ß¶È
 	private int tableWidth;
 	private int tableHeight;
 	
+	GameWinNView gameWinNView;
+	GameView gameView;
+	
+	Handler handler = new Handler(){
+		public void handleMessage(Message msg){
+			switch (msg.what) {
+			case WhatMessage.GAME_VIEW:
+				gotoGameView();
+				break;
+			case WhatMessage.OVER_GAMEWINN:
+				gotoWinNView();
+				break;
+			case WhatMessage.OVER_GAMEWINS:
+				gotoWinSView();
+				break;
+			default:
+				break;
+			}
+			
+		}
+	};
 	
 	int flag;
 	@Override
@@ -52,12 +77,12 @@ public class MainActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		//setContentView(R.layout.activity_main);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-        // å…¨å±æ˜¾ç¤º
+        // È«ÆÁÏÔÊ¾
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         
-        // è·å–çª—å£ç®¡ç†å™¨,è·å¾—å±å¹•å®½å’Œé«˜
+        // »ñÈ¡´°¿Ú¹ÜÀíÆ÷,»ñµÃÆÁÄ»¿íºÍ¸ß
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
@@ -66,14 +91,12 @@ public class MainActivity extends Activity{
         tableHeight = metrics.heightPixels;
         
         Constant.initConst(tableWidth, tableHeight);
-        
-        final GameView gameView = new GameView(this);
+        GameModel gameModel = new GameModel();
+        gameView = new GameView(this,gameModel);
         setContentView(gameView);
         
-        GameModel gameModel = new GameModel(gameView);
-        
         dse = new DataStreamEngine(gameModel);
-        
+        gameModel.setDSE(dse);
         accelerateSensor = new AccelerateSensor(dse);
         sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -102,7 +125,38 @@ public class MainActivity extends Activity{
 		return network;
 	}
 	
+	/**
+	 * @param what
+	 * ·¢ËÍHandlerÏûÏ¢µÄ·½·¨¡£
+	 */
+    public void sendMessage(int what){
+    	//Message msg1 = handler.obtainMessage(what); 
+    	//handler.sendMessage(msg1);
+    	//System.out.println("send msg");
+    }
 	
+    private void gotoWinNView(){
+    	if(gameWinNView==null){
+    		gameWinNView = new GameWinNView(this);
+    	}
+    	this.setContentView(gameWinNView);
+    	currentView = WhatMessage.OVER_GAMEWINN;
+    }
+    
+    private void gotoWinSView() {
+    	if(gameWinNView==null){
+    		gameWinNView = new GameWinNView(this);
+    	}
+    	this.setContentView(gameWinNView);
+    	currentView = WhatMessage.OVER_GAMEWINN;
+	}
+    
+    private void gotoGameView(){
+    	
+    	this.setContentView(gameView);
+    	currentView = WhatMessage.GAME_VIEW;
+    }
+    
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -116,7 +170,7 @@ public class MainActivity extends Activity{
 		super.onDestroy();
 		sensorManager.unregisterListener(accelerateSensor);
 	}
-
+	
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
@@ -124,7 +178,7 @@ public class MainActivity extends Activity{
 		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
 		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3);
 	}
-
+	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
