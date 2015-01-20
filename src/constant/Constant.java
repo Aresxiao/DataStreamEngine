@@ -13,7 +13,7 @@ public class Constant {
 	//public static int SCREEN_WIDTH;//屏幕的宽度
 	//public static int SCREEN_HEIGHT;//屏幕的高度
 	
-	public static Object MUTEX_OBJECT ;
+	public static Object MUTEX_OBJECT = new Object();
 	
 	public static float PLAYER_BALL_SIZE=80;//玩家球的半径
 	public static float GOAL_BALL_SIZE=80;//目标球的半径
@@ -51,7 +51,6 @@ public class Constant {
 	public static float WINTEXTLOCY;
 	
 	public static void initConst(int screenWidth,int screenHeight){
-		MUTEX_OBJECT = new Object();
 		TABLE_WIDTH = screenWidth;
 		TABLE_HEIGHT = screenHeight;
 		

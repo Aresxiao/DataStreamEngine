@@ -106,7 +106,7 @@ public class Ball {
 		for(Ball b:gameModel.ballList){
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
 				canGoFlag = false;
-				if(b.goalBall||this.goalBall){
+				if((b.ballId+this.ballId) == Constant.LOCAL_BALL_ID){
 					/*
 					if(Constant.isDebug){
 						if(b.goalBall)
