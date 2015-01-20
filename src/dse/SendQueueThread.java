@@ -45,6 +45,7 @@ public class SendQueueThread extends Thread {
 			synchronized (Constant.MUTEX_OBJECT) {
 				try {
 					Constant.MUTEX_OBJECT.wait();
+					System.out.println("run again");
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
