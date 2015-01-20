@@ -99,7 +99,7 @@ public class DataStreamEngine implements DSEInterface{
 	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
-		sendQueue.clear();
+		
 	}
 	
 	public void startSensorThread(){
@@ -111,6 +111,7 @@ public class DataStreamEngine implements DSEInterface{
 		receiveQueueThread = new ReceiveQueueThread(this);
 		sendQueueThread = new SendQueueThread(this);
 		receiveQueueThread.start();
+		sendQueue.clear();
 		sendQueueThread.start();
 	}
 	
