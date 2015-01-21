@@ -45,6 +45,7 @@ public class MainActivity extends Activity{
 	/** */
 	APNetwork network;
 	DataStreamEngine dse;
+	GameModel gameModel;
 	//屏幕宽度和高度
 	private int tableWidth;
 	private int tableHeight;
@@ -91,7 +92,7 @@ public class MainActivity extends Activity{
         tableHeight = metrics.heightPixels;
         
         Constant.initConst(tableWidth, tableHeight);
-        GameModel gameModel = new GameModel();
+        gameModel = new GameModel();
         gameView = new GameView(this,gameModel);
         setContentView(gameView);
         
@@ -114,6 +115,7 @@ public class MainActivity extends Activity{
 				System.out.println("Thread start");
 				dse.setOverlayNetwork(network);
 				dse.startNetworkThread();
+				gameModel.startThread();
 			}
 		}.start();
 	}

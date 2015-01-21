@@ -23,8 +23,10 @@ public class GameModel {
 		// TODO Auto-generated constructor stub
 		dse=null;
 		init();
-		startThread();
 		
+		ballGoThread = new BallGoThread(this);
+		ballGoThread.setFlag(true);
+		ballGoThread.start();
 	}
 	
 	public void init(){
@@ -38,11 +40,8 @@ public class GameModel {
 	}
 	
 	public void startThread(){
-		ballGoThread = new BallGoThread(this);
 		synchThread = new GameSyncThread(this);
 		synchThread.setFlag(true);
-		ballGoThread.setFlag(true);
-		ballGoThread.start();
 		synchThread.start();
 	}
 	
