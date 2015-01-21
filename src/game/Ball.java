@@ -107,19 +107,10 @@ public class Ball {
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
 				canGoFlag = false;
 				if((b.ballId+this.ballId) == Constant.LOCAL_BALL_ID){
-					/*
-					if(Constant.isDebug){
-						if(b.goalBall)
-							System.out.println("gobalball:"+b.ballId+" "+this.ballId);
-						else {
-							System.out.println("gobalball:"+this.ballId+" "+b.ballId);
-						}
-					}
-					*/
+					
 					gameModel.pushState(new int[]{b.ballId,this.ballId});
 				}
 			}
-			
 		}
 		
 		ArrayList<Obstacle> obstacles = gameModel.table.getObstacles();

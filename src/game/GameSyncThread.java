@@ -1,5 +1,8 @@
 package game;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import constant.Constant;
 import dse.DSEInterface;
 
@@ -8,8 +11,10 @@ public class GameSyncThread extends Thread{
 	GameModel gameModel;
 	private boolean flag = true;
 	private int sleepSpan;
+	BlockingQueue<String> queue;
 	
 	public GameSyncThread(GameModel gameModel){
+		queue = new LinkedBlockingQueue<String>();
 		this.gameModel = gameModel;
 		sleepSpan = 7;
 	}
@@ -20,9 +25,29 @@ public class GameSyncThread extends Thread{
 		while(flag){
 			DSEInterface dse = gameModel.dse;
 			if(dse != null){
-				String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
-				data = 2+","+data;
-				dse.updateDSEState(3, data);
+				gameModel.ballGoThread.setIsWait(true);
+				synchronized (Constant.MUTEX_OBJECT) {
+					if(queue.isEmpty()){
+						String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
+						data = 2+","+data;
+						dse.updateDSEState(3, data);
+					}
+					else {
+						try {
+							String data = queue.take();
+							dse.updateDSEState(3, data);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					try {
+						Constant.MUTEX_OBJECT.wait();
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 			try {
 				Thread.sleep(sleepSpan);
@@ -36,5 +61,9 @@ public class GameSyncThread extends Thread{
 	
 	public void setFlag(boolean flag){
 		this.flag = flag;
+	}
+	
+	public void addQueue(String data){
+		queue.offer(data);
 	}
 }

@@ -46,6 +46,7 @@ public class GameModel {
 		synchThread.start();
 	}
 	
+	
 	public void stopThread(){
 		ballGoThread.setFlag(false);
 		synchThread.setFlag(false);
@@ -130,7 +131,8 @@ public class GameModel {
 				sendString += " "+data;
 			}
 			sendString = 3+","+sendString;
-			dse.updateDSEState(3, sendString);
+			//dse.updateDSEState(3, sendString);
+			synchThread.addQueue(sendString);
 		}
 	}
 	
