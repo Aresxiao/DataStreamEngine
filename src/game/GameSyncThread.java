@@ -27,32 +27,25 @@ public class GameSyncThread extends Thread{
 		while(flag){
 			DSEInterface dse = gameModel.dse;
 			if(dse != null){
-				gameModel.ballGoThread.setIsWait(true);
-				synchronized (Constant.MUTEX_OBJECT) {
-					if(queue.isEmpty()){
-						String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
-						data = 2+","+data;
-						dse.updateDSEState(3, data);
-					}
-					else {
-						try {
-							String data = queue.take();
-							dse.updateDSEState(3, data);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					synCount++;
-					if(Constant.isDebug)
-						System.out.println("gameSyncThread : synCount = "+synCount);
+				
+				if(queue.isEmpty()){
+					String data = gameModel.getBallState(Constant.LOCAL_BALL_ID);
+					data = 2+","+data;
+					dse.updateDSEState(3, data);
+				}
+				else {
 					try {
-						Constant.MUTEX_OBJECT.wait();
+						String data = queue.take();
+						dse.updateDSEState(3, data);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+				synCount++;
+				if(Constant.isDebug)
+					System.out.println("gameSyncThread : synCount = "+synCount);
+				
 			}
 			try {
 				Thread.sleep(sleepSpan);
