@@ -12,11 +12,13 @@ public class GameSyncThread extends Thread{
 	private boolean flag = true;
 	private int sleepSpan;
 	BlockingQueue<String> queue;
+	int synCount;
 	
 	public GameSyncThread(GameModel gameModel){
 		queue = new LinkedBlockingQueue<String>();
 		this.gameModel = gameModel;
 		sleepSpan = 7;
+		synCount = 0;
 	}
 
 	@Override
@@ -41,6 +43,9 @@ public class GameSyncThread extends Thread{
 							e.printStackTrace();
 						}
 					}
+					synCount++;
+					if(Constant.isDebug)
+						System.out.println("gameSyncThread : synCount = "+synCount);
 					try {
 						Constant.MUTEX_OBJECT.wait();
 					} catch (InterruptedException e) {
