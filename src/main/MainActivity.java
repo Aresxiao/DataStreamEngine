@@ -1,6 +1,10 @@
 package main;
 
+import org.apache.log4j.Logger;
+
+
 import com.example.datastreamengine.R;
+
 
 import game.GameModel;
 import game.GameView;
@@ -20,6 +24,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Menu;
@@ -36,7 +42,8 @@ import android.view.WindowManager;
  */
 
 public class MainActivity extends Activity{
-
+	
+	private final Logger log4android = Logger.getLogger(MainActivity.class);
 	int currentView;
 	SensorManager sensorManager;
 	Sensor mAccelerometer;
@@ -75,7 +82,14 @@ public class MainActivity extends Activity{
 	int flag;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		
 		super.onCreate(savedInstanceState);
+		
+		BatteryReceiver batteryReceiver = BatteryReceiver.getInstance();
+        IntentFilter filter=new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryReceiver, filter);
+        ConfigureLog4J.INSTANCE.configure();
+        
 		//setContentView(R.layout.activity_main);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         // »´∆¡œ‘ æ
@@ -96,6 +110,9 @@ public class MainActivity extends Activity{
         gameView = new GameView(this,gameModel);
         setContentView(gameView);
         
+        log4android.debug("battery is "+batteryReceiver.getRemainBattery());
+        
+        System.out.println("battery is " + batteryReceiver.getRemainBattery());
         dse = new DataStreamEngine(gameModel);
         gameModel.setDSE(dse);
         accelerateSensor = new AccelerateSensor(dse);
@@ -171,6 +188,7 @@ public class MainActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onDestroy();
 		sensorManager.unregisterListener(accelerateSensor);
+		ConfigureLog4J.INSTANCE.shutdown();
 	}
 	
 	@Override
@@ -186,6 +204,7 @@ public class MainActivity extends Activity{
 		// TODO Auto-generated method stub
 		super.onPause();
 		sensorManager.unregisterListener(accelerateSensor);
+		ConfigureLog4J.INSTANCE.shutdown();
 	}
 	
 	

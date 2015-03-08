@@ -6,10 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.MainActivity;
-import constant.Constant;
-import constant.WhatMessage;
-
-import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,7 +13,6 @@ import android.graphics.Paint;
 
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
 
 
 /**

@@ -1,9 +1,5 @@
 package game;
 
-import constant.Constant;
-
-
-
 public class CollisionUtil {
 	
 	public static float dotProduct(float[] vec1,float[] vec2)

@@ -1,5 +1,6 @@
 package game;
 
+import java.text.SimpleDateFormat;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -13,12 +14,14 @@ public class GameSyncThread extends Thread{
 	private int sleepSpan;
 	BlockingQueue<String> queue;
 	int synCount;
+	SimpleDateFormat format;
 	
 	public GameSyncThread(GameModel gameModel){
 		queue = new LinkedBlockingQueue<String>();
 		this.gameModel = gameModel;
 		sleepSpan = 7;
 		synCount = 0;
+		format = new SimpleDateFormat("HH:mm:ss.SSS");
 	}
 
 	@Override
@@ -28,6 +31,7 @@ public class GameSyncThread extends Thread{
 		while(flag){
 			DSEInterface dse = gameModel.dse;
 			if(dse != null){
+				System.out.println(format.format(System.currentTimeMillis())+"++++");
 				gameModel.ballGoThread.setIsWait(true);
 				synchronized (Constant.MUTEX_OBJECT) {
 					if(queue.isEmpty()){
@@ -49,6 +53,7 @@ public class GameSyncThread extends Thread{
 						System.out.println("gameSyncThread : synCount = "+synCount);
 					try {
 						Constant.MUTEX_OBJECT.wait();
+						System.out.println(format.format(System.currentTimeMillis())+"-----");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
