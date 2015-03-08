@@ -134,5 +134,4 @@ public class GameModel {
 			synchThread.addQueue(sendString);
 		}
 	}
-	
 }

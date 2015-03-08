@@ -30,7 +30,6 @@ public class SendQueueThread extends Thread {
 		// TODO Auto-generated method stub
 		while(flag){
 			
-			
 			try {
 				String data = sendQueue.take();
 				OverlayNetwork overlayNetwork = dse.getOverlayNetwork();

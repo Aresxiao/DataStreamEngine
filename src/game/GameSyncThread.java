@@ -31,7 +31,7 @@ public class GameSyncThread extends Thread{
 		while(flag){
 			DSEInterface dse = gameModel.dse;
 			if(dse != null){
-				System.out.println(format.format(System.currentTimeMillis())+"++++");
+				//System.out.println(format.format(System.currentTimeMillis())+"++++");
 				gameModel.ballGoThread.setIsWait(true);
 				synchronized (Constant.MUTEX_OBJECT) {
 					if(queue.isEmpty()){

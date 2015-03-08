@@ -107,7 +107,6 @@ public class Ball {
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
 				canGoFlag = false;
 				if((b.ballId+this.ballId) == Constant.LOCAL_BALL_ID){
-					
 					gameModel.pushState(new int[]{b.ballId,this.ballId});
 				}
 			}

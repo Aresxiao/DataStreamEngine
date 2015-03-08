@@ -112,7 +112,7 @@ public class MainActivity extends Activity{
         
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
         
-        System.out.println("battery is " + batteryReceiver.getRemainBattery());
+        //System.out.println("battery is " + batteryReceiver.getRemainBattery());
         dse = new DataStreamEngine(gameModel);
         gameModel.setDSE(dse);
         accelerateSensor = new AccelerateSensor(dse);

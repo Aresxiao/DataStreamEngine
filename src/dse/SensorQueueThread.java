@@ -2,7 +2,6 @@ package dse;
 
 import game.GameModel;
 
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
 import constant.Constant;
