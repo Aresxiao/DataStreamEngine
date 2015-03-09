@@ -67,7 +67,6 @@ public class GameSyncThread extends Thread{
 				e.printStackTrace();
 			}
 		}
-		
 	}
 	
 	public void setFlag(boolean flag){
