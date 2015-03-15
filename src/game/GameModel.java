@@ -22,6 +22,7 @@ public class GameModel {
 	public GameModel() {
 		// TODO Auto-generated constructor stub
 		dse=null;
+		synchThread = null;
 		init();
 		
 		ballGoThread = new BallGoThread(this);
@@ -131,7 +132,8 @@ public class GameModel {
 			}
 			sendString = 3+","+sendString;
 			//dse.updateDSEState(3, sendString);
-			synchThread.addQueue(sendString);
+			if(synchThread!=null)
+				synchThread.addQueue(sendString);
 		}
 	}
 }

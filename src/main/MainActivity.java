@@ -1,5 +1,11 @@
 package main;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import org.apache.log4j.Logger;
 
 
@@ -11,6 +17,8 @@ import game.GameView;
 import game.GameWinNView;
 import network.APNetwork;
 import sensor.AccelerateSensor;
+import timingservice.ADBExecutor;
+import timingservice.TimingService;
 
 
 import constant.Constant;
@@ -27,6 +35,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
 import android.view.Window;
@@ -44,6 +53,8 @@ import android.view.WindowManager;
 public class MainActivity extends Activity{
 	
 	private final Logger log4android = Logger.getLogger(MainActivity.class);
+	private static final Executor exec = Executors.newCachedThreadPool();
+	private ServerSocket server_socket = null;
 	int currentView;
 	SensorManager sensorManager;
 	Sensor mAccelerometer;
@@ -89,7 +100,9 @@ public class MainActivity extends Activity{
         IntentFilter filter=new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
         ConfigureLog4J.INSTANCE.configure();
+        exec.execute(this.TimePollingDaemon);
         
+        System.out.println("Time is "+TimingService.INSTANCE.pollingTime());
 		//setContentView(R.layout.activity_main);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         // »´∆¡œ‘ æ
@@ -207,6 +220,42 @@ public class MainActivity extends Activity{
 		ConfigureLog4J.INSTANCE.shutdown();
 	}
 	
-	
+	// Daemon thread for establishing and maintaining the time polling connection
+		private Runnable TimePollingDaemon = new Runnable()
+		{
+			public void run()
+			{
+				establishDeviceHostConnection();
+			}
+		};
+		
+		/**
+		 * Starting as a ServerSocket. 
+		 * Listen to client Socket, accept, and store it for further communication.
+		 */
+		private void establishDeviceHostConnection()
+		{
+			if (this.server_socket != null)
+			{
+				Log.d("com.info", "Server socket has been already created. Do not create it again.");
+				return;
+			}
+			
+			try
+			{
+				this.server_socket = new ServerSocket();
+				this.server_socket.bind(new InetSocketAddress("localhost", ADBExecutor.ANDROID_PORT));
+				
+				TimingService.INSTANCE.setHostSocket(server_socket.accept());
+				
+				// receive (and consume) {@link AuthMsg} from PC and enable the time-polling functionality.
+				TimingService.INSTANCE.receiveAuthMsg();
+				
+			} catch (IOException ioe)
+			{
+				ioe.printStackTrace();
+			}
+		}
+		
 }
 

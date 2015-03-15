@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import android.util.Log;
+
 import constant.Constant;
 import dse.DSEInterface;
 
@@ -52,8 +54,9 @@ public class GameSyncThread extends Thread{
 					if(Constant.isDebug)
 						System.out.println("gameSyncThread : synCount = "+synCount);
 					try {
+						Log.i("com.info", format.format(System.currentTimeMillis())+"  "+synCount);
 						Constant.MUTEX_OBJECT.wait();
-						System.out.println(format.format(System.currentTimeMillis())+"-----");
+						Log.i("com.info", format.format(System.currentTimeMillis())+"-----");
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
