@@ -221,41 +221,41 @@ public class MainActivity extends Activity{
 	}
 	
 	// Daemon thread for establishing and maintaining the time polling connection
-		private Runnable TimePollingDaemon = new Runnable()
+	private Runnable TimePollingDaemon = new Runnable()
+	{
+		public void run()
 		{
-			public void run()
-			{
-				establishDeviceHostConnection();
-			}
-		};
-		
-		/**
-		 * Starting as a ServerSocket. 
-		 * Listen to client Socket, accept, and store it for further communication.
-		 */
-		private void establishDeviceHostConnection()
-		{
-			if (this.server_socket != null)
-			{
-				Log.d("com.info", "Server socket has been already created. Do not create it again.");
-				return;
-			}
-			
-			try
-			{
-				this.server_socket = new ServerSocket();
-				this.server_socket.bind(new InetSocketAddress("localhost", ADBExecutor.ANDROID_PORT));
-				
-				TimingService.INSTANCE.setHostSocket(server_socket.accept());
-				
-				// receive (and consume) {@link AuthMsg} from PC and enable the time-polling functionality.
-				TimingService.INSTANCE.receiveAuthMsg();
-				
-			} catch (IOException ioe)
-			{
-				ioe.printStackTrace();
-			}
+			establishDeviceHostConnection();
 		}
+	};
+	
+	/**
+	 * Starting as a ServerSocket. 
+	 * Listen to client Socket, accept, and store it for further communication.
+	 */
+	private void establishDeviceHostConnection()
+	{
+		if (this.server_socket != null)
+		{
+			Log.d("com.info", "Server socket has been already created. Do not create it again.");
+			return;
+		}
+		
+		try
+		{
+			this.server_socket = new ServerSocket();
+			this.server_socket.bind(new InetSocketAddress("localhost", ADBExecutor.ANDROID_PORT));
+			
+			TimingService.INSTANCE.setHostSocket(server_socket.accept());
+			
+			// receive (and consume) {@link AuthMsg} from PC and enable the time-polling functionality.
+			TimingService.INSTANCE.receiveAuthMsg();
+			
+		} catch (IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+	}
 		
 }
 
