@@ -31,6 +31,7 @@ public class GameSyncThread extends Thread{
 		// TODO Auto-generated method stub
 		queue.clear();
 		while(flag){
+			/*
 			DSEInterface dse = gameModel.dse;
 			if(dse != null){
 				//System.out.println(format.format(System.currentTimeMillis())+"++++");
@@ -69,6 +70,7 @@ public class GameSyncThread extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			*/
 		}
 	}
 	

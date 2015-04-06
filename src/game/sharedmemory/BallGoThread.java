@@ -1,6 +1,6 @@
-package game;
+package game.sharedmemory;
 
-import constant.Constant;
+import game.GameModel;
 
 
 public class BallGoThread extends Thread {
@@ -22,23 +22,13 @@ public class BallGoThread extends Thread {
 		
 		while(flag){
 			//让所有的球走
-			if(isWait){
-				synchronized (Constant.MUTEX_OBJECT) {
-					try {
-						isWait = false;
-						Constant.MUTEX_OBJECT.wait();
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-			for(Ball b:gameModel.ballList){
+			
+			for(AbstractBall b:gameModel.getBalls()){
 				b.go();
-				if(b.isGoalBall()){
-					if(b.InHoleflag){
+				if(b.getType() == AbstractBall.GOAL_BALL){
+					if(b.isInHole()){
 						b.stopBall();
-						int whichHole = b.getWhichHole();
+						//int whichHole = b.getWhichHole();
 						flag=false;
 						gameModel.overGame();
 						//gameModel.overGame(whichHole);

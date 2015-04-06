@@ -2,6 +2,12 @@ com.example.datastreamengine
 constant
 dse
 game
+game.atomicity
+game.sharedmemory
 main
 network
 sensor
+socket
+timingservice
+timingservice.message
+timingservice.pc

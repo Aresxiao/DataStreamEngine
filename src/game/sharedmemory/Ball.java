@@ -1,4 +1,8 @@
-package game;
+package game.sharedmemory;
+
+import game.GameModel;
+import game.Obstacle;
+import game.atomicity.SharedMemoryController;
 
 import java.util.ArrayList;
 
@@ -16,8 +20,11 @@ public class Ball {
 	
 	int whichHole;
 	int ballId;
+	
 	//GameView gameView;
 	GameModel gameModel;
+	SharedMemoryController controller;
+	
 	boolean goalBall;
 	private float x;		// x和y是小球在绘制的时候左上角的坐标位置
 	private float y;
@@ -55,11 +62,10 @@ public class Ball {
 			d=Constant.PLAYER_BALL_SIZE;
 			radius=Constant.PLAYER_BALL_SIZE/2;
 		}
-		
 	}
 	
-	public void init(Ball goalBall){
-		
+	public void setGameModel(GameModel gameModel){
+		this.gameModel = gameModel;
 	}
 	
 	public void drawSelf(Canvas canvas,Paint paint){
@@ -101,8 +107,16 @@ public class Ball {
 				return true;
 			}
 		}
+		/*
+		for(int i = 0;i < controller.getBallAmount();i++){
+			Ball b = controller.read(i);
+			if(b != this && controller.collisionCalculate(new float[]{tempX, tempY},this, b))
+				canGoFlag = false;
+		}
+		*/
 		
 		//判断和其他小球发生碰撞
+		/*
 		for(Ball b:gameModel.ballList){
 			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
 				canGoFlag = false;
@@ -111,6 +125,7 @@ public class Ball {
 				}
 			}
 		}
+		
 		
 		ArrayList<Obstacle> obstacles = gameModel.table.getObstacles();
 		for(Obstacle obstacle: obstacles){
@@ -133,6 +148,7 @@ public class Ball {
 				return canGoFlag;
 			}
 		}
+		*/
 		
 		if(canGoFlag==false){
 			return false;
@@ -207,6 +223,10 @@ public class Ball {
 		return vy;
 	}
 	
+	public float getVMIN(){
+		return vMin;
+	}
+	
 	public void setBallSpeedByAccelerate(float x_Accelerate,float y_Accelerate){
 		
 		vx=vx-x_Accelerate*timeSpan*Constant.SENSITIVITY;
@@ -239,5 +259,13 @@ public class Ball {
 	
 	public int getWhichHole(){
 		return whichHole;
+	}
+	
+	public static float getD(){
+		return d;
+	}
+	
+	public int getBallId(){
+		return ballId;
 	}
 }

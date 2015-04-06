@@ -6,7 +6,6 @@ import java.util.concurrent.BlockingQueue;
 
 import constant.Constant;
 /**
- * 
  * @author XiaoGeng
  * 该类专门用来处理receiveQueue队列中的数据，当队列为空时，阻塞。
  */
@@ -33,9 +32,7 @@ public class ReceiveQueueThread extends Thread{
 				receiveCount++;
 				if(Constant.isDebug)
 					System.out.println("receiveQueueThread: receiveCount = "+receiveCount);
-				synchronized (Constant.MUTEX_OBJECT) {
-					Constant.MUTEX_OBJECT.notifyAll();
-				}
+				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

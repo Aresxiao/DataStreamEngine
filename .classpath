@@ -10,5 +10,10 @@
 	<classpathentry kind="lib" path="E:/eclipse/project/DataStreamEngine/libs/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="E:/eclipse/project/DataStreamEngine/libs/logback-android-1.1.1-2.jar"/>
 	<classpathentry kind="lib" path="E:/eclipse/project/DataStreamEngine/libs/slf4j-api-1.7.6.jar"/>
+	<classpathentry kind="lib" path="E:/eclipse/sdk/platforms/android-18/android.jar">
+		<accessrules>
+			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

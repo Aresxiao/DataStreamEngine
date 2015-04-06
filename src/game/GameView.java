@@ -2,6 +2,9 @@
 package game;
 
 
+import game.sharedmemory.AbstractBall;
+import game.sharedmemory.Ball;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +51,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Table table = gameModel.table;
 		table.drawSelf(canvas, paint);
 		paint.reset();
-		List<Ball> alBallsTemp=new ArrayList<Ball>(gameModel.ballList);
+		List<AbstractBall> alBallsTemp=new ArrayList<AbstractBall>(gameModel.ballList);
 		for(int i = 0;i<alBallsTemp.size();i++){
-			Ball ball = alBallsTemp.get(i);
+			AbstractBall ball = alBallsTemp.get(i);
 			ball.drawSelf(canvas, paint);
 		}
 		

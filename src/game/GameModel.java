@@ -1,5 +1,11 @@
 package game;
 
+import game.sharedmemory.AbstractBall;
+import game.sharedmemory.Ball;
+import game.sharedmemory.BallGoThread;
+import game.sharedmemory.GoalBall;
+import game.sharedmemory.PlayerBall;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,40 +22,38 @@ public class GameModel {
 	BallGoThread ballGoThread;
 	GameSyncThread synchThread;
 	
-	List<Ball> ballList;
+	List<AbstractBall> ballList;
 	Table table;
 	//boolean isOver;
 	public GameModel() {
 		// TODO Auto-generated constructor stub
 		dse=null;
 		synchThread = null;
-		init();
+		table = new Table();
+		ballList = new ArrayList<AbstractBall>();
+		ballList.add(new GoalBall(Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
+				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2, this));
+		ballList.add(new PlayerBall(20, 20, this));
+		ballList.add(new PlayerBall(140, 20, this));
 		
 		ballGoThread = new BallGoThread(this);
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
-	}
-	
-	public void init(){
-		table = new Table();
 		
-		ballList = new ArrayList<Ball>();
-		ballList.add(new Ball(true, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
-				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2, this));
-		ballList.add(new Ball(false, 20, 20,this));
-		ballList.add(new Ball(false, 140, 20,this));
 	}
 	
 	public void startThread(){
+		
 		synchThread = new GameSyncThread(this);
 		synchThread.setFlag(true);
 		synchThread.start();
+		
 	}
 	
 	
 	public void stopThread(){
 		ballGoThread.setFlag(false);
-		synchThread.setFlag(false);
+		//synchThread.setFlag(false);
 	}
 	
 	public void setDSE(DataStreamEngine dse){
@@ -67,13 +71,21 @@ public class GameModel {
 		switch (type) {
 		case 1:{
 			int ballId = Integer.parseInt(strArray[1]);
-			Ball ball = ballList.get(ballId);
+			AbstractBall ball = ballList.get(ballId);
 			float x_Accelerate = Float.parseFloat(strArray[2]);
 			float y_Accelerate = Float.parseFloat(strArray[3]);
-			ball.setBallSpeedByAccelerate(x_Accelerate, y_Accelerate);
+			
+			float[] v = ball.calBallSpeedByAccelerate(x_Accelerate, y_Accelerate);
+			ball.write("vx", v[0]);
+			ball.write("vy", v[1]);
 		}
 			break;
 		case 2:{
+			int ballId = Integer.parseInt(strArray[1]);
+			AbstractBall ball = ballList.get(ballId);
+			ball.write(strArray[2], Float.parseFloat(strArray[3]));
+			
+			/*
 			int ballId = Integer.parseInt(strArray[1]);
 			Ball ball = ballList.get(ballId);
 			float x_Speed = Float.parseFloat(strArray[2]);
@@ -82,30 +94,14 @@ public class GameModel {
 			float y_Loc = Float.parseFloat(strArray[5]);
 			ball.setBallSpeedBySpeed(x_Speed, y_Speed);
 			ball.setBallLocation(x_Loc, y_Loc);
-			
-			
-		}
-			break;
-		case 3:{
-			String[] tokens = data.split(" ");
-			for(int i = 1;i < tokens.length;i++){
-				String[] ballState = tokens[i].split(",");
-				int ballId = Integer.parseInt(ballState[0]);
-				Ball ball = ballList.get(ballId);
-				float x_Speed = Float.parseFloat(ballState[1]);
-				float y_Speed = Float.parseFloat(ballState[2]);
-				float x_Loc = Float.parseFloat(ballState[3]);
-				float y_Loc = Float.parseFloat(ballState[4]);
-				ball.setBallSpeedBySpeed(x_Speed, y_Speed);
-				ball.setBallLocation(x_Loc, y_Loc);
-			}
+			*/
 		}
 			break;
 		default:
 			break;
 		}
 	}
-	
+	/*
 	public String getBallState(int ballId){
 		Ball ball = ballList.get(ballId);
 		float x_Speed = ball.getVX();
@@ -115,7 +111,7 @@ public class GameModel {
 		String speedData = ballId+","+x_Speed+","+y_Speed+","+x_Loc+","+y_Loc;
 		return speedData;
 	}
-	
+	*/
 	public void overGame(){
 		stopThread();
 	}
@@ -123,7 +119,9 @@ public class GameModel {
 	/**
 	 * 把指定的小球状态发送出去。
 	 */
-	public void pushState(int[] buff){
+	public void pushState(String data){
+		dse.updateDSEState(3, data);
+		/*
 		if(dse!=null){
 			String sendString="";
 			for(int i = 0;i < buff.length;i++){
@@ -135,5 +133,11 @@ public class GameModel {
 			if(synchThread!=null)
 				synchThread.addQueue(sendString);
 		}
+		*/
+	}
+	
+	public List<AbstractBall> getBalls(){
+		
+		return this.ballList;
 	}
 }

@@ -1,4 +1,6 @@
-package game;
+package game.sharedmemory;
+
+import game.Obstacle;
 
 public class CollisionUtil {
 	
@@ -45,9 +47,9 @@ public class CollisionUtil {
 	}
 	
 	//两个球进行碰撞物理计算的方法
-	public static boolean collisionCalculate(float ballaTempXY[],Ball balla,Ball ballb)
+	public static boolean collisionCalculate(float ballaTempXY[],AbstractBall balla,AbstractBall ballb)
 	{		
-		/* 
+		/** 
 		 * 求碰撞直线向量B->A （也就是两个参与碰撞的桌球球心连线的向量），注意两个问题
 		 * 1、这里不区分向量B->A和A->B的原因是，求夹角时用两者求得的cos值是一样的，
 		 * 而sin值没有用到，求垂直于连心线的速度分量用的是向量的减法，而不是sin值
@@ -56,17 +58,17 @@ public class CollisionUtil {
 		 * 该方法没有改变球的位置，只改变球的速度。
 		 * 注意此时的x,y，不是球心坐标，而是球外接正方形左上角顶点坐标！！！！！！！！！！
 		 */	
-		float BAx=ballaTempXY[0]-ballb.getX();
-		float BAy=ballaTempXY[1]-ballb.getY();
+		float BAx=ballaTempXY[0]-ballb.read("locx");
+		float BAy=ballaTempXY[1]-ballb.read("locy");
 		
 		//求上述向量的模
 		float mvBA=mould(new float[]{BAx,BAy});	
 		
 		//若两球距离大于等于球直径则没有碰撞
-		if(mvBA>Ball.d){			
+		if(mvBA>(balla.read("radius")+ballb.read("radius"))){			
 			return false;
 		}
-		/*
+		/**
 		 * 两球进行碰撞的算法为：
 		 * 1、计算两球球心连线的向量
 		 * 2、将每个球的速度分解为平行与垂直此向量的两部分
@@ -79,7 +81,11 @@ public class CollisionUtil {
 	    //分解B球速度========================================begin=============	
 		
 		//求b球的速度大小
-		float vB=(float)Math.sqrt(ballb.vx*ballb.vx+ballb.vy*ballb.vy);
+		
+		float bvx = ballb.read("vx");
+		float bvy = ballb.read("vy");
+		
+		float vB=(float)Math.sqrt(bvx * bvx + bvy * bvy);
 		//平行方向的XY分速度
 		float vbCollX=0;
 		float vbCollY=0;
@@ -88,12 +94,12 @@ public class CollisionUtil {
 		float vbVerticalY=0;
 		
 		//若球速度小于阈值则认为速度为零，不用进行分解计算了
-		if(balla.vMin<vB)
+		if(balla.getVMin() < vB)
 		{
 			//求B球的速度方向向量与碰撞直线向量B->A的夹角(弧度)
 			float bAngle=angle
 			(
-				new float[]{ballb.vx,ballb.vy},
+				new float[]{bvx,bvy},
 			    new float[]{BAx,BAy}
 			);
 			
@@ -101,19 +107,23 @@ public class CollisionUtil {
 			float vbColl=vB*(float)Math.cos(bAngle);
 			
 			//求B球在碰撞方向的速度向量，注意要保证mvBA不为零！！
-			vbCollX=(vbColl/mvBA)*BAx;
-			vbCollY=(vbColl/mvBA)*BAy;
+			vbCollX = (vbColl/mvBA) * BAx;
+			vbCollY = (vbColl/mvBA) * BAy;
 			
 			//求B球在碰撞垂直方向的速度向量
-			vbVerticalX=ballb.vx-vbCollX;
-			vbVerticalY=ballb.vy-vbCollY;
+			vbVerticalX = bvx - vbCollX;
+			vbVerticalY = bvy - vbCollY;
 		}
 		//分解B球速度========================================end=============== 
 		
 		//分解A球速度========================================begin=============	
 		
 		//求a球的速度大小
-		float vA=(float)Math.sqrt(balla.vx*balla.vx+balla.vy*balla.vy);
+		
+		float avx = balla.read("vx");
+		float avy = balla.read("vy");
+		
+		float vA=(float)Math.sqrt(avx * avx + avy * avy);
 		//平行方向的Xy分速度
 		float vaCollX=0;
 		float vaCollY=0;
@@ -122,12 +132,12 @@ public class CollisionUtil {
 		float vaVerticalY=0;
 		
 		//若球速度小于阈值则认为速度为零，不用进行分解计算了
-		if(balla.vMin<vA)
+		if(balla.getVMin() < vA)
 		{
 			//求A球的速度方向向量与碰撞直线向量B->A的夹角(弧度)
 			float aAngle=angle
 			(
-				new float[]{balla.vx,balla.vy},
+				new float[]{avx,avy},
 			    new float[]{BAx,BAy}
 			);			
 			
@@ -139,18 +149,18 @@ public class CollisionUtil {
 			vaCollY=(vaColl/mvBA)*BAy;
 			
 			//求A球在碰撞垂直方向的速度向量
-			vaVerticalX=balla.vx-vaCollX;
-			vaVerticalY=balla.vy-vaCollY;
+			vaVerticalX = avx-vaCollX;
+			vaVerticalY = avy-vaCollY;
 		}
 		//分解A球速度========================================end===============
 		
 		//求碰撞后AB球的速度
 		//基本思想为垂直方向速度不变，碰撞方向两球速度交换，垂直方向速度不变
-		balla.vx=vaVerticalX+vbCollX;
-		balla.vy=vaVerticalY+vbCollY;
+		avx=vaVerticalX+vbCollX;
+		avy=vaVerticalY+vbCollY;
 		
-		ballb.vx=vbVerticalX+vaCollX;
-		ballb.vy=vbVerticalY+vaCollY;
+		bvx=vbVerticalX+vaCollX;
+		bvy=vbVerticalY+vaCollY;
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码

@@ -7,6 +7,10 @@ import org.apache.log4j.LogManager;
 
 import android.os.Environment;
 import de.mindpipe.android.logging.log4j.LogConfigurator;
+/**
+ * @author GengXiao
+ * @since March 24, 2015
+ */
 
 public enum ConfigureLog4J {
 	
@@ -32,7 +36,7 @@ public enum ConfigureLog4J {
 	        /**
 	         * for <i>possible</i> performance improvement
 	         * @author hengxin
-	         * @date Jul 15, 2014
+	         * @since Jul 15, 2014
 	         */
 	        log_config.setImmediateFlush(false);
 	        
