@@ -48,6 +48,7 @@ import android.view.WindowManager;
  * @version 1.0
  * @author GengXiao
  * @since 2014
+ * 
  */
 
 public class MainActivity extends Activity{

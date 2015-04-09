@@ -2,8 +2,6 @@ package game.sharedmemory;
 
 import game.GameModel;
 import game.Obstacle;
-import game.atomicity.SharedMemoryController;
-
 import java.util.ArrayList;
 
 
@@ -23,7 +21,7 @@ public class Ball {
 	
 	//GameView gameView;
 	GameModel gameModel;
-	SharedMemoryController controller;
+	//SharedMemoryController controller;
 	
 	boolean goalBall;
 	private float x;		// x和y是小球在绘制的时候左上角的坐标位置

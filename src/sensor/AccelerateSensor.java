@@ -5,7 +5,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-
+/**
+ * @author GengXiao
+ * @version 1.0
+ *  This is sensor class, to manage sensor.
+ */
 public class AccelerateSensor implements SensorEventListener{
 	
 	float x,y,z;

@@ -3,8 +3,6 @@ package game;
 
 
 import game.sharedmemory.AbstractBall;
-import game.sharedmemory.Ball;
-
 import java.util.ArrayList;
 import java.util.List;
 
