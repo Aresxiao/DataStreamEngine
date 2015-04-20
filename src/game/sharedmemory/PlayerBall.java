@@ -1,14 +1,17 @@
 package game.sharedmemory;
 
+import network.APNetwork;
 import constant.Constant;
 import game.GameModel;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class PlayerBall extends AbstractBall {
 
+	private static final String TAG = PlayerBall.class.getName();
 	public PlayerBall(float x, float y, GameModel gameModel) {
 		
 		super(AbstractBall.PLAYER_BALL);
@@ -52,11 +55,14 @@ public class PlayerBall extends AbstractBall {
 	@Override
 	public void write(String key, float value) {
 		// TODO Auto-generated method stub
-		if(ballStateMap.containsKey(key))
+		
+		if(ballStateMap.containsKey(key)){
+			//Log.d(TAG, Constant.LOCAL_BALL_ID+":"+this.ballId+" : "+key+" : "+value);
 			ballStateMap.put(key, value);
+		}
 		if(this.ballId == Constant.LOCAL_BALL_ID){
 			String data = this.ballId + " "+key+" "+value;
-			gameModel.pushState(data);
+			APNetwork.INSTANCE.sendData(data);
 		}
 	}
 

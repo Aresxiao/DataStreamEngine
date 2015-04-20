@@ -24,10 +24,7 @@ public class ReceiveQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			try {
-				
-				String dataString = receiveQueue.take();
-				GameModel gameModel = dse.getGameModel();
-				gameModel.updateGameView(dataString);
+				String data = receiveQueue.take();
 				
 				receiveCount++;
 				if(Constant.isDebug)

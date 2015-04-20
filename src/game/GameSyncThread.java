@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import android.util.Log;
 
 import constant.Constant;
-import dse.DSEInterface;
+
 
 public class GameSyncThread extends Thread{
 	

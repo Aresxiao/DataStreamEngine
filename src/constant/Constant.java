@@ -53,7 +53,7 @@ public class Constant {
 	public static void initConst(int screenWidth,int screenHeight){
 		TABLE_WIDTH = screenWidth;
 		TABLE_HEIGHT = screenHeight;
-		
+		System.out.println("screen:"+TABLE_HEIGHT+","+TABLE_WIDTH);
 		NFRAMEA_HEIGHT = (int) (GOAL_BALL_SIZE+50);
 		NFRAMEA_WIDTH = (int) (GOAL_BALL_SIZE+66);
 		NFRAMEA_X = TABLE_WIDTH/2-NFRAMEA_WIDTH/2;

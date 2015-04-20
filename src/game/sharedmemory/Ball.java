@@ -13,6 +13,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.widget.Toast;
 
+@Deprecated
 public class Ball {
 	static int id=0;
 	

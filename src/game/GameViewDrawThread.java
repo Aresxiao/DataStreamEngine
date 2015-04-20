@@ -1,9 +1,10 @@
 package game;
 
-import android.view.SurfaceHolder;
+import android.util.Log;
 
 public class GameViewDrawThread extends Thread{
 
+	private static final String TAG = GameViewDrawThread.class.getName();
 	private boolean flag = true;
 	private int sleepSpan = 10;
 	GameView gameView;
@@ -18,6 +19,7 @@ public class GameViewDrawThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		while(this.flag){
+			//Log.d(TAG, "it is running");
 			gameView.repaint();
 			try {
 				Thread.sleep(sleepSpan);

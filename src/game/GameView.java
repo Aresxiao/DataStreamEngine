@@ -12,32 +12,31 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 
 /**
  * 这是GameView类，主要是展示的功能。
- * @author GengXiao
+ * @author Ares
  */
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
-	
+	private static final String TAG = GameView.class.getName();
 	MainActivity activity;
 	Paint paint;
-	//List<Ball> alBalls;
 	GameViewDrawThread drawThread;
-	
+	int viewFrame = 0;
 	//boolean isOver;
-	GameModel gameModel;
 	
-	public GameView(MainActivity activity,GameModel gameModel) {
+	public GameView(MainActivity activity) {
 		super(activity);
 		// TODO Auto-generated constructor stub
-		this.gameModel = gameModel;
 		//this.activity = activity;
 		//isOver=false;
-		getHolder().addCallback(this);	//注册回调接口		
+		
+		getHolder().addCallback(this);
 	}
 
 	@Override
@@ -46,17 +45,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		super.draw(canvas);
 		
 		canvas.drawColor(Color.WHITE);
-		Table table = gameModel.table;
+		Table table = GameModel.INSTANCE.table;
 		table.drawSelf(canvas, paint);
 		paint.reset();
-		List<AbstractBall> alBallsTemp=new ArrayList<AbstractBall>(gameModel.ballList);
+		List<AbstractBall> alBallsTemp=new ArrayList<AbstractBall>(GameModel.INSTANCE.ballList);
 		for(int i = 0;i<alBallsTemp.size();i++){
 			AbstractBall ball = alBallsTemp.get(i);
 			ball.drawSelf(canvas, paint);
 		}
 		
 	}
-
 	
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 		// TODO Auto-generated method stub
@@ -75,14 +73,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         drawThread = new GameViewDrawThread(this);
         drawThread.setFlag(true);
         drawThread.start();
-        /*
-		alBalls = new ArrayList<Ball>();
-		alBalls.add(new Ball(true, this, Constant.TABLE_WIDTH/2-Constant.GOAL_BALL_SIZE/2, 
-				Constant.TABLE_HEIGHT/2-Constant.GOAL_BALL_SIZE/2));
-		alBalls.add(new Ball(false, this, 20, 20));
-		alBalls.add(new Ball(false, this, 140, 20));
-		*/
-		//startAllThread();
+        
 	}
 	
 	public void surfaceDestroyed(SurfaceHolder arg0) {
@@ -103,15 +94,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	void createAllThread(){
 		
 		drawThread = new GameViewDrawThread(this);
-		//ballGoThread = new BallGoThread(this);
-		
 	}
 	
 	void startAllThread(){
 		drawThread.setFlag(true);
 		drawThread.start();
-		
-		
 	}
 
 	void stopAllThread(){
@@ -128,26 +115,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			e.printStackTrace();
 		}
 	}
-	/*
-	public void overGame(int whichHole){
-		
-		isOver=true;
-		stopAllThread();
-		//drawThread.setFlag(false);
-		if(whichHole == 1){
-			activity.sendMessage(WhatMessage.OVER_GAMEWINN);
-		}
-		else {
-			activity.sendMessage(WhatMessage.OVER_GAMEWINS);
-		}
-	}
-	*/
+	
 	public void repaint(){
 		Canvas canvas = this.getHolder().lockCanvas();
 		try
 		{
 			synchronized(canvas)
 			{
+				
 				draw(canvas);
 			}
 		}catch(Exception e)

@@ -8,6 +8,7 @@ import game.GameModel;
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * @author Gengxiao
@@ -16,6 +17,8 @@ import android.graphics.Paint;
  */
 
 public abstract class AbstractBall {
+	
+	private static final String TAG = AbstractBall.class.getName();
 	
 	GameModel gameModel;
 	
@@ -26,14 +29,7 @@ public abstract class AbstractBall {
 	int ballId;
 	
 	protected int type;
-	/*
-	protected float x;
-	protected float y;
-	protected float radius;
-	protected float d;
-	private float vx;
-	private float vy;
-	*/
+	
 	private float vAttenuation = Constant.V_ATTENUATION;
 	private float timeSpan = Constant.TIME_SPAN;
 	private float vMin = Constant.V_MIN;
@@ -59,6 +55,7 @@ public abstract class AbstractBall {
 	}
 	
 	public float[] calBallSpeedByAccelerate(float x_Accelerate,float y_Accelerate){
+		
 		
 		float vx = ballStateMap.get("vx");
 		float vy = ballStateMap.get("vy");
@@ -126,6 +123,7 @@ public abstract class AbstractBall {
 			return ;
 		}
 		//System.out.println(ballId+"can go");
+		Log.d(TAG, ballId+":vx = "+vx+",vy = "+vy+",locx = "+locx+",locy = "+locy);
 		float tempX = locx+vx*timeSpan;	//球要去的下一个位置
 		float tempY = locy+vy*timeSpan;
 		
@@ -133,8 +131,10 @@ public abstract class AbstractBall {
 		if(this.canGo(tempX, tempY)){
 			vx*=vAttenuation;
 			vy*=vAttenuation;
-			locx=tempX;
-			locy=tempY;
+			this.write("vx", vx);
+			this.write("vy", vy);
+			this.write("locx", tempX);
+			this.write("locy", tempY);
 		}
 	}
 	

@@ -2,6 +2,10 @@ package game.sharedmemory;
 
 import game.Obstacle;
 
+/**
+ * @author Ares
+ * @description 碰撞检测
+ */
 public class CollisionUtil {
 	
 	public static float dotProduct(float[] vec1,float[] vec2)
@@ -65,7 +69,7 @@ public class CollisionUtil {
 		float mvBA=mould(new float[]{BAx,BAy});	
 		
 		//若两球距离大于等于球直径则没有碰撞
-		if(mvBA>(balla.read("radius")+ballb.read("radius"))){			
+		if(mvBA>(balla.read("radius")+ballb.read("radius"))){
 			return false;
 		}
 		/**
@@ -159,8 +163,14 @@ public class CollisionUtil {
 		avx=vaVerticalX+vbCollX;
 		avy=vaVerticalY+vbCollY;
 		
+		balla.write("vx", avx);
+		balla.write("vy", avy);
+		
 		bvx=vbVerticalX+vaCollX;
 		bvy=vbVerticalY+vaCollY;
+		
+		ballb.write("vx", bvx);
+		ballb.write("vy", bvy);
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码

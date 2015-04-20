@@ -4,9 +4,8 @@ package dse;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import network.APNetwork;
 import network.OverlayNetwork;
-import constant.Constant;
-import game.GameModel;
 
 /**
  * 
@@ -14,100 +13,41 @@ import game.GameModel;
  * @author GengXiao
  * 
  */
-public class DataStreamEngine implements DSEInterface{
+public enum DataStreamEngine {
 	
-	BlockingQueue<String> sensorQueue;
-	BlockingQueue<String> receiveQueue;
-	BlockingQueue<String> sendQueue;
-	float accelearate_x,accelearate_y,accelearate_z;
-	GameModel gameModel;
-	OverlayNetwork overlayNetwork;
+	INSTANCE;
+	
+	BlockingQueue<String> sensorQueue = new LinkedBlockingQueue<String>();
+	BlockingQueue<String> receiveQueue = new LinkedBlockingQueue<String>();
+	BlockingQueue<String> sendQueue = new LinkedBlockingQueue<String>();
+	
+	OverlayNetwork overlayNetwork = null;
 	
 	SendQueueThread sendQueueThread;
 	ReceiveQueueThread receiveQueueThread;
 	SensorQueueThread sensorQueueThread;
 	
-	public DataStreamEngine(GameModel gameModel){
-		this.gameModel = gameModel;
-		sendQueue = new LinkedBlockingQueue<String>();
-		receiveQueue = new LinkedBlockingQueue<String>();
-		sensorQueue = new LinkedBlockingQueue<String>();
-		overlayNetwork = null;
-		
-	}
 	
 	/**
-	 * 该方法用来暴露给Sensor模块，Sensor产生数据就会调用该方法。
-	 */
-	public void setAccelerate(float x, float y, float z){
-		// TODO Auto-generated method stub
-		this.accelearate_x = x;
-		this.accelearate_y = y;
-		this.accelearate_z = z;
-		int ballId = Constant.LOCAL_BALL_ID;
-		String acceData = 1+","+ballId+","+x+","+y+","+z;
-		gameModel.updateGameView(acceData);
-	}
-	
-	/**
-	 * 这个方法是暴露给OverlayNetwork，OverlayNetwork接收到数据就会调用这个方法。
-	 * @param data
-	 * 为String类型，type 为int 类型,指明数据来源,1表示接收到网络流数据，2表示来自本地传感器数据。
-	 */
-	public void updateDSEState(int type,String data) {
-		
-		switch (type) {
-		case 1:
-			addReceiveQueue(data);
-			break;
-		case 2:
-			addSensorQueue(data);
-			break;
-		case 3:
-			addSendQueue(data);
-		default:
-			break;
-		}
-		
-		// TODO Auto-generated method stub
-	}
-	
-	/**
-	 * 这里有很多种处理方式
-	 * @param type
-	 * 为int类型，指明要进行什么样的处理，data为String类型，为所要进行处理的数据。
-	 * type为1，表示需要发送数据；
-	 */
-	public void dataProcessFromGame(int type, String data) {
-		// TODO Auto-generated method stub
-		switch (type) {
-		case 1:
-			if(overlayNetwork!=null)
-				overlayNetwork.sendData(data);
-			break;
-		default:
-			break;
-		}
-	}
-	
-	public GameModel getGameModel(){
-		return gameModel;
-	}
-	/**
-	 * 设置网络
-	 * @param overlayNetwork
+	 * @param overlayNetwork 
 	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
 		this.overlayNetwork = overlayNetwork;
 		
 	}
-	
+	/**
+	 * 启动一个线程专门处理sensor数据
+	 */
 	public void startSensorThread(){
-		sensorQueueThread = new SensorQueueThread(this);
+		sensorQueueThread = new SensorQueueThread();
 		sensorQueueThread.start();
 	}
 	
+	/**
+	 * 启动线程专门处理网络上的收发数据
+	 */
 	public void startNetworkThread(){
+		setOverlayNetwork(APNetwork.INSTANCE);
 		receiveQueueThread = new ReceiveQueueThread(this);
 		sendQueueThread = new SendQueueThread(this);
 		receiveQueueThread.start();
@@ -119,16 +59,16 @@ public class DataStreamEngine implements DSEInterface{
 		return overlayNetwork;
 	}
 	
-	void addReceiveQueue(String data){
+	public void addReceiveQueue(String data){
 		receiveQueue.offer(data);
 	}
 	
-	void addSendQueue(String data){
+	public void addSendQueue(String data){
 		
 		sendQueue.offer(data);
 	}
 	
-	void addSensorQueue(String data){
+	public void addSensorQueue(String data){
 		sensorQueue.offer(data);
 	}
 }

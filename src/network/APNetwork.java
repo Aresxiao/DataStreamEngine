@@ -4,105 +4,99 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import constant.Constant;
 
+import dse.DataStreamEngine;
 
-import dse.DSEInterface;
-
-public class APNetwork implements OverlayNetwork {
-
-	String hostIP;
-	int port;
+public enum APNetwork implements OverlayNetwork {
+	
+	INSTANCE;
+	String hostIP = null;
+	int port = Constant.PORT;
 	boolean serverFlag;
 	boolean connectedFalg;
 	
-	ServerSocket serverSocket;
-	Socket socket;
-	DataInputStream inputStream;
-	DataOutputStream outputStream;
-	DSEInterface dse;
+	ServerSocket serverSocket = null;
+	Socket socket = null;
+	DataInputStream inputStream = null;
+	DataOutputStream outputStream = null;
 	
-	public APNetwork(DSEInterface dseInterface){
-		port = Constant.PORT;
-		connectedFalg = false;
-		if(Constant.SERVERFLAG>0){
-			serverFlag = true;
-			hostIP = null;
-		}
-		else{
-			serverFlag = false;
-			hostIP = Constant.HOST_IP;
-		}
-		this.dse = dseInterface;
-	}
+	private static final Executor exec = Executors.newCachedThreadPool();
 	
+	/**
+	 * @description 调用这个方法会尝试和另一台设备建立网络连接
+	 */
 	public void connect(){
-		//System.out.println(port+" : "+hostIP);
-		if(serverFlag){
-			try {
-				System.out.println("Server,Listen");
-				serverSocket = new ServerSocket(port);
-				socket = serverSocket.accept();
-				System.out.println("server: Connect success");
-				connectedFalg = true;
-				inputStream = new DataInputStream(socket.getInputStream());
-				outputStream = new DataOutputStream(socket.getOutputStream());
-				new Thread(new Runnable() {
-					
-					public void run() {
-						// TODO Auto-generated method stub
-						while(true){
-							try {
-								
-								String dataString = inputStream.readUTF();
-								dse.updateDSEState(1,dataString);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+		
+		Runnable connectTask = new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(Constant.SERVERFLAG > 0){
+					try {
+						System.out.println("Server,Listen");
+						serverSocket = new ServerSocket(port);
+						socket = serverSocket.accept();
+						System.out.println("server: Connect success");
+						connectedFalg = true;
+						inputStream = new DataInputStream(socket.getInputStream());
+						outputStream = new DataOutputStream(socket.getOutputStream());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else{
+					hostIP = Constant.HOST_IP;
+					try {
+						socket = new Socket(hostIP,port);
+						System.out.println("Client");
+						connectedFalg = true;
+						System.out.println("success connect to server");
+						inputStream = new DataInputStream(socket.getInputStream());
+						outputStream = new DataOutputStream(socket.getOutputStream());
+						System.out.println("Success connect");
+						
+						
+					} catch (UnknownHostException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						System.out.println("no host");
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						System.out.println("failed to  connect");
+					}
+				}
+				if(connectedFalg == true){
+					new Thread(new Runnable() {
+						
+						public void run() {
+							// TODO Auto-generated method stub
+							while(true){
+								try {
+									String data = inputStream.readUTF();
+									DataStreamEngine.INSTANCE.addReceiveQueue(data);
+								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 							}
 						}
-					}
-				}).start();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else{
-			try {
-				socket = new Socket(hostIP,port);
-				System.out.println("Client");
-				connectedFalg = true;
-				System.out.println("success connect to server");
-				inputStream = new DataInputStream(socket.getInputStream());
-				outputStream = new DataOutputStream(socket.getOutputStream());
-				System.out.println("Success connect");
-				new Thread(new Runnable() {
+					}).start();
 					
-					public void run() {
-						// TODO Auto-generated method stub
-						while(true){
-							try {
-								String dataString = inputStream.readUTF();
-								dse.updateDSEState(1,dataString);
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					}
-				}).start();
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("no host");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("failed to  connect");
+					DataStreamEngine.INSTANCE.startNetworkThread();
+					
+				}
+				
 			}
-		}
+		};
+		
+		exec.execute(connectTask);
 		
 	}
 	
@@ -124,10 +118,16 @@ public class APNetwork implements OverlayNetwork {
 		this.hostIP = host;
 	}
 	
+	/**
+	 * @param port
+	 */
 	public void setPort(int port){
 		this.port = port;
 	}
 	
+	/**
+	 * @param string 是需要发送的数据
+	 */
 	public void sendData(String string) {
 		// TODO Auto-generated method stub
 		try {
@@ -155,5 +155,5 @@ public class APNetwork implements OverlayNetwork {
 		}
 		return string;
 	}
-
+	
 }

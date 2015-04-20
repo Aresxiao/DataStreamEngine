@@ -30,6 +30,7 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -43,28 +44,25 @@ import android.view.WindowManager;
 
 /**
  * This is Android MainActivity class. In this class, do some initial things, 
- * like network connect, set table height and width.
+ * like network connect, set table height and width. This is our program entry.
  * 
  * @version 1.0
- * @author GengXiao
+ * @author Ares
  * @since 2014
  * 
  */
 
 public class MainActivity extends Activity{
 	
+	private volatile static MainActivity activity;
+	
 	private final Logger log4android = Logger.getLogger(MainActivity.class);
 	private static final Executor exec = Executors.newCachedThreadPool();
 	private ServerSocket server_socket = null;
 	int currentView;
-	SensorManager sensorManager;
-	Sensor mAccelerometer;
 	
 	AccelerateSensor accelerateSensor;
-	/** */
-	APNetwork network;
-	DataStreamEngine dse;
-	GameModel gameModel;
+	
 	//屏幕宽度和高度
 	private int tableWidth;
 	private int tableHeight;
@@ -72,6 +70,7 @@ public class MainActivity extends Activity{
 	GameWinNView gameWinNView;
 	GameView gameView;
 	
+	@SuppressLint("HandlerLeak")
 	Handler handler = new Handler(){
 		public void handleMessage(Message msg){
 			switch (msg.what) {
@@ -96,66 +95,51 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		activity = this;
 		
+		/**
+		 * 注册电池广播
+		 */
 		BatteryReceiver batteryReceiver = BatteryReceiver.getInstance();
         IntentFilter filter=new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         registerReceiver(batteryReceiver, filter);
-        ConfigureLog4J.INSTANCE.configure();
-        exec.execute(this.TimePollingDaemon);
         
-        System.out.println("Time is "+TimingService.INSTANCE.pollingTime());
-		//setContentView(R.layout.activity_main);
+        /** log配置  */
+        ConfigureLog4J.INSTANCE.configure();
+        
+        /** 时间线程 */
+        //exec.execute(this.TimePollingDaemon);
+        //System.out.println("Time is "+TimingService.INSTANCE.pollingTime());
+        
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
         // 全屏显示
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
         
         
-        // 获取窗口管理器,获得屏幕宽和高
+        /** 获取窗口管理器,获得屏幕宽和高 */
         WindowManager windowManager = getWindowManager();
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics metrics = new DisplayMetrics();
         display.getMetrics(metrics);
         tableWidth = metrics.widthPixels;
         tableHeight = metrics.heightPixels;
-        
         Constant.initConst(tableWidth, tableHeight);
-        gameModel = new GameModel();
-        gameView = new GameView(this,gameModel);
+        
+        GameModel.INSTANCE.initialize();
+        gameView = new GameView(this);
         setContentView(gameView);
         
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
         
-        //System.out.println("battery is " + batteryReceiver.getRemainBattery());
-        dse = new DataStreamEngine(gameModel);
-        gameModel.setDSE(dse);
-        accelerateSensor = new AccelerateSensor(dse);
-        sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
-		mAccelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
-		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3); //maybe this will have some problem
-		dse.startSensorThread();
-		
-		network = new APNetwork(dse);
-		new Thread(){
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				System.out.println("ready to connect");
-				network.connect();
-				System.out.println("Thread start");
-				dse.setOverlayNetwork(network);
-				dse.startNetworkThread();
-				//gameModel.startThread();
-			}
-		}.start();
+        accelerateSensor = new AccelerateSensor();
+        DataStreamEngine.INSTANCE.startSensorThread();
+        
+		//APNetwork.INSTANCE.connect();
 	}
 	
-	/**
-	 * @return network
-	 */
-	public APNetwork getNetwork(){
-		return network;
+	public static synchronized MainActivity INSTANCE(){  
+		 return activity;
 	}
 	
 	/**
@@ -201,7 +185,7 @@ public class MainActivity extends Activity{
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		sensorManager.unregisterListener(accelerateSensor);
+		accelerateSensor.stopSensor();
 		ConfigureLog4J.INSTANCE.shutdown();
 	}
 	
@@ -209,15 +193,14 @@ public class MainActivity extends Activity{
 	protected void onRestart() {
 		// TODO Auto-generated method stub
 		super.onRestart();
-		//sensorManager.registerListener(accelerateSensor, mAccelerometer,SensorManager.SENSOR_DELAY_GAME);
-		accelerateSensor.setFrequecy(sensorManager, mAccelerometer, 3);
+		accelerateSensor.startSensor();
 	}
 	
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		sensorManager.unregisterListener(accelerateSensor);
+		
 		ConfigureLog4J.INSTANCE.shutdown();
 	}
 	

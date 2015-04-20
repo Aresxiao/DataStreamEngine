@@ -1,36 +1,37 @@
 package game.sharedmemory;
 
+import android.util.Log;
 import game.GameModel;
 
 
 public class BallGoThread extends Thread {
 	
-	GameModel gameModel;
+	private static final String TAG = BallGoThread.class.getName();
+	
 	private boolean flag = true;
 	private boolean isWait = false;
 	//ArrayList<Ball> 
 	
-	private int sleepSpan=7;
-	public BallGoThread(GameModel gameModel){
-		
-		this.gameModel = gameModel;
+	private int sleepSpan = 7;
+	public BallGoThread(){
 		
 	}
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		
 		while(flag){
 			//让所有的球走
-			
-			for(AbstractBall b:gameModel.getBalls()){
+			//Log.d(TAG, "it is running");
+			for(AbstractBall b:GameModel.INSTANCE.getBalls()){
 				b.go();
 				if(b.getType() == AbstractBall.GOAL_BALL){
 					if(b.isInHole()){
 						b.stopBall();
 						//int whichHole = b.getWhichHole();
 						flag=false;
-						gameModel.overGame();
+						GameModel.INSTANCE.overGame();
 						//gameModel.overGame(whichHole);
 					}
 				}
