@@ -1,5 +1,8 @@
 package network;
 
+import game.sharedmemory.Key;
+import game.sharedmemory.Value;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -7,40 +10,49 @@ public class Message implements Serializable{
 	
 	private static final long serialVersionUID = -7784455849848939000L;
 	
-	/** 用来存储键值对 */
-	Map<String, Float> kvMap = new HashMap<String, Float>();
+	/** {@link Key}}*/
+	protected Key key = Key.RESERVED_KEY;
+	/** {@link Value}}*/
+	protected Value value = Value.RESERVED_VALUE;
+	
+	protected int ballId = -1;
+	
+	public Message(int ballId, Key key, Value value){
+		this.ballId = ballId;
+		this.key = key;
+		this.value = value;
+	}
 	
 	/**
-	 * @param key 是String类型
-	 * @param value 是float类型
+	 * @param key 是Key类型
+	 * @param value 是Value类型
 	 */
-	public void put(String key,Float value){
+	public void put(int ballId, Key key, Value value){
+		this.ballId = ballId;
+		this.key = key;
+		this.value = value;
+	}
+	/**
+	 * @return key
+	 */
+	
+	public Key getKey(){
+		return this.key;
+	}
+	
+	/**
+	 * @return value
+	 */
+	public Value getValue(){
 		
-		kvMap.put(key, value);
+		return this.value;
 	}
 	
 	/**
-	 * @return key的集合
+	 * @return ballId, 指明这是关于哪个小球的信息。
 	 */
-	public Set<String> keySet(){
-		return kvMap.keySet();
-	}
-	
-	/**
-	 * @return Message中的所有映射对
-	 */
-	public Set<Map.Entry<String, Float>> entrySet(){
+	public int getBallId(){
 		
-		return kvMap.entrySet();
+		return this.ballId;
 	}
-	
-	/**
-	 * @param key 想得到的值的key
-	 * @return 根据key映射的value
-	 */
-	public Float get(String key){
-		
-		return kvMap.get(key);
-	}
-	
 }

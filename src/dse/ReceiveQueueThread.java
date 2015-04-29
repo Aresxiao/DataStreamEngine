@@ -1,8 +1,8 @@
 package dse;
 
-import game.GameModel;
-
 import java.util.concurrent.BlockingQueue;
+
+import network.Message;
 
 import constant.Constant;
 /**
@@ -13,7 +13,7 @@ public class ReceiveQueueThread extends Thread{
 	
 	int receiveCount = 0;
 	DataStreamEngine dse;
-	BlockingQueue<String> receiveQueue;
+	BlockingQueue<Message> receiveQueue;
 	public ReceiveQueueThread(DataStreamEngine dse){
 		this.dse = dse;
 		receiveQueue = dse.receiveQueue;
@@ -24,7 +24,7 @@ public class ReceiveQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			try {
-				String data = receiveQueue.take();
+				Message msg = receiveQueue.take();
 				
 				receiveCount++;
 				if(Constant.isDebug)

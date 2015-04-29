@@ -1,6 +1,8 @@
 package game.sharedmemory;
 
+import network.Message;
 import constant.Constant;
+import dse.DataStreamEngine;
 import game.GameModel;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,21 +15,21 @@ public class GoalBall extends AbstractBall {
 		
 		super(AbstractBall.GOAL_BALL);
 		this.gameModel = gameModel;
-		ballStateMap.put("locx", x);
-		ballStateMap.put("locy", y);
-		ballStateMap.put("d", Constant.GOAL_BALL_SIZE);
-		ballStateMap.put("radius", Constant.GOAL_BALL_SIZE/2);
-		ballStateMap.put("vx", 0f);
-		ballStateMap.put("vy", 0f);
+		ballStateMap.put(new Key("locx"), new Value(x));
+		ballStateMap.put(new Key("locy"), new Value(y));
+		ballStateMap.put(new Key("d"), new Value(Constant.GOAL_BALL_SIZE));
+		ballStateMap.put(new Key("radius"), new Value(Constant.GOAL_BALL_SIZE/2));
+		ballStateMap.put(new Key("vx"), new Value(0f));
+		ballStateMap.put(new Key("vy"), new Value(0f));
 		
 	}
 	
 	@Override
 	public void drawSelf(Canvas canvas, Paint paint) {
 		// TODO Auto-generated method stub
-		float locx = this.read("locx");
-		float locy = this.read("locy");
-		float radius = this.read("radius");
+		float locx = this.read(new Key("locx")).getVal();
+		float locy = this.read(new Key("locy")).getVal();
+		float radius = this.read(new Key("radius")).getVal();
 		
 		Matrix m1 = new Matrix();
 		m1.setTranslate( locx+Constant.X_OFFSET,locy+Constant.Y_OFFSET );
@@ -38,7 +40,7 @@ public class GoalBall extends AbstractBall {
 	}
 	
 	@Override
-	public Float read(String key) {
+	public Value read(Key key) {
 		// TODO Auto-generated method stub
 		if(ballStateMap.containsKey(key))
 			return ballStateMap.get(key);
@@ -47,11 +49,15 @@ public class GoalBall extends AbstractBall {
 	}
 	
 	@Override
-	public void write(String key, float value) {
+	public void write(Key key, Value value) {
 		// TODO Auto-generated method stub
 		if(ballStateMap.containsKey(key))
 			ballStateMap.put(key, value);
-		
+		if(value.isNeedSend()){
+			value.setSendCount(0);
+			Message msg = new Message(ballId, key, value);
+			DataStreamEngine.INSTANCE.addSendQueue(msg);
+		}
 	}
 
 }

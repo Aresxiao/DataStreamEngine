@@ -3,19 +3,22 @@ package network;
 
 public class BTNetwork implements OverlayNetwork {
 
-	public void sendData(String string) {
+	@Override
+	public void sendData(Message msg) {
 		// TODO Auto-generated method stub
 		
 	}
 
+	@Override
+	public Message receiveData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void connect() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	public String receiveData() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 }

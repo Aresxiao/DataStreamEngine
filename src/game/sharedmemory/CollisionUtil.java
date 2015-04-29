@@ -62,14 +62,14 @@ public class CollisionUtil {
 		 * 该方法没有改变球的位置，只改变球的速度。
 		 * 注意此时的x,y，不是球心坐标，而是球外接正方形左上角顶点坐标！！！！！！！！！！
 		 */	
-		float BAx=ballaTempXY[0]-ballb.read("locx");
-		float BAy=ballaTempXY[1]-ballb.read("locy");
+		float BAx=ballaTempXY[0]-ballb.read(new Key("locx")).getVal();
+		float BAy=ballaTempXY[1]-ballb.read(new Key("locy")).getVal();
 		
 		//求上述向量的模
 		float mvBA=mould(new float[]{BAx,BAy});	
 		
 		//若两球距离大于等于球直径则没有碰撞
-		if(mvBA>(balla.read("radius")+ballb.read("radius"))){
+		if(mvBA>(balla.read(new Key("radius")).getVal()+ballb.read(new Key("radius")).getVal())){
 			return false;
 		}
 		/**
@@ -86,8 +86,8 @@ public class CollisionUtil {
 		
 		//求b球的速度大小
 		
-		float bvx = ballb.read("vx");
-		float bvy = ballb.read("vy");
+		float bvx = ballb.read(new Key("vx")).getVal();
+		float bvy = ballb.read(new Key("vy")).getVal();
 		
 		float vB=(float)Math.sqrt(bvx * bvx + bvy * bvy);
 		//平行方向的XY分速度
@@ -124,8 +124,8 @@ public class CollisionUtil {
 		
 		//求a球的速度大小
 		
-		float avx = balla.read("vx");
-		float avy = balla.read("vy");
+		float avx = balla.read(new Key("vx")).getVal();
+		float avy = balla.read(new Key("vy")).getVal();
 		
 		float vA=(float)Math.sqrt(avx * avx + avy * avy);
 		//平行方向的Xy分速度
@@ -163,14 +163,14 @@ public class CollisionUtil {
 		avx=vaVerticalX+vbCollX;
 		avy=vaVerticalY+vbCollY;
 		
-		balla.write("vx", avx);
-		balla.write("vy", avy);
+		balla.write(new Key("vx"), new Value(avx));
+		balla.write(new Key("vy"), new Value(avy));
 		
 		bvx=vbVerticalX+vaCollX;
 		bvy=vbVerticalY+vaCollY;
 		
-		ballb.write("vx", bvx);
-		ballb.write("vy", bvy);
+		ballb.write(new Key("vx"), new Value(bvx));
+		ballb.write(new Key("vy"), new Value(bvy));
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码

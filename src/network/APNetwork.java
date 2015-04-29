@@ -21,8 +21,8 @@ public enum APNetwork implements OverlayNetwork {
 	
 	ServerSocket serverSocket = null;
 	Socket socket = null;
-	DataInputStream inputStream = null;
-	DataOutputStream outputStream = null;
+	ObjectInputStream inputStream = null;
+	ObjectOutputStream outputStream = null;
 	
 	private static final Executor exec = Executors.newCachedThreadPool();
 	
@@ -43,8 +43,8 @@ public enum APNetwork implements OverlayNetwork {
 						socket = serverSocket.accept();
 						System.out.println("server: Connect success");
 						connectedFalg = true;
-						inputStream = new DataInputStream(socket.getInputStream());
-						outputStream = new DataOutputStream(socket.getOutputStream());
+						inputStream = new ObjectInputStream(socket.getInputStream());
+						outputStream = new ObjectOutputStream(socket.getOutputStream());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -57,8 +57,8 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("Client");
 						connectedFalg = true;
 						System.out.println("success connect to server");
-						inputStream = new DataInputStream(socket.getInputStream());
-						outputStream = new DataOutputStream(socket.getOutputStream());
+						inputStream = new ObjectInputStream(socket.getInputStream());
+						outputStream = new ObjectOutputStream(socket.getOutputStream());
 						System.out.println("Success connect");
 						
 						
@@ -73,26 +73,33 @@ public enum APNetwork implements OverlayNetwork {
 					}
 				}
 				if(connectedFalg == true){
+					
 					new Thread(new Runnable() {
 						
 						public void run() {
 							// TODO Auto-generated method stub
 							while(true){
+								
 								try {
-									String data = inputStream.readUTF();
-									DataStreamEngine.INSTANCE.addReceiveQueue(data);
+									Message msg = (Message) inputStream.readObject();
+									DataStreamEngine.INSTANCE.addReceiveQueue(msg);
+								} catch (OptionalDataException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (ClassNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								} catch (IOException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								
 							}
 						}
 					}).start();
 					
 					DataStreamEngine.INSTANCE.startNetworkThread();
-					
 				}
-				
 			}
 		};
 		
@@ -128,11 +135,11 @@ public enum APNetwork implements OverlayNetwork {
 	/**
 	 * @param string 是需要发送的数据
 	 */
-	public void sendData(String string) {
+	public void sendData(Message msg) {
 		// TODO Auto-generated method stub
 		try {
 			if(connectedFalg){
-				outputStream.writeUTF(string);
+				outputStream.writeObject(msg);
 				outputStream.flush();
 			}
 		} catch (IOException e) {
@@ -141,19 +148,24 @@ public enum APNetwork implements OverlayNetwork {
 		}
 	}
 	
-	public String receiveData() {
+	public Message receiveData() {
 		// TODO Auto-generated method stub
-		String string=null;
+		
+		Message msg = null;
 		try {
-			string = inputStream.readUTF();
+			msg = (Message)inputStream.readObject();
 		} catch (OptionalDataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return string;
+		
+		return msg;
 	}
 	
 }

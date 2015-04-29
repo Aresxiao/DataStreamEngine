@@ -135,7 +135,7 @@ public class MainActivity extends Activity{
         accelerateSensor = new AccelerateSensor();
         DataStreamEngine.INSTANCE.startSensorThread();
         
-		//APNetwork.INSTANCE.connect();
+		APNetwork.INSTANCE.connect();
 	}
 	
 	public static synchronized MainActivity INSTANCE(){  

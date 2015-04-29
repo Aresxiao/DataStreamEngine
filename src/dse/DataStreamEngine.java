@@ -5,11 +5,12 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.APNetwork;
+import network.Message;
 import network.OverlayNetwork;
 
 /**
  * 
- * This class is the main part of engine.It can do some processing.
+ * @description This class is the main part of engine.It can do some processing.
  * @author GengXiao
  * 
  */
@@ -18,8 +19,8 @@ public enum DataStreamEngine {
 	INSTANCE;
 	
 	BlockingQueue<String> sensorQueue = new LinkedBlockingQueue<String>();
-	BlockingQueue<String> receiveQueue = new LinkedBlockingQueue<String>();
-	BlockingQueue<String> sendQueue = new LinkedBlockingQueue<String>();
+	BlockingQueue<Message> receiveQueue = new LinkedBlockingQueue<Message>();
+	BlockingQueue<Message> sendQueue = new LinkedBlockingQueue<Message>();
 	
 	OverlayNetwork overlayNetwork = null;
 	
@@ -32,19 +33,22 @@ public enum DataStreamEngine {
 	 * @param overlayNetwork 
 	 */
 	public void setOverlayNetwork(OverlayNetwork overlayNetwork){
-		this.overlayNetwork = overlayNetwork;
 		
+		this.overlayNetwork = overlayNetwork;
 	}
+	
 	/**
-	 * 启动一个线程专门处理sensor数据
+	 * @description 启动一个线程专门处理sensor数据
 	 */
 	public void startSensorThread(){
+		
+		sensorQueue.clear();
 		sensorQueueThread = new SensorQueueThread();
 		sensorQueueThread.start();
 	}
 	
 	/**
-	 * 启动线程专门处理网络上的收发数据
+	 * @description 启动线程专门处理网络上的收发数据
 	 */
 	public void startNetworkThread(){
 		setOverlayNetwork(APNetwork.INSTANCE);
@@ -59,13 +63,13 @@ public enum DataStreamEngine {
 		return overlayNetwork;
 	}
 	
-	public void addReceiveQueue(String data){
-		receiveQueue.offer(data);
+	public void addReceiveQueue(Message msg){
+		receiveQueue.offer(msg);
 	}
 	
-	public void addSendQueue(String data){
+	public void addSendQueue(Message msg){
 		
-		sendQueue.offer(data);
+		sendQueue.offer(msg);
 	}
 	
 	public void addSensorQueue(String data){

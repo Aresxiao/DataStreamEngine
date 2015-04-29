@@ -1,6 +1,5 @@
 package network;
 
-import android.os.AsyncTask;
 
 public interface OverlayNetwork {
 	/**
@@ -9,9 +8,9 @@ public interface OverlayNetwork {
 	 * 发送的时候需要把数据组织成string类型数据。
 	 */
 	
-	public void sendData(String string);
+	public void sendData(Message msg);
 	
-	public String receiveData();
+	public Message receiveData();
 	public void connect();
 	
 }

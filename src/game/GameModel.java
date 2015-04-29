@@ -60,14 +60,14 @@ public enum GameModel {
 			float y_Accelerate = Float.parseFloat(strArray[3]);
 			
 			float[] v = ball.calBallSpeedByAccelerate(x_Accelerate, y_Accelerate);
-			ball.write("vx", v[0]);
-			ball.write("vy", v[1]);
+			ball.write(new Key("vx"), new Value(v[0]));
+			ball.write(new Key("vy"), new Value(v[1]));
 		}
 			break;
 		case 2:{
 			int ballId = Integer.parseInt(strArray[1]);
 			AbstractBall ball = ballList.get(ballId);
-			ball.write(strArray[2], Float.parseFloat(strArray[3]));
+			ball.write(new Key(strArray[2]), new Value(Float.parseFloat(strArray[3])));
 			
 		}
 			break;
@@ -84,8 +84,8 @@ public enum GameModel {
 		AbstractBall ball = ballList.get(Constant.LOCAL_BALL_ID);
 		float[] v = ball.calBallSpeedByAccelerate(ax, ay);
 		
-		ball.write("vx", v[0]);
-		ball.write("vy", v[1]);
+		ball.write(new Key("vx"),new Value(v[0]));
+		ball.write(new Key("vy"),new Value(v[1]));
 	}
 	
 	public void overGame(){

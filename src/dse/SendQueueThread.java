@@ -2,6 +2,7 @@ package dse;
 
 import java.util.concurrent.BlockingQueue;
 
+import network.Message;
 import network.OverlayNetwork;
 
 import constant.Constant;
@@ -14,7 +15,7 @@ public class SendQueueThread extends Thread {
 	
 	private boolean flag;
 	DataStreamEngine dse;
-	BlockingQueue<String> sendQueue;
+	BlockingQueue<Message> sendQueue;
 	private int sleepSpan;
 	int sendCount = 0;
 	
@@ -31,14 +32,13 @@ public class SendQueueThread extends Thread {
 		while(flag){
 			
 			try {
-				String data = sendQueue.take();
+				Message msg = sendQueue.take();
 				OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
 				
-				overlayNetwork.sendData(data);
+				overlayNetwork.sendData(msg);
 				//sendCount++;
 				//if(Constant.isDebug)
 					//System.out.println("sendQueueThread: sendCount = "+sendCount);
-				
 				
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
