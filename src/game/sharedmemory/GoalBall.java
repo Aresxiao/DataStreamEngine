@@ -8,9 +8,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.util.Log;
 
 public class GoalBall extends AbstractBall {
 
+	private static final String TAG = GoalBall.class.getName();
+	
 	public GoalBall(float x, float y, GameModel gameModel) {
 		
 		super(AbstractBall.GOAL_BALL);
@@ -56,6 +59,7 @@ public class GoalBall extends AbstractBall {
 		if(value.isNeedSend()){
 			value.setSendCount(0);
 			Message msg = new Message(ballId, key, value);
+			Log.i(TAG, msg.toString());
 			DataStreamEngine.INSTANCE.addSendQueue(msg);
 		}
 	}
