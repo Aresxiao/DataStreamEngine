@@ -7,6 +7,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import android.util.Log;
+
 import constant.Constant;
 
 import dse.DataStreamEngine;
@@ -14,6 +16,9 @@ import dse.DataStreamEngine;
 public enum APNetwork implements OverlayNetwork {
 	
 	INSTANCE;
+	
+	private static final String TAG = APNetwork.class.getName();
+	
 	String hostIP = null;
 	int port = Constant.PORT;
 	boolean serverFlag;
@@ -84,7 +89,9 @@ public enum APNetwork implements OverlayNetwork {
 							while(true){
 								
 								try {
+									
 									Message msg = (Message) inputStream.readObject();
+									Log.i(TAG, msg.toString());
 									DataStreamEngine.INSTANCE.addReceiveQueue(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
