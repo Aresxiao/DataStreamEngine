@@ -21,8 +21,8 @@ public enum APNetwork implements OverlayNetwork {
 	
 	ServerSocket serverSocket = null;
 	Socket socket = null;
-	DataInputStream inputStream = null;
-	DataOutputStream outputStream = null;
+	ObjectInputStream inputStream = null;
+	ObjectOutputStream outputStream = null;
 	
 	private static final Executor exec = Executors.newCachedThreadPool();
 	
@@ -44,9 +44,9 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("server: Connect success");
 						connectedFalg = true;
 						
-						inputStream = new DataInputStream(socket.getInputStream());
+						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("server: get input stream");
-						outputStream = new DataOutputStream(socket.getOutputStream());
+						outputStream = new ObjectOutputStream(socket.getOutputStream());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -59,9 +59,9 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("Client");
 						connectedFalg = true;
 						System.out.println("success connect to server1111111111");
-						inputStream = new DataInputStream(socket.getInputStream());
+						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("get input stream");
-						outputStream = new DataOutputStream(socket.getOutputStream());
+						outputStream = new ObjectOutputStream(socket.getOutputStream());
 						System.out.println("Success connect");
 						
 					} catch (UnknownHostException e) {
@@ -152,9 +152,9 @@ public enum APNetwork implements OverlayNetwork {
 		// TODO Auto-generated method stub
 		
 		Message msg = null;
-		/*
+		
 		try {
-			//msg = (Message)inputStream.readObject();
+			msg = (Message)inputStream.readObject();
 		} catch (OptionalDataException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,7 +165,7 @@ public enum APNetwork implements OverlayNetwork {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		return msg;
 	}
 	

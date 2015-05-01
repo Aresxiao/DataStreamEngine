@@ -31,7 +31,7 @@ public class Constant {
 	public static int TABLE_HEIGHT;
 	
 	public static int SERVERFLAG;
-	public static int PORT=9000;
+	public static int PORT=9010;
 	public static String HOST_IP;
 	
 	public static int NFRAMEA_X;
