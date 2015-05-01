@@ -35,9 +35,9 @@ public class SendQueueThread extends Thread {
 				OverlayNetwork overlayNetwork = DataStreamEngine.INSTANCE.getOverlayNetwork();
 				
 				overlayNetwork.sendData(msg);
-				//sendCount++;
-				//if(Constant.isDebug)
-					//System.out.println("sendQueueThread: sendCount = "+sendCount);
+				sendCount++;
+				if(Constant.isDebug)
+					System.out.println("sendQueueThread: sendCount = "+sendCount);
 				
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block

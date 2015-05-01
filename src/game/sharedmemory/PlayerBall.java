@@ -72,7 +72,7 @@ public class PlayerBall extends AbstractBall {
 		if(value.isNeedSend() && (ballId == Constant.LOCAL_BALL_ID)){
 			value.setSendCount(0);
 			Message msg = new Message(ballId, key, value);
-			Log.i(TAG, msg.toString());
+			//Log.i(TAG, msg.toString());
 			DataStreamEngine.INSTANCE.addSendQueue(msg);
 		}
 	}
