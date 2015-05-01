@@ -84,12 +84,15 @@ public enum APNetwork implements OverlayNetwork {
 							while(true){
 								
 								try {
-									inputStream.readUTF();
-									//DataStreamEngine.INSTANCE.addReceiveQueue(msg);
+									Message msg = (Message) inputStream.readObject();
+									DataStreamEngine.INSTANCE.addReceiveQueue(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								} catch (IOException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (ClassNotFoundException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
