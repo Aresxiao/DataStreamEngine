@@ -59,9 +59,9 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("Client");
 						connectedFalg = true;
 						System.out.println("success connect to server1111111111");
-						inputStream = new ObjectInputStream(socket.getInputStream());
-						System.out.println("get input stream");
 						outputStream = new ObjectOutputStream(socket.getOutputStream());
+						System.out.println("get output stream");
+						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("Success connect");
 						
 					} catch (UnknownHostException e) {
