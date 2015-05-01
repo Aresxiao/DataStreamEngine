@@ -103,7 +103,6 @@ public enum APNetwork implements OverlayNetwork {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								
 							}
 						}
 					}).start();

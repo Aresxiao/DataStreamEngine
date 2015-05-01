@@ -163,14 +163,14 @@ public class CollisionUtil {
 		avx=vaVerticalX+vbCollX;
 		avy=vaVerticalY+vbCollY;
 		
-		balla.write(new Key("vx"), new Value(avx));
-		balla.write(new Key("vy"), new Value(avy));
+		balla.write(new Key("vx"), new Value(avx,2));
+		balla.write(new Key("vy"), new Value(avy,2));
 		
 		bvx=vbVerticalX+vaCollX;
 		bvy=vbVerticalY+vaCollY;
 		
-		ballb.write(new Key("vx"), new Value(bvx));
-		ballb.write(new Key("vy"), new Value(bvy));
+		ballb.write(new Key("vx"), new Value(bvx,2));
+		ballb.write(new Key("vy"), new Value(bvy,2));
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
