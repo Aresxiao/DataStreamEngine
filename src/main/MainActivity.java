@@ -138,7 +138,7 @@ public class MainActivity extends Activity{
 		APNetwork.INSTANCE.connect();
 	}
 	
-	public static synchronized MainActivity INSTANCE(){  
+	public static synchronized MainActivity INSTANCE(){
 		 return activity;
 	}
 	

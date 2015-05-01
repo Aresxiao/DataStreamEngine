@@ -42,4 +42,12 @@ public class Value implements Serializable{
 		
 		return this.sendCount;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "value: sendCount = " + sendCount + ",val = " + val;
+	}
+	
+	
 }

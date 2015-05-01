@@ -14,14 +14,13 @@ import constant.Constant;
 public class SendQueueThread extends Thread {
 	
 	private boolean flag;
-	DataStreamEngine dse;
 	BlockingQueue<Message> sendQueue;
 	private int sleepSpan;
 	int sendCount = 0;
 	
-	public SendQueueThread(DataStreamEngine dataStreamEngine){
-		dse = dataStreamEngine;
-		sendQueue = dataStreamEngine.sendQueue;
+	public SendQueueThread(){
+		
+		sendQueue = DataStreamEngine.INSTANCE.sendQueue;
 		flag = true;
 		sleepSpan = 7;
 	}
@@ -33,7 +32,7 @@ public class SendQueueThread extends Thread {
 			
 			try {
 				Message msg = sendQueue.take();
-				OverlayNetwork overlayNetwork = dse.getOverlayNetwork();
+				OverlayNetwork overlayNetwork = DataStreamEngine.INSTANCE.getOverlayNetwork();
 				
 				overlayNetwork.sendData(msg);
 				//sendCount++;

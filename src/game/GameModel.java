@@ -5,12 +5,18 @@ import game.sharedmemory.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.util.Log;
+
+import network.Message;
+
 import constant.Constant;
 
 
 public enum GameModel {
 	
 	INSTANCE;
+	
+	private static final String TAG = GameModel.class.getName();
 	
 	BallGoThread ballGoThread = new BallGoThread();
 	GameSyncThread synchThread = null;
@@ -86,6 +92,15 @@ public enum GameModel {
 		
 		ball.write(new Key("vx"),new Value(v[0]));
 		ball.write(new Key("vy"),new Value(v[1]));
+	}
+	
+	public void onReceive(Message msg){
+		
+		AbstractBall ball = ballList.get(msg.getBallId());
+		Log.d(TAG, msg.toString());
+		Value value = msg.getValue();
+		Key key = msg.getKey();
+		ball.write(key, value);
 	}
 	
 	public void overGame(){

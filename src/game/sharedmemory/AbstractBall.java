@@ -113,8 +113,8 @@ public abstract class AbstractBall {
 			
 			return ;
 		}
-		//System.out.println(ballId+"can go");
-		Log.d(TAG, ballId+":vx = "+vx+",vy = "+vy+",locx = "+locx+",locy = "+locy);
+		// System.out.println(ballId+"can go");
+		// Log.d(TAG, ballId+":vx = "+vx+",vy = "+vy+",locx = "+locx+",locy = "+locy);
 		float tempX = locx+vx*timeSpan;	//球要去的下一个位置
 		float tempY = locy+vy*timeSpan;
 		

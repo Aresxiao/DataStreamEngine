@@ -18,6 +18,17 @@ public class Key implements Serializable{
 		this.key_str = key_str;
 	}
 	
+	
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		
+		return key_str.hashCode();
+	}
+
+
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub

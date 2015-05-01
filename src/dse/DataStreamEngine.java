@@ -1,8 +1,12 @@
 package dse;
 
 
+import game.GameModel;
+
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import android.util.Log;
 
 import network.APNetwork;
 import network.Message;
@@ -17,6 +21,8 @@ import network.OverlayNetwork;
 public enum DataStreamEngine {
 	
 	INSTANCE;
+	
+	private static final String TAG = DataStreamEngine.class.getName();
 	
 	BlockingQueue<String> sensorQueue = new LinkedBlockingQueue<String>();
 	BlockingQueue<Message> receiveQueue = new LinkedBlockingQueue<Message>();
@@ -52,8 +58,9 @@ public enum DataStreamEngine {
 	 */
 	public void startNetworkThread(){
 		setOverlayNetwork(APNetwork.INSTANCE);
-		receiveQueueThread = new ReceiveQueueThread(this);
-		sendQueueThread = new SendQueueThread(this);
+		System.out.println(TAG + " start network thread");
+		receiveQueueThread = new ReceiveQueueThread();
+		sendQueueThread = new SendQueueThread();
 		receiveQueueThread.start();
 		sendQueue.clear();
 		sendQueueThread.start();

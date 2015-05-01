@@ -24,8 +24,8 @@ public class Message implements Serializable{
 	}
 	
 	/**
-	 * @param key 是Key类型
-	 * @param value 是Value类型
+	 * @param key 是{@link Key}类型
+	 * @param value 是{@link Value}类型
 	 */
 	public void put(int ballId, Key key, Value value){
 		this.ballId = ballId;
@@ -55,4 +55,13 @@ public class Message implements Serializable{
 		
 		return this.ballId;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		String string = "msg[ ballId = " + ballId +", " +key.toString() + value.toString()+" ]";
+		return string;
+	}
+	
+	
 }

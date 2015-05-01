@@ -1,5 +1,7 @@
 package dse;
 
+import game.GameModel;
+
 import java.util.concurrent.BlockingQueue;
 
 import network.Message;
@@ -12,11 +14,10 @@ import constant.Constant;
 public class ReceiveQueueThread extends Thread{
 	
 	int receiveCount = 0;
-	DataStreamEngine dse;
 	BlockingQueue<Message> receiveQueue;
-	public ReceiveQueueThread(DataStreamEngine dse){
-		this.dse = dse;
-		receiveQueue = dse.receiveQueue;
+	public ReceiveQueueThread(){
+		
+		receiveQueue = DataStreamEngine.INSTANCE.receiveQueue;
 	}
 	
 	@Override
@@ -26,9 +27,10 @@ public class ReceiveQueueThread extends Thread{
 			try {
 				Message msg = receiveQueue.take();
 				
+				GameModel.INSTANCE.onReceive(msg);
 				receiveCount++;
 				if(Constant.isDebug)
-					System.out.println("receiveQueueThread: receiveCount = "+receiveCount);
+					System.out.println("receiveQueueThread: receiveCount = " + receiveCount);
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

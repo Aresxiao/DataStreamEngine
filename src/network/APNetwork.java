@@ -56,8 +56,9 @@ public enum APNetwork implements OverlayNetwork {
 						socket = new Socket(hostIP,port);
 						System.out.println("Client");
 						connectedFalg = true;
-						System.out.println("success connect to server");
+						System.out.println("success connect to server1111111111");
 						inputStream = new ObjectInputStream(socket.getInputStream());
+						System.out.println("get input stream");
 						outputStream = new ObjectOutputStream(socket.getOutputStream());
 						System.out.println("Success connect");
 						
@@ -72,6 +73,7 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("failed to  connect");
 					}
 				}
+				System.out.println("connectedFlag == true");
 				if(connectedFalg == true){
 					
 					new Thread(new Runnable() {
@@ -97,7 +99,7 @@ public enum APNetwork implements OverlayNetwork {
 							}
 						}
 					}).start();
-					
+					System.out.println("APNetwork: start network Thread");
 					DataStreamEngine.INSTANCE.startNetworkThread();
 				}
 			}
