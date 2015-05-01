@@ -149,7 +149,7 @@ public enum APNetwork implements OverlayNetwork {
 		// TODO Auto-generated method stub
 		try {
 			if(connectedFalg){
-				//outputStream.writeObject(msg);
+				outputStream.writeObject(msg);
 				outputStream.flush();
 			}
 		} catch (IOException e) {

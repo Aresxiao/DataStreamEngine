@@ -55,7 +55,7 @@ public class Message implements Serializable{
 		
 		return this.ballId;
 	}
-
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
