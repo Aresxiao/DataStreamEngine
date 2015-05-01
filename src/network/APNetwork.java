@@ -97,7 +97,7 @@ public enum APNetwork implements OverlayNetwork {
 							}
 						}
 					}).start();
-					System.out.println("APNetwork: start network Thread");
+					//System.out.println("APNetwork: start network Thread");
 					DataStreamEngine.INSTANCE.startNetworkThread();
 				}
 			}
