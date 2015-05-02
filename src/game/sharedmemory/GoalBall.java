@@ -59,7 +59,7 @@ public class GoalBall extends AbstractBall {
 		if(value.getSendCount() == 0){
 			Log.i(TAG, "receive a message from network");
 		}
-		if(value.getVal() == 2){
+		if(value.getSendCount() == 2){
 			value.setSendCount(0);
 			Message msg = new Message(ballId, key, value);
 			Log.i(TAG, msg.toString());
