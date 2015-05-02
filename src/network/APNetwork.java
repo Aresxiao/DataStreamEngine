@@ -91,7 +91,7 @@ public enum APNetwork implements OverlayNetwork {
 								try {
 									
 									Message msg = (Message) inputStream.readObject();
-									Log.i(TAG, msg.toString());
+									//Log.i(TAG, msg.toString());
 									DataStreamEngine.INSTANCE.addReceiveQueue(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block

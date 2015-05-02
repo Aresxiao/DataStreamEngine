@@ -97,7 +97,7 @@ public enum GameModel {
 	public void onReceive(Message msg){
 		
 		AbstractBall ball = ballList.get(msg.getBallId());
-		Log.i(TAG, msg.toString());
+		//Log.i(TAG, msg.toString());
 		
 		Value value = msg.getValue();
 		Key key = msg.getKey();

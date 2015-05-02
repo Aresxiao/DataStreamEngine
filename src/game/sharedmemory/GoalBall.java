@@ -56,6 +56,9 @@ public class GoalBall extends AbstractBall {
 		// TODO Auto-generated method stub
 		if(ballStateMap.containsKey(key))
 			ballStateMap.put(key, value);
+		if(value.getSendCount() == 0){
+			Log.i(TAG, "receive a message from network");
+		}
 		if(value.getVal() == 2){
 			value.setSendCount(0);
 			Message msg = new Message(ballId, key, value);
