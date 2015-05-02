@@ -68,7 +68,9 @@ public class PlayerBall extends AbstractBall {
 			//Log.d(TAG, Constant.LOCAL_BALL_ID+":"+this.ballId+" : "+key+" : "+value);
 			ballStateMap.put(key, value);
 		}
-		
+		if(value.getSendCount() == 2){
+			Log.i(TAG, "player ball collision");
+		}
 		if(value.isNeedSend() && (ballId == Constant.LOCAL_BALL_ID)){
 			value.setSendCount(0);
 			Message msg = new Message(ballId, key, value);
