@@ -28,10 +28,11 @@ public class ReceiveQueueThread extends Thread{
 				Message msg = receiveQueue.take();
 				
 				GameModel.INSTANCE.onReceive(msg);
+				/*
 				receiveCount++;
 				if(Constant.isDebug)
 					System.out.println("receiveQueueThread: receiveCount = " + receiveCount);
-				
+				*/
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
