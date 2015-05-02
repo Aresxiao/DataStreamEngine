@@ -162,13 +162,24 @@ public class CollisionUtil {
 		//基本思想为垂直方向速度不变，碰撞方向两球速度交换，垂直方向速度不变
 		avx=vaVerticalX+vbCollX;
 		avy=vaVerticalY+vbCollY;
-		
+		Value valueaLocx = balla.read(new Key("locx"));
+		Value valueaLocy = balla.read(new Key("locy"));
+		valueaLocx.setSendCount(2);
+		valueaLocy.setSendCount(2);
+		balla.write(new Key("locx"), valueaLocx);
+		balla.write(new Key("locy"), valueaLocy);
 		balla.write(new Key("vx"), new Value(avx,2));
 		balla.write(new Key("vy"), new Value(avy,2));
 		
 		bvx=vbVerticalX+vaCollX;
 		bvy=vbVerticalY+vaCollY;
 		
+		Value valuebLocx = ballb.read(new Key("locx"));
+		Value valuebLocy = ballb.read(new Key("locy"));
+		valuebLocx.setSendCount(2);
+		valuebLocy.setSendCount(2);
+		ballb.write(new Key("locx"), valuebLocx);
+		ballb.write(new Key("locy"), valuebLocy);
 		ballb.write(new Key("vx"), new Value(bvx,2));
 		ballb.write(new Key("vy"), new Value(bvy,2));
 		
