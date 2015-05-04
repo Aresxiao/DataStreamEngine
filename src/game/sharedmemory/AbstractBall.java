@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import game.GameModel;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.VersionValue;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -28,7 +30,8 @@ public abstract class AbstractBall {
 	public static final int PLAYER_BALL = 2;
 	
 	static int id = 0;
-	protected int ballId;
+	protected int ballId; // 小球编号
+	
 	
 	protected int type;
 	
@@ -39,13 +42,14 @@ public abstract class AbstractBall {
 	boolean InHoleflag=false;//球是否进洞的标志
 	int whichHole;
 	
-	Map<Key, Value> ballStateMap;
+	protected float radius;
+	protected float d;
 	
 	public AbstractBall (int type){
 		this.type = type;
-		ballStateMap = new ConcurrentHashMap<Key, Value>();
 		ballId = id;
 		id++;
+		
 	}
 	
 	public int getType(){
@@ -58,14 +62,12 @@ public abstract class AbstractBall {
 	
 	public float[] calBallSpeedByAccelerate(float x_Accelerate,float y_Accelerate){
 		
+		float[] v = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getV();
 		
-		float vx = ballStateMap.get(new Key("vx")).getVal();
-		float vy = ballStateMap.get(new Key("vy")).getVal();
+		v[0] = v[0] - x_Accelerate * timeSpan*Constant.SENSITIVITY;
+		v[0] = v[0] + y_Accelerate * timeSpan*Constant.SENSITIVITY;
 		
-		vx=vx-x_Accelerate*timeSpan*Constant.SENSITIVITY;
-		vy=vy+y_Accelerate*timeSpan*Constant.SENSITIVITY;
-		
-		return new float[]{vx,vy};
+		return v;
 	}
 	
 	/*
@@ -84,13 +86,22 @@ public abstract class AbstractBall {
 		this.vy = 0;
 	}
 	*/
+	
+	public float getRadius(){
+		
+		return this.radius;
+	}
+	
 	public boolean isStoped(){
 		
-		return (ballStateMap.get(new Key("vx")).getVal() == 0 && ballStateMap.get(new Key("vy")).getVal() == 0);
+		float[] v = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getV();
+		
+		return (v[0] == 0 && v[1] == 0);
 		
 	}
 	
 	public void stopBall(){
+		
 		this.write(new Key("vx"), new Value(0));
 		this.write(new Key("vy"), new Value(0));
 	}
@@ -105,29 +116,28 @@ public abstract class AbstractBall {
 	
 	public void go(){
 		
-		float vx = this.read(new Key("vx")).getVal();
-		float vy = this.read(new Key("vy")).getVal();
+		VersionValue vval = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId));
+		float[] v = vval.getValue().getV();
+		float[] loc = vval.getValue().getLoc();
 		
-		float locx = this.read(new Key("locx")).getVal();
-		float locy = this.read(new Key("locy")).getVal();
-		
-		if(isStoped()||Math.sqrt(vx*vx+vy*vy)<vMin){
+		if(isStoped()||Math.sqrt(v[0]*v[0]+v[1]*v[1])<vMin){
 			
 			return ;
 		}
 		// System.out.println(ballId+"can go");
 		// Log.d(TAG, ballId+":vx = "+vx+",vy = "+vy+",locx = "+locx+",locy = "+locy);
-		float tempX = locx+vx*timeSpan;	//球要去的下一个位置
-		float tempY = locy+vy*timeSpan;
+		float tempX = loc[0]+v[0]*timeSpan;	//球要去的下一个位置
+		float tempY = loc[1]+v[1]*timeSpan;
 		
 		
-		if(this.canGo(tempX, tempY)){
-			vx*=vAttenuation;
-			vy*=vAttenuation;
-			this.write(new Key("vx"), new Value(vx));
-			this.write(new Key("vy"), new Value(vy));
-			this.write(new Key("locx"), new Value(tempX));
-			this.write(new Key("locy"), new Value(tempY));
+		if(this.canGo(tempX, tempY, v[0], v[1])){
+			v[0]*=vAttenuation;
+			v[1]*=vAttenuation;
+			
+			Value value = vval.getValue();
+			value.setV(v[0], v[1]);
+			value.setLoc(tempX, tempY);
+			
 		}
 	}
 	
@@ -137,11 +147,12 @@ public abstract class AbstractBall {
 	
 	public abstract void write(Key key, Value value);
 	
-	public boolean canGo(float tempX,float tempY){
+	public boolean canGo(float tempX,float tempY ,float vx, float vy){
 		boolean canGoFlag=true;
 		
 		/**  对于目标球，要判断是否已经进框    */
-		float[] center = {tempX+ballStateMap.get(new Key("radius")).getVal(),tempY+ballStateMap.get(new Key("radius")).getVal()};
+		
+		float[] center = {tempX + radius, tempY + radius};
 		
 		if(this.type == AbstractBall.GOAL_BALL){
 			if(tempX>Constant.NFRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.NFRAMEA_X+Constant.NFRAMEA_WIDTH)&&
@@ -174,17 +185,17 @@ public abstract class AbstractBall {
 			return false;
 		}
 		
-		if(center[0] < ballStateMap.get(new Key("radius")).getVal()||(center[0]+ballStateMap.get(new Key("radius")).getVal())>Constant.TABLE_WIDTH){
-			float vx = ballStateMap.get(new Key("vx")).getVal();
+		if(center[0] < radius||(center[0] + radius) > Constant.TABLE_WIDTH){
 			
-			this.write(new Key("vx"), new Value(-vx));
+			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
+			value.setV(-vx, vy);
 			//ballStateMap.put(new Key("vx"), new Value(-vx));
 			canGoFlag = false;
 		}
-		if(center[1] < ballStateMap.get(new Key("radius")).getVal()||(center[1]+ballStateMap.get(new Key("radius")).getVal())>Constant.TABLE_HEIGHT){
-			float vy = ballStateMap.get(new Key("vy")).getVal();
+		if(center[1] < radius||(center[1] + radius) > Constant.TABLE_HEIGHT){
 			
-			this.write(new Key("vy"), new Value(-vy));
+			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
+			value.setV(vx, -vy);
 			//ballStateMap.put(new Key("vy"), new Value(-vy));
 			canGoFlag=false;
 		}

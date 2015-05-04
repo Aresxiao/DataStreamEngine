@@ -10,27 +10,26 @@ public class Key implements Serializable{
 	 */
 	private static final long serialVersionUID = -8774229832514559805L;
 	
-	public static final Key RESERVED_KEY = new Key("RESERVED_KEY");
+	public static final Key RESERVED_KEY = new Key(-1);
 	
-	private String key_str;
+	int id;
+	//private String key_str;
 	
-	public Key(String key_str){
-		this.key_str = key_str;
+	public Key(int id){
+		this.id = id;
 	}
 	
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
 		
-		return key_str.hashCode();
+		return this.id;
 	}
-
-
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "key:"+key_str;
+		return "key:"+id;
 	}
 	
 	@Override
@@ -40,7 +39,7 @@ public class Key implements Serializable{
 			return false;
 		
 		Key key = (Key) obj;
-		return this.key_str.equals(key.key_str);
+		return this.id == key.id? true:false;
 	}
 	
 }

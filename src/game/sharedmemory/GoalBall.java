@@ -6,6 +6,9 @@ import dse.DataStreamEngine;
 import game.GameModel;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.Version;
+import game.sharedmemory.data.VersionValue;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -20,35 +23,31 @@ public class GoalBall extends AbstractBall {
 		
 		super(AbstractBall.GOAL_BALL);
 		this.gameModel = gameModel;
-		ballStateMap.put(new Key("locx"), new Value(x));
-		ballStateMap.put(new Key("locy"), new Value(y));
-		ballStateMap.put(new Key("d"), new Value(Constant.GOAL_BALL_SIZE));
-		ballStateMap.put(new Key("radius"), new Value(Constant.GOAL_BALL_SIZE/2));
-		ballStateMap.put(new Key("vx"), new Value(0f));
-		ballStateMap.put(new Key("vy"), new Value(0f));
-		
+		Key key = new Key(ballId);
+		Version version = new Version(-1);
+		Value value = new Value(x, y);
+		VersionValue versionValue = new VersionValue(version, value);
+		KVStoreInMemory.INSTANCE.put(key, versionValue);
+		d = Constant.GOAL_BALL_SIZE;
+		radius = Constant.GOAL_BALL_SIZE / 2;
 	}
 	
 	@Override
 	public void drawSelf(Canvas canvas, Paint paint) {
 		// TODO Auto-generated method stub
-		float locx = this.read(new Key("locx")).getVal();
-		float locy = this.read(new Key("locy")).getVal();
-		float radius = this.read(new Key("radius")).getVal();
+		float[] loc = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getLoc();
 		
 		Matrix m1 = new Matrix();
-		m1.setTranslate( locx+Constant.X_OFFSET,locy+Constant.Y_OFFSET );
+		m1.setTranslate( loc[0]+Constant.X_OFFSET,loc[1]+Constant.Y_OFFSET );
 		paint.reset();
 		paint.setColor(Color.BLUE);
-		canvas.drawCircle(locx+Constant.GOAL_BALL_SIZE/2, locy+Constant.GOAL_BALL_SIZE/2, radius, paint);
+		canvas.drawCircle(loc[0]+Constant.GOAL_BALL_SIZE/2, loc[0]+Constant.GOAL_BALL_SIZE/2, radius, paint);
 		
 	}
 	
 	@Override
 	public Value read(Key key) {
 		// TODO Auto-generated method stub
-		if(ballStateMap.containsKey(key))
-			return ballStateMap.get(key);
 		
 		return null;
 	}
@@ -56,17 +55,7 @@ public class GoalBall extends AbstractBall {
 	@Override
 	public void write(Key key, Value value) {
 		// TODO Auto-generated method stub
-		if(ballStateMap.containsKey(key))
-			ballStateMap.put(key, value);
-		if(value.getSendCount() == 0){
-			Log.i(TAG, "receive a message from network");
-		}
-		if(value.getSendCount() == 2){
-			value.setSendCount(0);
-			Message msg = new Message(ballId, key, value);
-			Log.i(TAG, msg.toString());
-			DataStreamEngine.INSTANCE.addSendQueue(msg);
-		}
+		
 	}
 
 }

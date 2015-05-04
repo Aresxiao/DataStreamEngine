@@ -55,5 +55,12 @@ public class Version implements Comparable<Version>, Serializable{
 		
 		return 0;
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "version: seqno = " + seqno + ",pid = " + pid + ". ";
+	}
+	
 	
 }
