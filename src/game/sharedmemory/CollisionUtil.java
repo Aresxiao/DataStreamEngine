@@ -1,6 +1,8 @@
 package game.sharedmemory;
 
 import game.Obstacle;
+import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
 
 /**
  * @author Ares

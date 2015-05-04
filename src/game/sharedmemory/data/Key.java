@@ -1,4 +1,4 @@
-package game.sharedmemory;
+package game.sharedmemory.data;
 
 
 import java.io.Serializable;
@@ -17,8 +17,6 @@ public class Key implements Serializable{
 	public Key(String key_str){
 		this.key_str = key_str;
 	}
-	
-	
 	
 	@Override
 	public int hashCode() {

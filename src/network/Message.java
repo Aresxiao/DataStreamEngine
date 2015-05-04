@@ -1,7 +1,7 @@
 package network;
 
-import game.sharedmemory.Key;
-import game.sharedmemory.Value;
+import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
 
 import java.io.Serializable;
 import java.util.*;

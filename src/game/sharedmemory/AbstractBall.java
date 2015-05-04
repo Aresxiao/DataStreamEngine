@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import game.GameModel;
+import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Paint;

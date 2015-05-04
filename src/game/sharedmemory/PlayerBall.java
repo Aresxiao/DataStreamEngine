@@ -4,6 +4,8 @@ import network.Message;
 import constant.Constant;
 import dse.DataStreamEngine;
 import game.GameModel;
+import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
 import android.graphics.*;
 import android.util.Log;
 

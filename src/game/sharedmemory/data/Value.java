@@ -1,4 +1,4 @@
-package game.sharedmemory;
+package game.sharedmemory.data;
 
 import java.io.Serializable;
 
@@ -6,6 +6,12 @@ public class Value implements Serializable{
 	/**
 	 * 
 	 */
+	
+	private float vx;
+	private float vy;
+	private float locx;
+	private float locy;
+	
 	private static final long serialVersionUID = 8979141031800309461L;
 	
 	public static final Value RESERVED_VALUE = new Value(0f);

@@ -1,6 +1,8 @@
 package game;
 
 import game.sharedmemory.*;
+import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
 
 import java.util.ArrayList;
 import java.util.List;
