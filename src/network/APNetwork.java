@@ -31,6 +31,9 @@ public enum APNetwork implements OverlayNetwork {
 	boolean serverFlag;
 	boolean connectedFalg;
 	
+	int countReceive = 0;
+	int countSend = 0;
+	
 	ServerSocket serverSocket = null;
 	Socket socket = null;
 	ObjectInputStream inputStream = null;
@@ -99,7 +102,10 @@ public enum APNetwork implements OverlayNetwork {
 								try {
 									
 									Message msg = (Message) inputStream.readObject();
-									Log.i(TAG, msg.toString());
+									if(countReceive < 10){
+										Log.i(TAG, msg.toString());
+										countReceive++;
+									}
 									MessagingService.INSTANCE.onReceive(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
@@ -154,11 +160,15 @@ public enum APNetwork implements OverlayNetwork {
 	 */
 	public void sendData(Message msg) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "send msg "+msg.toString());
+		
 		try {
 			if(connectedFalg){
 				outputStream.writeObject(msg);
 				outputStream.flush();
+				if(countSend < 10){
+					Log.i(TAG, "send msg "+msg.toString());
+					countSend++;
+				}
 				//
 			}
 		} catch (IOException e) {
