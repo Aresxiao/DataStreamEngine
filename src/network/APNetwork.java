@@ -3,7 +3,11 @@ package network;
 import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.message.Message;
 
-import java.io.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -55,6 +59,7 @@ public enum APNetwork implements OverlayNetwork {
 						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("server: get input stream");
 						outputStream = new ObjectOutputStream(socket.getOutputStream());
+						System.out.println("server: get output stream");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
