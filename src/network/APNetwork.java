@@ -54,12 +54,12 @@ public enum APNetwork implements OverlayNetwork {
 						serverSocket = new ServerSocket(port);
 						socket = serverSocket.accept();
 						System.out.println("server: Connect success");
-						connectedFalg = true;
 						
 						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("server: get input stream");
 						outputStream = new ObjectOutputStream(socket.getOutputStream());
 						System.out.println("server: get output stream");
+						connectedFalg = true;
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -70,13 +70,13 @@ public enum APNetwork implements OverlayNetwork {
 					try {
 						socket = new Socket(hostIP,port);
 						System.out.println("Client");
-						connectedFalg = true;
+						
 						System.out.println("success connect to server1111111111");
 						outputStream = new ObjectOutputStream(socket.getOutputStream());
 						System.out.println("get output stream");
 						inputStream = new ObjectInputStream(socket.getInputStream());
 						System.out.println("Success connect");
-						
+						connectedFalg = true;
 					} catch (UnknownHostException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
