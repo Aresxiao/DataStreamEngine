@@ -40,7 +40,7 @@ public class WeakRegisterController extends AbstractRegisterController{
 		VersionValue new_vval = new VersionValue(vval.getVersion().increment(), val);
 		KVStoreInMemory.INSTANCE.put(key, new_vval);
 		writeRemote(key, new_vval);
-		Log.i(TAG,new_vval.toString());
+		//Log.i(TAG,new_vval.toString());
 	}
 	
 	
