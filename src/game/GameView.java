@@ -124,7 +124,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		{
 			synchronized(canvas)
 			{
-				
 				draw(canvas);
 			}
 		}catch(Exception e)
