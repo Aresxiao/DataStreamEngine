@@ -154,11 +154,12 @@ public enum APNetwork implements OverlayNetwork {
 	 */
 	public void sendData(Message msg) {
 		// TODO Auto-generated method stub
+		Log.i(TAG, "send msg "+msg.toString());
 		try {
 			if(connectedFalg){
 				outputStream.writeObject(msg);
 				outputStream.flush();
-				Log.i(TAG, "send msg");
+				//
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
