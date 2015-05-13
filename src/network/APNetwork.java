@@ -94,7 +94,7 @@ public enum APNetwork implements OverlayNetwork {
 								try {
 									
 									Message msg = (Message) inputStream.readObject();
-									//Log.i(TAG, msg.toString());
+									Log.i(TAG, msg.toString());
 									MessagingService.INSTANCE.onReceive(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
@@ -153,6 +153,7 @@ public enum APNetwork implements OverlayNetwork {
 			if(connectedFalg){
 				outputStream.writeObject(msg);
 				outputStream.flush();
+				Log.i(TAG, "send msg");
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
