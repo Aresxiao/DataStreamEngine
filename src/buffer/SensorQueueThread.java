@@ -1,4 +1,4 @@
-package dse;
+package buffer;
 
 import game.GameModel;
 
@@ -9,13 +9,14 @@ import constant.Constant;
  * @author Ares
  * 该类用来专门处理sensorQueue队列中的数据，如果队列为空，就阻塞。
  */
+
 public class SensorQueueThread extends Thread{
 	
 	BlockingQueue<String> sensorQueue;
 	
 	public SensorQueueThread(){
 		
-		sensorQueue = DataStreamEngine.INSTANCE.sensorQueue;
+		sensorQueue = BufferManager.INSTANCE.sensorQueue;
 	}
 	
 	@Override

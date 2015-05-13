@@ -12,17 +12,11 @@ public class Version implements Comparable<Version>, Serializable{
 	public static final Version RESERVED_VERSION = new Version(-1);
 	
 	private int seqno;	//sequence number
-	private int pid;	//
-	
-	public Version(int seqno, int pid){
-		this.seqno = seqno;
-		this.pid = pid;
-	}
 	
 	public Version(int seqno){
 		this.seqno = seqno;
-		this.pid = 0;
 	}
+	
 	/**
 	 * 
 	 * @return {@link #seqno}: the sequence number
@@ -32,12 +26,11 @@ public class Version implements Comparable<Version>, Serializable{
 		return this.seqno;
 	}
 	
-	public Version increment(int pid)
+	public Version increment()
 	{
 		// make sure that pid has been set
-		assert pid >= 0;
 		
-		return new Version(this.seqno + 1, pid);
+		return new Version(this.seqno + 1);
 	}
 	
 	@Override
@@ -48,18 +41,14 @@ public class Version implements Comparable<Version>, Serializable{
 			return 1;
 		if (this.seqno < version.seqno)
 			return -1;
-		if (this.pid > version.pid)
-			return 1;
-		if (this.pid < version.pid)
-			return -1;
 		
 		return 0;
 	}
-
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "version: seqno = " + seqno + ",pid = " + pid + ". ";
+		return "version: seqno = " + seqno + ". ";
 	}
 	
 	

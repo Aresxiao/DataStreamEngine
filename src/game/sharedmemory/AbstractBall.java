@@ -1,18 +1,15 @@
 package game.sharedmemory;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import game.GameModel;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.VersionValue;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
+import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.Log;
 
 /**
  * @author Gengxiao
@@ -56,7 +53,7 @@ public abstract class AbstractBall {
 		return this.type;
 	}
 	
-	protected int getBallId(){
+	public int getBallId(){
 		return this.ballId;
 	}
 	
@@ -65,7 +62,7 @@ public abstract class AbstractBall {
 		float[] v = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getV();
 		
 		v[0] = v[0] - x_Accelerate * timeSpan*Constant.SENSITIVITY;
-		v[0] = v[0] + y_Accelerate * timeSpan*Constant.SENSITIVITY;
+		v[1] = v[1] + y_Accelerate * timeSpan*Constant.SENSITIVITY;
 		
 		return v;
 	}
@@ -86,6 +83,9 @@ public abstract class AbstractBall {
 		this.vy = 0;
 	}
 	*/
+	public float getD(){
+		return this.d;
+	}
 	
 	public float getRadius(){
 		
@@ -97,13 +97,12 @@ public abstract class AbstractBall {
 		float[] v = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getV();
 		
 		return (v[0] == 0 && v[1] == 0);
-		
 	}
 	
 	public void stopBall(){
-		
-		this.write(new Key("vx"), new Value(0));
-		this.write(new Key("vy"), new Value(0));
+		Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(new Key(ballId)).getValue();
+		value.setV(0, 0);
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballId), value);
 	}
 	
 	public boolean isInHole(){
@@ -141,12 +140,6 @@ public abstract class AbstractBall {
 		}
 	}
 	
-	public abstract void drawSelf(Canvas canvas,Paint paint);
-	
-	public abstract Value read(Key key);
-	
-	public abstract void write(Key key, Value value);
-	
 	public boolean canGo(float tempX,float tempY ,float vx, float vy){
 		boolean canGoFlag=true;
 		
@@ -155,15 +148,15 @@ public abstract class AbstractBall {
 		float[] center = {tempX + radius, tempY + radius};
 		
 		if(this.type == AbstractBall.GOAL_BALL){
-			if(tempX>Constant.NFRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.NFRAMEA_X+Constant.NFRAMEA_WIDTH)&&
-					tempY>Constant.NFRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.NFRAMEA_Y+Constant.NFRAMEA_HEIGHT)){
+			if(tempX > Constant.NFRAMEA_X && (tempX + Constant.GOAL_BALL_SIZE) < (Constant.NFRAMEA_X + Constant.NFRAMEA_WIDTH)&&
+					tempY > Constant.NFRAMEA_Y && (tempY + Constant.GOAL_BALL_SIZE) < (Constant.NFRAMEA_Y + Constant.NFRAMEA_HEIGHT)){
 				InHoleflag = true;
 				whichHole = 1;
 				return true;
 			}
-			if(tempX>Constant.SFRAMEA_X&&(tempX+Constant.GOAL_BALL_SIZE)<(Constant.SFRAMEA_X+Constant.SFRAMEA_WIDTH)&&
-					tempY>Constant.SFRAMEA_Y&&(tempY+Constant.GOAL_BALL_SIZE)<(Constant.SFRAMEA_Y+Constant.SFRAMEA_HEIGHT)){
-				InHoleflag=true;
+			if(tempX > Constant.SFRAMEA_X && (tempX + Constant.GOAL_BALL_SIZE) < (Constant.SFRAMEA_X + Constant.SFRAMEA_WIDTH)&&
+					tempY > Constant.SFRAMEA_Y && (tempY + Constant.GOAL_BALL_SIZE) < (Constant.SFRAMEA_Y + Constant.SFRAMEA_HEIGHT)){
+				InHoleflag = true;
 				whichHole = 2;
 				return true;
 			}
@@ -171,7 +164,7 @@ public abstract class AbstractBall {
 		
 		List<AbstractBall> balls = gameModel.getBalls();
 		for(AbstractBall b:balls){
-			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX,tempY}, this, b)){
+			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX, tempY}, this, b)){
 				canGoFlag = false;
 				/*
 				if((b.ballId+this.ballId) == Constant.LOCAL_BALL_ID){
@@ -197,10 +190,12 @@ public abstract class AbstractBall {
 			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
 			value.setV(vx, -vy);
 			//ballStateMap.put(new Key("vy"), new Value(-vy));
-			canGoFlag=false;
+			canGoFlag = false;
 		}
 		
 		return canGoFlag;
 	}
+	
+	public abstract void drawSelf(Canvas canvas,Paint paint);
 	
 }

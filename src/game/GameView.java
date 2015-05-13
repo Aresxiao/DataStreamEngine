@@ -35,7 +35,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// TODO Auto-generated constructor stub
 		//this.activity = activity;
 		//isOver=false;
-		
+		if(activity != null){
+			Log.i(TAG, "activity is not null");
+		}
 		getHolder().addCallback(this);
 	}
 

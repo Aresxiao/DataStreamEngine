@@ -1,15 +1,19 @@
 package game;
 
 import game.sharedmemory.*;
+import game.sharedmemory.communication.Message;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
+import game.sharedmemory.readerwriter.RegisterControllerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import android.util.Log;
 
-import network.Message;
 
 import constant.Constant;
 
@@ -21,7 +25,6 @@ public enum GameModel {
 	private static final String TAG = GameModel.class.getName();
 	
 	BallGoThread ballGoThread = new BallGoThread();
-	GameSyncThread synchThread = null;
 	
 	List<AbstractBall> ballList = new ArrayList<AbstractBall>();
 	Table table = new Table();
@@ -35,54 +38,13 @@ public enum GameModel {
 		
 		ballGoThread.setFlag(true);
 		ballGoThread.start();
-		
-	}
-	
-	public void startsynchThread(){
-		
-		synchThread = new GameSyncThread(this);
-		synchThread.setFlag(true);
-		synchThread.start();
-		
 	}
 	
 	public void stopThread(){
 		
 		ballGoThread.setFlag(false);
-		
 	}
 	
-	/**
-	 * @param data
-	 * data是String类型，分成两类来源，2表示来源于网络，网络中数据包含的是Ball的速度以及位置信息；1表示来源于本地传感器，
-	 * 数据包含的仅仅只有加速度信息。
-	 */
-	public void updateGameView(String data){
-		String[] strArray = data.split(",");
-		int type = Integer.parseInt(strArray[0]);
-		switch (type) {
-		case 1:{
-			int ballId = Integer.parseInt(strArray[1]);
-			AbstractBall ball = ballList.get(ballId);
-			float x_Accelerate = Float.parseFloat(strArray[2]);
-			float y_Accelerate = Float.parseFloat(strArray[3]);
-			
-			float[] v = ball.calBallSpeedByAccelerate(x_Accelerate, y_Accelerate);
-			ball.write(new Key("vx"), new Value(v[0]));
-			ball.write(new Key("vy"), new Value(v[1]));
-		}
-			break;
-		case 2:{
-			int ballId = Integer.parseInt(strArray[1]);
-			AbstractBall ball = ballList.get(ballId);
-			ball.write(new Key(strArray[2]), new Value(Float.parseFloat(strArray[3])));
-			
-		}
-			break;
-		default:
-			break;
-		}
-	}
 	/**
 	 * @param ax 是x方向的加速度
 	 * @param ay 是y方向的加速度
@@ -92,18 +54,11 @@ public enum GameModel {
 		AbstractBall ball = ballList.get(Constant.LOCAL_BALL_ID);
 		float[] v = ball.calBallSpeedByAccelerate(ax, ay);
 		
-		ball.write(new Key("vx"),new Value(v[0]));
-		ball.write(new Key("vy"),new Value(v[1]));
-	}
-	
-	public void onReceive(Message msg){
+		Key key = new Key(Constant.LOCAL_BALL_ID);
 		
-		AbstractBall ball = ballList.get(msg.getBallId());
-		//Log.i(TAG, msg.toString());
-		
-		Value value = msg.getValue();
-		Key key = msg.getKey();
-		ball.write(key, value);
+		Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
+		value.setV(v[0], v[1]);
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(key, value);
 	}
 	
 	public void overGame(){
@@ -114,4 +69,6 @@ public enum GameModel {
 		
 		return this.ballList;
 	}
+	
+	
 }

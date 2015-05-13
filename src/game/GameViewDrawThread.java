@@ -6,7 +6,7 @@ public class GameViewDrawThread extends Thread{
 
 	private static final String TAG = GameViewDrawThread.class.getName();
 	private boolean flag = true;
-	private int sleepSpan = 10;
+	private int sleepSpan = 1;
 	GameView gameView;
 	//SurfaceHolder surfaceHolder;
 	

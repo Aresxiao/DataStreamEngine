@@ -1,23 +1,24 @@
-package dse;
+package buffer;
 
 import game.GameModel;
+import game.sharedmemory.communication.Message;
 
 import java.util.concurrent.BlockingQueue;
 
-import network.Message;
 
 import constant.Constant;
 /**
  * @author XiaoGeng
  * 该类专门用来处理receiveQueue队列中的数据，当队列为空时，阻塞。
  */
+
 public class ReceiveQueueThread extends Thread{
 	
 	int receiveCount = 0;
 	BlockingQueue<Message> receiveQueue;
 	public ReceiveQueueThread(){
 		
-		receiveQueue = DataStreamEngine.INSTANCE.receiveQueue;
+		receiveQueue = BufferManager.INSTANCE.receiveQueue;
 	}
 	
 	@Override
@@ -27,7 +28,7 @@ public class ReceiveQueueThread extends Thread{
 			try {
 				Message msg = receiveQueue.take();
 				
-				GameModel.INSTANCE.onReceive(msg);
+				//GameModel.INSTANCE.onReceive(msg);
 				/*
 				receiveCount++;
 				if(Constant.isDebug)

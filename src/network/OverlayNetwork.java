@@ -1,5 +1,7 @@
 package network;
 
+import game.sharedmemory.communication.Message;
+
 
 public interface OverlayNetwork {
 	/**

@@ -1,7 +1,8 @@
 package sensor;
 
+import buffer.BufferManager;
+import game.GameModel;
 import main.MainActivity;
-import dse.DataStreamEngine;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -27,7 +28,7 @@ public class AccelerateSensor implements SensorEventListener{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	public void onSensorChanged(SensorEvent event) {
 		// TODO Auto-generated method stub
 		float[] values = event.values;
@@ -35,8 +36,8 @@ public class AccelerateSensor implements SensorEventListener{
 		y=values[1];
 		
 		String dataString = x+","+y;
+		BufferManager.INSTANCE.addSensorQueue(dataString);
 		//System.out.println(dataString+"-----------------");
-		DataStreamEngine.INSTANCE.addSensorQueue(dataString);
 	}
 	
 	public void startSensor(){

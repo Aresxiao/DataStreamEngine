@@ -2,12 +2,15 @@ package game.sharedmemory.data.kvstore;
 
 import java.util.concurrent.*;
 
+import android.util.Log;
+
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.VersionValue;
 
 public enum KVStoreInMemory implements IKVStore{
 	
 	INSTANCE;
+	private static final String TAG = KVStoreInMemory.class.getName();
 	
 	private final ConcurrentMap<Key, VersionValue> key_vval_map = new ConcurrentHashMap<Key, VersionValue>();
 	
@@ -21,12 +24,15 @@ public enum KVStoreInMemory implements IKVStore{
 	public void put(Key key, VersionValue vval) {
 		// TODO Auto-generated method stub
 		final int hash = key.hashCode() & 0x7FFFFFFF;
-		
+		//Log.i(TAG,key.toString()+vval.toString());
 		synchronized (locks[hash % locks.length])	// allowing concurrent writers
 		{
 			VersionValue current_vval = this.getVersionValue(key);
-			if (current_vval.compareTo(vval) < 0)	//	newer VersionValue
+			//Log.i(TAG, "read use get method");
+			if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
+				//Log.i(TAG, "put a new version value");
 				this.key_vval_map.put(key, vval);
+			}
 		}
 	}
 	

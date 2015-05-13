@@ -1,11 +1,13 @@
 package game.sharedmemory;
 
-import network.Message;
+
 import constant.Constant;
-import dse.DataStreamEngine;
 import game.GameModel;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.Version;
+import game.sharedmemory.data.VersionValue;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import android.graphics.*;
 import android.util.Log;
 
@@ -16,13 +18,19 @@ public class PlayerBall extends AbstractBall {
 		
 		super(AbstractBall.PLAYER_BALL);
 		this.gameModel = gameModel;
-		ballStateMap.put(new Key("locx"),new Value(x));
-		ballStateMap.put(new Key("locy"), new Value(y));
-		ballStateMap.put(new Key("d"), new Value(Constant.PLAYER_BALL_SIZE));
-		ballStateMap.put(new Key("radius"), new Value(Constant.PLAYER_BALL_SIZE/2));
-		ballStateMap.put(new Key("vx"), new Value(0f));
-		ballStateMap.put(new Key("vy"), new Value(0f));
 		
+		Key key = new Key(ballId);
+		
+		Version version = new Version(0);
+		
+		Value value = new Value(x, y);
+		
+		VersionValue versionValue = new VersionValue(version, value);
+		
+		KVStoreInMemory.INSTANCE.put(key, versionValue);
+		d = Constant.PLAYER_BALL_SIZE;
+		radius = Constant.PLAYER_BALL_SIZE / 2;
+		Log.i(TAG, "player ballid = " + ballId);
 	}
 	
 	/**
@@ -31,50 +39,17 @@ public class PlayerBall extends AbstractBall {
 	@Override
 	public void drawSelf(Canvas canvas, Paint paint) {
 		
-		float locx = this.read(new Key("locx")).getVal();
-		float locy = this.read(new Key("locy")).getVal();
-		float radius = this.read(new Key("radius")).getVal();
+		float[] loc = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue().getLoc();
 		
 		Matrix m1 = new Matrix();
-		m1.setTranslate( locx+Constant.X_OFFSET,locy+Constant.Y_OFFSET );
+		m1.setTranslate( loc[0]+Constant.X_OFFSET,loc[1]+Constant.Y_OFFSET );
 		paint.reset();
 		paint.setColor(Color.BLACK);
 		paint.setStyle(Paint.Style.STROKE);
 		paint.setStrokeWidth((float) 2.0);
-		canvas.drawCircle(locx + Constant.PLAYER_BALL_SIZE/2, locy+Constant.PLAYER_BALL_SIZE/2, radius, paint);
-		canvas.drawText(Integer.toString(ballId), locx+Constant.PLAYER_BALL_SIZE/2, locy+Constant.PLAYER_BALL_SIZE/2, paint);
+		canvas.drawCircle(loc[0] + Constant.PLAYER_BALL_SIZE/2, loc[1]+Constant.PLAYER_BALL_SIZE/2, radius, paint);
+		canvas.drawText(Integer.toString(ballId), loc[0]+Constant.PLAYER_BALL_SIZE/2, loc[1]+Constant.PLAYER_BALL_SIZE/2, paint);
 		
 	}
 	
-	/**
-	 * @description override 父类{@link AbstractBall}}的read(Key key)方法
-	 * @return Value类型
-	 */
-	@Override
-	public Value read(Key key) {
-		// TODO Auto-generated method stub
-		if(ballStateMap.containsKey(key))
-			return ballStateMap.get(key);
-		
-		return null;
-	}
-	
-	/**
-	 * @description override 父类{@link AbstractBall}}的write(Key key, Value value)方法
-	 */
-	@Override
-	public void write(Key key, Value value) {
-		// TODO Auto-generated method stub
-		
-		if(ballStateMap.containsKey(key)){
-			//Log.d(TAG, Constant.LOCAL_BALL_ID+":"+this.ballId+" : "+key+" : "+value);
-			ballStateMap.put(key, value);
-		}
-		if(value.isNeedSend() && (ballId == Constant.LOCAL_BALL_ID)){
-			value.setSendCount(0);
-			Message msg = new Message(ballId, key, value);
-			//Log.i(TAG, msg.toString());
-			DataStreamEngine.INSTANCE.addSendQueue(msg);
-		}
-	}
 }

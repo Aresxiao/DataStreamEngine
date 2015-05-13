@@ -1,5 +1,8 @@
 package network;
 
+import game.sharedmemory.communication.Message;
+import game.sharedmemory.communication.MessagingService;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,11 +10,11 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+
 import android.util.Log;
 
 import constant.Constant;
 
-import dse.DataStreamEngine;
 
 public enum APNetwork implements OverlayNetwork {
 	
@@ -92,7 +95,7 @@ public enum APNetwork implements OverlayNetwork {
 									
 									Message msg = (Message) inputStream.readObject();
 									//Log.i(TAG, msg.toString());
-									DataStreamEngine.INSTANCE.addReceiveQueue(msg);
+									MessagingService.INSTANCE.onReceive(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
@@ -107,7 +110,7 @@ public enum APNetwork implements OverlayNetwork {
 						}
 					}).start();
 					//System.out.println("APNetwork: start network Thread");
-					DataStreamEngine.INSTANCE.startNetworkThread();
+					
 				}
 			}
 		};

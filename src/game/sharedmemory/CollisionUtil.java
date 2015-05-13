@@ -3,6 +3,8 @@ package game.sharedmemory;
 import game.Obstacle;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
+import game.sharedmemory.readerwriter.RegisterControllerFactory;
 
 /**
  * @author Ares
@@ -64,14 +66,18 @@ public class CollisionUtil {
 		 * 该方法没有改变球的位置，只改变球的速度。
 		 * 注意此时的x,y，不是球心坐标，而是球外接正方形左上角顶点坐标！！！！！！！！！！
 		 */	
-		float BAx=ballaTempXY[0]-ballb.read(new Key("locx")).getVal();
-		float BAy=ballaTempXY[1]-ballb.read(new Key("locy")).getVal();
+		Value bvalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballb.getBallId())).getValue();
+		float[] bloc = bvalue.getLoc();
+		
+		float BAx = ballaTempXY[0] - bloc[0];
+		float BAy = ballaTempXY[1] - bloc[1];
 		
 		//求上述向量的模
-		float mvBA=mould(new float[]{BAx,BAy});	
+		float mvBA = mould(new float[]{BAx, BAy});	
 		
 		//若两球距离大于等于球直径则没有碰撞
-		if(mvBA>(balla.read(new Key("radius")).getVal()+ballb.read(new Key("radius")).getVal())){
+		if(mvBA > (balla.getRadius() + ballb.getRadius())){
+			
 			return false;
 		}
 		/**
@@ -87,14 +93,13 @@ public class CollisionUtil {
 	    //分解B球速度========================================begin=============	
 		
 		//求b球的速度大小
+		float[] bv = bvalue.getV();
 		
-		float bvx = ballb.read(new Key("vx")).getVal();
-		float bvy = ballb.read(new Key("vy")).getVal();
 		
-		float vB=(float)Math.sqrt(bvx * bvx + bvy * bvy);
+		float vB = (float)Math.sqrt(bv[0] * bv[0] + bv[1] * bv[1]);
 		//平行方向的XY分速度
-		float vbCollX=0;
-		float vbCollY=0;
+		float vbCollX = 0;
+		float vbCollY = 0;
 		//垂直方向的Xy分速度
 		float vbVerticalX=0;
 		float vbVerticalY=0;
@@ -105,20 +110,20 @@ public class CollisionUtil {
 			//求B球的速度方向向量与碰撞直线向量B->A的夹角(弧度)
 			float bAngle=angle
 			(
-				new float[]{bvx,bvy},
+				new float[]{bv[0],bv[1]},
 			    new float[]{BAx,BAy}
 			);
 			
 			//求B球在碰撞方向的速度大小
-			float vbColl=vB*(float)Math.cos(bAngle);
+			float vbColl=vB * (float)Math.cos(bAngle);
 			
 			//求B球在碰撞方向的速度向量，注意要保证mvBA不为零！！
 			vbCollX = (vbColl/mvBA) * BAx;
 			vbCollY = (vbColl/mvBA) * BAy;
 			
 			//求B球在碰撞垂直方向的速度向量
-			vbVerticalX = bvx - vbCollX;
-			vbVerticalY = bvy - vbCollY;
+			vbVerticalX = bv[0] - vbCollX;
+			vbVerticalY = bv[1] - vbCollY;
 		}
 		//分解B球速度========================================end=============== 
 		
@@ -126,16 +131,17 @@ public class CollisionUtil {
 		
 		//求a球的速度大小
 		
-		float avx = balla.read(new Key("vx")).getVal();
-		float avy = balla.read(new Key("vy")).getVal();
+		Value avalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(balla.getBallId())).getValue();
 		
-		float vA=(float)Math.sqrt(avx * avx + avy * avy);
+		float[] av = avalue.getV();
+		
+		float vA = (float)Math.sqrt(av[0] * av[0] + av[1] * av[1]);
 		//平行方向的Xy分速度
-		float vaCollX=0;
-		float vaCollY=0;
+		float vaCollX = 0;
+		float vaCollY = 0;
 		//垂直方向的Xy分速度
-		float vaVerticalX=0;
-		float vaVerticalY=0;
+		float vaVerticalX = 0;
+		float vaVerticalY = 0;
 		
 		//若球速度小于阈值则认为速度为零，不用进行分解计算了
 		if(balla.getVMin() < vA)
@@ -143,7 +149,7 @@ public class CollisionUtil {
 			//求A球的速度方向向量与碰撞直线向量B->A的夹角(弧度)
 			float aAngle=angle
 			(
-				new float[]{avx,avy},
+				new float[]{av[0],av[1]},
 			    new float[]{BAx,BAy}
 			);			
 			
@@ -155,35 +161,24 @@ public class CollisionUtil {
 			vaCollY=(vaColl/mvBA)*BAy;
 			
 			//求A球在碰撞垂直方向的速度向量
-			vaVerticalX = avx-vaCollX;
-			vaVerticalY = avy-vaCollY;
+			vaVerticalX = av[0]-vaCollX;
+			vaVerticalY = av[1]-vaCollY;
 		}
 		//分解A球速度========================================end===============
 		
 		//求碰撞后AB球的速度
 		//基本思想为垂直方向速度不变，碰撞方向两球速度交换，垂直方向速度不变
-		avx=vaVerticalX+vbCollX;
-		avy=vaVerticalY+vbCollY;
-		Value valueaLocx = balla.read(new Key("locx"));
-		Value valueaLocy = balla.read(new Key("locy"));
-		valueaLocx.setSendCount(2);
-		valueaLocy.setSendCount(2);
-		balla.write(new Key("locx"), valueaLocx);
-		balla.write(new Key("locy"), valueaLocy);
-		balla.write(new Key("vx"), new Value(avx,2));
-		balla.write(new Key("vy"), new Value(avy,2));
+		av[0] = vaVerticalX + vbCollX;
+		av[1] = vaVerticalY + vbCollY;
 		
-		bvx=vbVerticalX+vaCollX;
-		bvy=vbVerticalY+vaCollY;
+		avalue.setV(av[0], av[1]);
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		
-		Value valuebLocx = ballb.read(new Key("locx"));
-		Value valuebLocy = ballb.read(new Key("locy"));
-		valuebLocx.setSendCount(2);
-		valuebLocy.setSendCount(2);
-		ballb.write(new Key("locx"), valuebLocx);
-		ballb.write(new Key("locy"), valuebLocy);
-		ballb.write(new Key("vx"), new Value(bvx,2));
-		ballb.write(new Key("vy"), new Value(bvy,2));
+		bv[0] = vbVerticalX + vaCollX;
+		bv[1] = vbVerticalY + vaCollY;
+		
+		bvalue.setV(bv[0], bv[1]);
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
 		
 		//========================================
 		//此处调用播放桌球碰撞声音的代码

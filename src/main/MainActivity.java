@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
+import buffer.BufferManager;
 
 import com.example.datastreamengine.R;
 
@@ -15,6 +16,7 @@ import com.example.datastreamengine.R;
 import game.GameModel;
 import game.GameView;
 import game.GameWinNView;
+import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import network.APNetwork;
 import sensor.AccelerateSensor;
 import timingservice.ADBExecutor;
@@ -23,7 +25,6 @@ import timingservice.TimingService;
 
 import constant.Constant;
 import constant.WhatMessage;
-import dse.DataStreamEngine;
 
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
@@ -126,6 +127,8 @@ public class MainActivity extends Activity{
         tableHeight = metrics.heightPixels;
         Constant.initConst(tableWidth, tableHeight);
         
+        RegisterControllerFactory.INSTANCE.setRegisterController(1);
+        
         GameModel.INSTANCE.initialize();
         gameView = new GameView(this);
         setContentView(gameView);
@@ -133,9 +136,9 @@ public class MainActivity extends Activity{
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
         
         accelerateSensor = new AccelerateSensor();
-        DataStreamEngine.INSTANCE.startSensorThread();
+        BufferManager.INSTANCE.startThread();
         
-		APNetwork.INSTANCE.connect();
+		//APNetwork.INSTANCE.connect();
 	}
 	
 	public static synchronized MainActivity INSTANCE(){
