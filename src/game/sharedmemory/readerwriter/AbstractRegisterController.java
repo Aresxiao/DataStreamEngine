@@ -1,11 +1,14 @@
 package game.sharedmemory.readerwriter;
 
+import android.util.Log;
 import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.message.Message;
 import game.sharedmemory.data.*;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 
 public abstract class AbstractRegisterController implements IRegister, IMessageHandler {
+	
+	private static final String TAG = AbstractRegisterController.class.getName();
 	
 	protected int op_cnt;
 	
@@ -18,6 +21,7 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 	public void writeRemote(Key key,VersionValue versionValue){
 		
 		Message msg = new Message(key, versionValue);
+		Log.i(TAG, msg.toString());
 		MessagingService.INSTANCE.send(msg);
 	}
 	
