@@ -1,11 +1,14 @@
 package game.sharedmemory.readerwriter;
 
+import android.util.Log;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.VersionValue;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 
 public class WeakRegisterController extends AbstractRegisterController{
+	
+	private static final String TAG = WeakRegisterController.class.getName();
 	
 	private WeakRegisterController(){ }
 	
@@ -37,6 +40,7 @@ public class WeakRegisterController extends AbstractRegisterController{
 		VersionValue new_vval = new VersionValue(vval.getVersion().increment(), val);
 		KVStoreInMemory.INSTANCE.put(key, new_vval);
 		writeRemote(key, new_vval);
+		Log.i(TAG,new_vval.toString());
 	}
 	
 	
