@@ -22,8 +22,9 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 		
 		Message msg = new Message(key, versionValue);
 		if(countWrite < 10){
-			Log.i(TAG, msg.toString()+",countWrite = "+countWrite);
 			countWrite++;
+			Log.i(TAG, msg.toString()+",countWrite = "+countWrite);
+			
 		}
 		MessagingService.INSTANCE.send(msg);
 	}
