@@ -1,4 +1,4 @@
-package game.sharedmemory.communication;
+package game.sharedmemory.communication.message;
 
 import game.sharedmemory.data.Key;
 

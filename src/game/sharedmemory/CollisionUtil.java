@@ -189,7 +189,7 @@ public class CollisionUtil {
 		//System.out.println("ball bbbbbbbbbbbbbbbbbbbbbb "+ballb.vx+" ======= "+ballb.vy);
 		return true;
 	}
-	
+	@Deprecated
 	public static boolean collisionCalculate(Obstacle obstacle,float[] p,Ball ball){
 		float[] frameXY = obstacle.getFrameXY();
 		float[] widthAndHeight = obstacle.getWidthHeight();

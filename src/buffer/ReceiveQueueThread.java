@@ -1,7 +1,7 @@
 package buffer;
 
 import game.GameModel;
-import game.sharedmemory.communication.Message;
+import game.sharedmemory.communication.message.Message;
 
 import java.util.concurrent.BlockingQueue;
 

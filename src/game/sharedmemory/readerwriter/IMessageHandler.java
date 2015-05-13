@@ -1,6 +1,6 @@
 package game.sharedmemory.readerwriter;
 
-import game.sharedmemory.communication.Message;
+import game.sharedmemory.communication.message.Message;
 
 public interface IMessageHandler {
 	

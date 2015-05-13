@@ -1,7 +1,7 @@
 package game.sharedmemory.readerwriter;
 
-import game.sharedmemory.communication.Message;
 import game.sharedmemory.communication.MessagingService;
+import game.sharedmemory.communication.message.Message;
 import game.sharedmemory.data.*;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 

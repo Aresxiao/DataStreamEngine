@@ -1,5 +1,6 @@
 package game.sharedmemory.communication;
 
+import game.sharedmemory.communication.message.Message;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import network.APNetwork;
 

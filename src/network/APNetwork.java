@@ -1,7 +1,7 @@
 package network;
 
-import game.sharedmemory.communication.Message;
 import game.sharedmemory.communication.MessagingService;
+import game.sharedmemory.communication.message.Message;
 
 import java.io.*;
 import java.net.ServerSocket;
