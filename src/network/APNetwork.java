@@ -104,18 +104,13 @@ public enum APNetwork implements OverlayNetwork {
 								
 								try {
 									
-									Object obj = inputStream.readObject();
-									if(obj instanceof Message){
-										Message msg = (Message) obj;
-										BufferManager.INSTANCE.addReceiveQueue(msg);
-										if(countReceive < 10){
-											Log.i(TAG, msg.toString());
-											countReceive++;
-										}
+									Message msg = (Message) inputStream.readObject();
+									if(countReceive < 10){
+										Log.i(TAG, msg.toString());
+										countReceive++;
 									}
-									if(obj instanceof String){
-										System.out.println("-----ApNetwork receive a string "+(String)obj+"------");
-									}
+									BufferManager.INSTANCE.addReceiveQueue(msg);
+									
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
