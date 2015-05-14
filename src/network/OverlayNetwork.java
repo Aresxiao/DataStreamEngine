@@ -10,7 +10,7 @@ public interface OverlayNetwork {
 	 * 发送的时候需要把数据组织成string类型数据。
 	 */
 	
-	public void sendData(Message msg);
+	public void sendMsg(Message msg);
 	
 	public Message receiveData();
 	public void connect();

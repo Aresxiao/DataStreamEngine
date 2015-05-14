@@ -161,7 +161,7 @@ public enum APNetwork implements OverlayNetwork {
 	/**
 	 * @param string 是需要发送的数据
 	 */
-	public void sendData(Message msg) {
+	public void sendMsg(Message msg) {
 		// TODO Auto-generated method stub
 		
 		try {
