@@ -189,13 +189,13 @@ public enum GameModel {
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
-		
+		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
 		bv[1] = vbVerticalY + vaCollY;
 		
 		bvalue.setV(bv[0], bv[1]);
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
-		System.exit(0);
+		System.out.println("write ballb "+ballb.getBallId());
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
 		//此处调用播放桌球碰撞声音的代码
