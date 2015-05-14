@@ -164,7 +164,7 @@ public abstract class AbstractBall {
 		
 		List<AbstractBall> balls = gameModel.getBalls();
 		for(AbstractBall b:balls){
-			if(b!=this && CollisionUtil.collisionCalculate(new float[]{tempX, tempY}, this, b)){
+			if(b!=this && GameModel.INSTANCE.collisionCalculate(new float[]{tempX, tempY}, this, b)){
 				canGoFlag = false;
 				/*
 				if((b.ballId+this.ballId) == Constant.LOCAL_BALL_ID){

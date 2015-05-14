@@ -47,5 +47,3 @@ public enum BufferManager {
 		sensorQueue.offer(data);
 	}
 }
-
-
