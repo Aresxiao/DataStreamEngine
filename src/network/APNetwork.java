@@ -105,7 +105,7 @@ public enum APNetwork implements OverlayNetwork {
 								try {
 									
 									Message msg = (Message) inputStream.readObject();
-									inputStream.reset();
+									
 									if(countReceive < 10){
 										Log.i(TAG, msg.toString());
 										countReceive++;
