@@ -6,7 +6,7 @@ import game.sharedmemory.communication.message.Message;
 public class BTNetwork implements OverlayNetwork {
 
 	@Override
-	public void sendData(Message msg) {
+	public void sendMsg(Message msg) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -14,7 +14,7 @@ public enum MessagingService implements IReceiver{
 	}
 	
 	public void send(Message msg){
-		APNetwork.INSTANCE.sendData(msg);
+		APNetwork.INSTANCE.sendMsg(msg);
 	}
 	
 }
