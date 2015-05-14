@@ -4,6 +4,7 @@ import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.message.Message;
 
 
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -38,7 +39,7 @@ public enum APNetwork implements OverlayNetwork {
 	Socket socket = null;
 	ObjectInputStream inputStream = null;
 	ObjectOutputStream outputStream = null;
-	
+	DataInputStream in = null;
 	private static final Executor exec = Executors.newCachedThreadPool();
 	
 	/**
@@ -163,6 +164,7 @@ public enum APNetwork implements OverlayNetwork {
 		
 		try {
 			if(connectedFalg){
+				outputStream.reset();
 				outputStream.writeObject(msg);
 				outputStream.flush();
 				if(countSend < 10){
