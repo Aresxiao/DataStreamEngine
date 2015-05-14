@@ -169,7 +169,7 @@ public enum APNetwork implements OverlayNetwork {
 		try {
 			if(connectedFalg){
 				outputStream.reset();
-				outputStream.writeUnshared(msg);
+				outputStream.writeObject(msg);
 				outputStream.flush();
 				if(countSend < 10){
 					Log.i(TAG, "send msg "+msg.toString());
