@@ -181,7 +181,7 @@ public enum APNetwork implements OverlayNetwork {
 		}
 	}
 	
-	public Message receiveData() {
+	public Message receiveMsg() {
 		// TODO Auto-generated method stub
 		
 		Message msg = null;

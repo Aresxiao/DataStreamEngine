@@ -12,7 +12,7 @@ public class BTNetwork implements OverlayNetwork {
 	}
 
 	@Override
-	public Message receiveData() {
+	public Message receiveMsg() {
 		// TODO Auto-generated method stub
 		return null;
 	}

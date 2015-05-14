@@ -12,7 +12,7 @@ public interface OverlayNetwork {
 	
 	public void sendMsg(Message msg);
 	
-	public Message receiveData();
+	public Message receiveMsg();
 	public void connect();
 	
 }
