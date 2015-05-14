@@ -1,6 +1,7 @@
 package buffer;
 
 import game.GameModel;
+import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.message.Message;
 
 import java.util.concurrent.BlockingQueue;
@@ -27,13 +28,8 @@ public class ReceiveQueueThread extends Thread{
 		while(true){
 			try {
 				Message msg = receiveQueue.take();
+				MessagingService.INSTANCE.onReceive(msg);
 				
-				//GameModel.INSTANCE.onReceive(msg);
-				/*
-				receiveCount++;
-				if(Constant.isDebug)
-					System.out.println("receiveQueueThread: receiveCount = " + receiveCount);
-				*/
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

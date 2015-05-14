@@ -35,8 +35,8 @@ public enum BufferManager {
 		receiveQueue.clear();
 		sensorQueueThread = new SensorQueueThread();
 		sensorQueueThread.start();
-		//receiveQueueThread = new ReceiveQueueThread();
-		//receiveQueueThread.start();
+		receiveQueueThread = new ReceiveQueueThread();
+		receiveQueueThread.start();
 	}
 	
 	public void addReceiveQueue(Message msg){
