@@ -186,7 +186,7 @@ public enum GameModel {
 		//基本思想为垂直方向速度不变，碰撞方向两球速度交换，垂直方向速度不变
 		av[0] = vaVerticalX + vbCollX;
 		av[1] = vaVerticalY + vbCollY;
-		
+		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		
@@ -195,7 +195,7 @@ public enum GameModel {
 		
 		bvalue.setV(bv[0], bv[1]);
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
-		
+		System.exit(0);
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
 		//此处调用播放桌球碰撞声音的代码
