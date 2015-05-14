@@ -15,6 +15,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import buffer.BufferManager;
+
 
 import android.util.Log;
 
@@ -107,7 +109,7 @@ public enum APNetwork implements OverlayNetwork {
 										Log.i(TAG, msg.toString());
 										countReceive++;
 									}
-									MessagingService.INSTANCE.onReceive(msg);
+									BufferManager.INSTANCE.addReceiveQueue(msg);
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
