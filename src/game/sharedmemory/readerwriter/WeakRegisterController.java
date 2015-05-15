@@ -31,7 +31,6 @@ public class WeakRegisterController extends AbstractRegisterController{
 	/**
 	 * 在weak中，每次更改都修改本地的值，并同时把新的值封装成msg发送给对方。
 	 */
-	
 	@Override
 	public void write(Key key, Value val) {
 		// TODO Auto-generated method stub
@@ -40,10 +39,9 @@ public class WeakRegisterController extends AbstractRegisterController{
 		
 		VersionValue new_vval = new VersionValue(vval.getVersion().increment(), val);
 		KVStoreInMemory.INSTANCE.put(key, new_vval);
-		if(key.getKey() == Constant.LOCAL_BALL_ID)
-			writeRemote(key, new_vval);
+		
+		writeRemote(key, new_vval);
 		//Log.i(TAG,new_vval.toString());
 	}
-	
 	
 }
