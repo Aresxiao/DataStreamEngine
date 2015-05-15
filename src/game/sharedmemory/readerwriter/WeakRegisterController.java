@@ -1,5 +1,6 @@
 package game.sharedmemory.readerwriter;
 
+import constant.Constant;
 import android.util.Log;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
@@ -39,7 +40,8 @@ public class WeakRegisterController extends AbstractRegisterController{
 		
 		VersionValue new_vval = new VersionValue(vval.getVersion().increment(), val);
 		KVStoreInMemory.INSTANCE.put(key, new_vval);
-		writeRemote(key, new_vval);
+		if(key.getKey() == Constant.LOCAL_BALL_ID)
+			writeRemote(key, new_vval);
 		//Log.i(TAG,new_vval.toString());
 	}
 	
