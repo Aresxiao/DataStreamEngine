@@ -70,7 +70,10 @@ public enum GameModel {
 		return this.ballList;
 	}
 	
-	//两个球进行碰撞物理计算的方法
+	/**
+	 * @description 两个球进行碰撞物理计算的方法
+	 * @return 是否发生了碰撞
+	 */
 	public boolean collisionCalculate(float ballaTempXY[],AbstractBall balla,AbstractBall ballb)
 	{		
 		/** 
@@ -188,6 +191,7 @@ public enum GameModel {
 		av[1] = vaVerticalY + vbCollY;
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
+		
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
@@ -206,7 +210,12 @@ public enum GameModel {
 		return true;
 	}
 	
-	//球两点距离的平方
+	/**
+	 * @description 球两点距离的平方
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	public float calcuDisSquare(float[] p1,float[] p2)
 	{
 		return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]);
@@ -218,13 +227,22 @@ public enum GameModel {
 			vec1[0]*vec2[0]+
 			vec1[1]*vec2[1];		
 	}
-	//求平面向量的模
+	/**
+	 * @description 求平面向量的模
+	 * @param vec
+	 * @return
+	 */
 	public float mould(float[] vec)
 	{
 		return (float)Math.sqrt(vec[0]*vec[0]+vec[1]*vec[1]);
 	}
 	
-	//求两个平面向量的夹角
+	/**
+	 * @description 求两个平面向量的夹角
+	 * @param vec1
+	 * @param vec2
+	 * @return
+	 */
 	public float angle(float[] vec1,float[] vec2)
 	{
 		//先求点积
