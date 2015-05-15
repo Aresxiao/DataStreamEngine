@@ -42,4 +42,7 @@ public class Key implements Serializable{
 		return this.id == key.id? true:false;
 	}
 	
+	public int getKey(){
+		return this.id;
+	}
 }

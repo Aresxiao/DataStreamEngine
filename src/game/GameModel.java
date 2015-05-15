@@ -194,7 +194,7 @@ public enum GameModel {
 		bv[1] = vbVerticalY + vaCollY;
 		
 		bvalue.setV(bv[0], bv[1]);
-		//RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
 		System.out.println("write ballb "+ballb.getBallId());
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
