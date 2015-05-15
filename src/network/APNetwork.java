@@ -167,14 +167,7 @@ public enum APNetwork implements OverlayNetwork {
 		
 		try {
 			if(connectedFalg){
-				outputStream = new ObjectOutputStream(socket.getOutputStream());
-				outputStream.writeObject(msg);
-				outputStream.flush();
-				if(countSend < 10){
-					Log.i(TAG, "send msg "+msg.toString());
-					countSend++;
-				}
-				/*
+				
 				outputStream.reset();
 				outputStream.writeObject(msg);
 				outputStream.flush();
@@ -182,7 +175,6 @@ public enum APNetwork implements OverlayNetwork {
 					Log.i(TAG, "send msg "+msg.toString());
 					countSend++;
 				}
-				*/
 				//
 			}
 		} catch (IOException e) {
