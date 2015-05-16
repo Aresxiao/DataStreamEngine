@@ -191,7 +191,7 @@ public enum GameModel {
 		av[1] = vaVerticalY + vbCollY;
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
+		//RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
 		bv[1] = vbVerticalY + vaCollY;
