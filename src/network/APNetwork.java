@@ -168,7 +168,7 @@ public enum APNetwork implements OverlayNetwork {
 		try {
 			if(connectedFalg){
 				
-				outputStream.reset();
+				//outputStream.reset();
 				outputStream.writeObject(msg);
 				outputStream.flush();
 				if(countSend < 10){
