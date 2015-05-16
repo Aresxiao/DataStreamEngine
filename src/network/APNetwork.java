@@ -110,7 +110,7 @@ public enum APNetwork implements OverlayNetwork {
 										Log.i(TAG, msg.toString());
 										countReceive++;
 									}
-									BufferManager.INSTANCE.addReceiveQueue(msg);
+									//BufferManager.INSTANCE.addReceiveQueue(msg);
 									
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
