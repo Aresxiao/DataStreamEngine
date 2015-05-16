@@ -32,6 +32,7 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 		Key key = message.getKey();
 		VersionValue versionValue = message.getVersionValue();
 		KVStoreInMemory.INSTANCE.put(key, versionValue);
+		
 	}
 	
 }
