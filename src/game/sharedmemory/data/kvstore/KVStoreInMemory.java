@@ -5,6 +5,8 @@ import java.util.concurrent.*;
 import android.util.Log;
 
 import game.sharedmemory.data.Key;
+import game.sharedmemory.data.Value;
+import game.sharedmemory.data.Version;
 import game.sharedmemory.data.VersionValue;
 
 public enum KVStoreInMemory implements IKVStore{
@@ -40,8 +42,10 @@ public enum KVStoreInMemory implements IKVStore{
 	public VersionValue getVersionValue(Key key) {
 		// TODO Auto-generated method stub
 		VersionValue vval = this.key_vval_map.get(key);
+		
 		if (vval == null)
 			return VersionValue.RESERVED_VERSIONVALUE;
+		
 		return vval;
 	}
 	

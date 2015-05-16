@@ -50,6 +50,14 @@ public class Version implements Comparable<Version>, Serializable{
 		// TODO Auto-generated method stub
 		return "version: seqno = " + seqno + ". ";
 	}
+
+	@Override
+	public Version clone(){
+		// TODO Auto-generated method stub
+		
+		Version version = new Version(this.seqno);
+		return version;
+	}
 	
 	
 }

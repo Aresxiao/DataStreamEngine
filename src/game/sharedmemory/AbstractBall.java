@@ -182,14 +182,13 @@ public abstract class AbstractBall {
 			
 			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
 			value.setV(-vx, vy);
-			//ballStateMap.put(new Key("vx"), new Value(-vx));
+			
 			canGoFlag = false;
 		}
 		if(center[1] < radius||(center[1] + radius) > Constant.TABLE_HEIGHT){
 			
 			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
 			value.setV(vx, -vy);
-			//ballStateMap.put(new Key("vy"), new Value(-vy));
 			canGoFlag = false;
 		}
 		

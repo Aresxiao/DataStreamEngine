@@ -74,8 +74,8 @@ public enum GameModel {
 	 * @description 两个球进行碰撞物理计算的方法
 	 * @return 是否发生了碰撞
 	 */
-	public boolean collisionCalculate(float ballaTempXY[],AbstractBall balla,AbstractBall ballb)
-	{		
+	public boolean collisionCalculate(float ballaTempXY[],AbstractBall balla,AbstractBall ballb){
+		
 		/** 
 		 * 求碰撞直线向量B->A （也就是两个参与碰撞的桌球球心连线的向量），注意两个问题
 		 * 1、这里不区分向量B->A和A->B的原因是，求夹角时用两者求得的cos值是一样的，
@@ -191,14 +191,15 @@ public enum GameModel {
 		av[1] = vaVerticalY + vbCollY;
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
-		
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
+		Value a_val = avalue.clone();
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), a_val);
 		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
 		bv[1] = vbVerticalY + vaCollY;
 		
 		bvalue.setV(bv[0], bv[1]);
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
+		Value b_val = bvalue.clone();
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), b_val);
 		System.out.println("write ballb "+ballb.getBallId());
 		//========================================
 		//此处调用播放桌球碰撞声音的代码
