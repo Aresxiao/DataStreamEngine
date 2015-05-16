@@ -63,6 +63,14 @@ public class Value implements Serializable{
 		// TODO Auto-generated method stub
 		return "value: vx = "+ vx + ",vy = " + vy + ",locx = " + locx + ",locy = " + locy + ". ";
 	}
+
+	@Override
+	public Value clone(){
+		// TODO Auto-generated method stub
+		
+		Value value = new Value(this.vx, this.vy, this.locx, this.locy);
+		return value;
+	}
 	
 	
 }

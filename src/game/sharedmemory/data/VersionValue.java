@@ -53,6 +53,19 @@ public class VersionValue implements Comparable<VersionValue>, Serializable{
 		return this.version.compareTo(versionValue.version);
 	}
 
+	
+	
+	@Override
+	public VersionValue clone(){
+		// TODO Auto-generated method stub
+		
+		Version ver = version.clone();
+		Value val = value.clone();
+		VersionValue versionValue = new VersionValue(ver, val);
+		
+		return versionValue;
+	}
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
