@@ -2,6 +2,9 @@ package game.sharedmemory.data;
 
 import java.io.Serializable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Value implements Serializable{
 	/**
 	 * 
@@ -72,5 +75,17 @@ public class Value implements Serializable{
 		return value;
 	}
 	
+	public void putJSONObject(JSONObject jsonObject){
+		try {
+			jsonObject.put("value.vx", vx);
+			jsonObject.put("value.vy", vy);
+			jsonObject.put("value.locx", locx);
+			jsonObject.put("value.locy", locy);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
 }

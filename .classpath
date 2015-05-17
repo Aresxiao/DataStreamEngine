@@ -15,5 +15,6 @@
 			<accessrule kind="nonaccessible" pattern="com/android/internal/**"/>
 		</accessrules>
 	</classpathentry>
+	<classpathentry kind="lib" path="E:/eclipse/project/DataStreamEngine/libs/json.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

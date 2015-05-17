@@ -20,11 +20,11 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 	
 	public void writeRemote(Key key,VersionValue versionValue){
 		VersionValue vval = versionValue.clone();
-		synchronized (vval) {
-			Message msg = new Message(key, vval);
-			
-			MessagingService.INSTANCE.send(msg);
-		}
+		
+		Message msg = new Message(key, vval);
+		
+		MessagingService.INSTANCE.send(msg);
+		
 		
 	}
 	

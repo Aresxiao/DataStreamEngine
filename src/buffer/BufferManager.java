@@ -21,7 +21,7 @@ public enum BufferManager {
 	private static final String TAG = BufferManager.class.getName();
 	
 	BlockingQueue<String> sensorQueue = new LinkedBlockingQueue<String>();
-	BlockingQueue<Message> receiveQueue = new LinkedBlockingQueue<Message>();
+	BlockingQueue<String> receiveQueue = new LinkedBlockingQueue<String>();
 	
 	ReceiveQueueThread receiveQueueThread;
 	SensorQueueThread sensorQueueThread;
@@ -39,8 +39,8 @@ public enum BufferManager {
 		receiveQueueThread.start();
 	}
 	
-	public void addReceiveQueue(Message msg){
-		receiveQueue.offer(msg);
+	public void addReceiveQueue(String data){
+		receiveQueue.offer(data);
 	}
 	
 	public void addSensorQueue(String data){

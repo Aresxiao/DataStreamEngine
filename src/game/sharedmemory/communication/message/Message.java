@@ -6,9 +6,11 @@ import game.sharedmemory.data.VersionValue;
 
 import java.io.Serializable;
 
-public class Message implements Serializable{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Message {
 	
-	private static final long serialVersionUID = -7784455849848939000L;
 	
 	/** {@link Key}}*/
 	protected Key key = Key.RESERVED_KEY;
@@ -16,8 +18,14 @@ public class Message implements Serializable{
 	/** {@link VersionValue}}*/
 	protected VersionValue versionValue = VersionValue.RESERVED_VERSIONVALUE;
 	
+	private JSONObject jsonObject;
+	
+	protected int type = 0;
+	
+	
+	
 	public Message( Key key, VersionValue versionValue){
-		
+		jsonObject = new JSONObject();
 		this.key = key;
 		this.versionValue = versionValue;
 	}
@@ -54,5 +62,17 @@ public class Message implements Serializable{
 		return string;
 	}
 	
+	public String getJSONObjectString() {
+		try {
+			jsonObject.put("type", type);
+			key.putJSONObject(jsonObject);
+			versionValue.putJSONObject(jsonObject);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonObject.toString();
+	}
 	
 }
