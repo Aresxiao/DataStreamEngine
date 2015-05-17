@@ -27,14 +27,15 @@ public enum KVStoreInMemory implements IKVStore{
 		// TODO Auto-generated method stub
 		final int hash = key.hashCode() & 0x7FFFFFFF;
 		//Log.i(TAG,key.toString()+vval.toString());
-		synchronized (locks[hash % locks.length])	// allowing concurrent writers
+		synchronized (locks[hash % locks.length])	// 	allowing concurrent writers
 		{
 			VersionValue current_vval = this.getVersionValue(key);
 			//Log.i(TAG, "read use get method");
-			if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
+			
+			//if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
 				//Log.i(TAG, "put a new version value");
 				this.key_vval_map.put(key, vval);
-			}
+			//}
 		}
 	}
 	
