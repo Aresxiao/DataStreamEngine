@@ -3,6 +3,9 @@ package game.sharedmemory.data;
 
 import java.io.Serializable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Key implements Serializable{
 	
 	/**
@@ -44,5 +47,15 @@ public class Key implements Serializable{
 	
 	public int getKey(){
 		return this.id;
+	}
+	
+	public void putJSONObject(JSONObject jsonObject){
+		
+		try {
+			jsonObject.put("key.id", id);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

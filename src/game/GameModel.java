@@ -191,20 +191,13 @@ public enum GameModel {
 		av[1] = vaVerticalY + vbCollY;
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
-		Value a_val = avalue.clone();
-		synchronized (a_val) {
-			RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), a_val);
-		}
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		
 		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
 		bv[1] = vbVerticalY + vaCollY;
-		
 		bvalue.setV(bv[0], bv[1]);
-		Value b_val = bvalue.clone();
-		synchronized (b_val) {
-			RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), b_val);
-		}
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
 		
 		System.out.println("write ballb "+ballb.getBallId());
 		//========================================

@@ -2,6 +2,9 @@ package game.sharedmemory.data;
 
 import java.io.Serializable;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Version implements Comparable<Version>, Serializable{
 
 	/**
@@ -59,5 +62,14 @@ public class Version implements Comparable<Version>, Serializable{
 		return version;
 	}
 	
-	
+	public void putJSONObject(JSONObject jsonObject){
+		
+		try {
+			jsonObject.put("version.seqno", seqno);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

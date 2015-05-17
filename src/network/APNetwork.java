@@ -5,6 +5,7 @@ import game.sharedmemory.communication.message.Message;
 
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -39,9 +40,9 @@ public enum APNetwork implements OverlayNetwork {
 	
 	ServerSocket serverSocket = null;
 	Socket socket = null;
-	ObjectInputStream inputStream = null;
-	ObjectOutputStream outputStream = null;
-	DataInputStream in = null;
+	DataInputStream inputStream = null;
+	DataOutputStream outputStream = null;
+	
 	private static final Executor exec = Executors.newCachedThreadPool();
 	
 	/**
@@ -61,9 +62,9 @@ public enum APNetwork implements OverlayNetwork {
 						socket = serverSocket.accept();
 						System.out.println("server: Connect success");
 						
-						inputStream = new ObjectInputStream(socket.getInputStream());
+						inputStream = new DataInputStream(socket.getInputStream());
 						System.out.println("server: get input stream");
-						outputStream = new ObjectOutputStream(socket.getOutputStream());
+						outputStream = new DataOutputStream(socket.getOutputStream());
 						System.out.println("server: get output stream");
 						connectedFalg = true;
 					} catch (IOException e) {
@@ -78,9 +79,9 @@ public enum APNetwork implements OverlayNetwork {
 						System.out.println("Client");
 						
 						System.out.println("success connect to server1111111111");
-						outputStream = new ObjectOutputStream(socket.getOutputStream());
+						outputStream = new DataOutputStream(socket.getOutputStream());
 						System.out.println("get output stream");
-						inputStream = new ObjectInputStream(socket.getInputStream());
+						inputStream = new DataInputStream(socket.getInputStream());
 						System.out.println("Success connect");
 						connectedFalg = true;
 					} catch (UnknownHostException e) {
@@ -104,21 +105,18 @@ public enum APNetwork implements OverlayNetwork {
 								
 								try {
 									
-									Message msg = (Message) inputStream.readObject();
+									String data = inputStream.readUTF();
 									
 									if(countReceive < 10){
-										Log.i(TAG, msg.toString());
+										Log.i(TAG, data);
 										countReceive++;
 									}
-									BufferManager.INSTANCE.addReceiveQueue(msg);
+									BufferManager.INSTANCE.addReceiveQueue(data);
 									
 								} catch (OptionalDataException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (ClassNotFoundException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
@@ -168,8 +166,7 @@ public enum APNetwork implements OverlayNetwork {
 		try {
 			if(connectedFalg){
 				
-				outputStream.reset();
-				outputStream.writeObject(msg);
+				outputStream.writeUTF(msg.getJSONObjectString());
 				outputStream.flush();
 				if(countSend < 10){
 					Log.i(TAG, "send msg "+msg.toString());
@@ -183,17 +180,14 @@ public enum APNetwork implements OverlayNetwork {
 		}
 	}
 	
-	public Message receiveMsg() {
+	public String receiveMsg() {
 		// TODO Auto-generated method stub
 		
-		Message msg = null;
+		String data = null;
 		
 		try {
-			msg = (Message)inputStream.readObject();
+			data = inputStream.readUTF();
 		} catch (OptionalDataException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -201,7 +195,7 @@ public enum APNetwork implements OverlayNetwork {
 			e.printStackTrace();
 		}
 		
-		return msg;
+		return data;
 	}
 	
 }
