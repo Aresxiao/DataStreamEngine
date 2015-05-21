@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DataStreamEngine</string>
+    <string name="app_name">CrazyBall</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="slogan">\r Crazy Ball Game,Perfect!\n\n\r Choose an algorithm</string>
+    <string name="confirm">confirm</string>
+    <string name="tv_ip">default string</string>
 
 </resources>
