@@ -30,9 +30,7 @@ public enum APNetwork implements OverlayNetwork {
 	
 	private static final String TAG = APNetwork.class.getName();
 	
-	String hostIP = null;
 	int port = Constant.PORT;
-	boolean serverFlag;
 	boolean connectedFalg;
 	
 	int countReceive = 0;
@@ -55,45 +53,35 @@ public enum APNetwork implements OverlayNetwork {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				if(Constant.SERVERFLAG > 0){
+				boolean haveException = true;
+				
+				try {
+					socket = new Socket(Constant.OTHER_HOST_IP, port);
+					haveException = false;
+					connectedFalg = true;
+					inputStream = new DataInputStream(socket.getInputStream());
+					outputStream = new DataOutputStream(socket.getOutputStream());
+				} catch (UnknownHostException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				if(haveException){
 					try {
-						System.out.println("Server,Listen");
 						serverSocket = new ServerSocket(port);
 						socket = serverSocket.accept();
-						System.out.println("server: Connect success");
-						
-						inputStream = new DataInputStream(socket.getInputStream());
-						System.out.println("server: get input stream");
-						outputStream = new DataOutputStream(socket.getOutputStream());
-						System.out.println("server: get output stream");
 						connectedFalg = true;
+						outputStream = new DataOutputStream(socket.getOutputStream());
+						inputStream = new DataInputStream(socket.getInputStream());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				else{
-					hostIP = Constant.HOST_IP;
-					try {
-						socket = new Socket(hostIP,port);
-						System.out.println("Client");
-						
-						System.out.println("success connect to server1111111111");
-						outputStream = new DataOutputStream(socket.getOutputStream());
-						System.out.println("get output stream");
-						inputStream = new DataInputStream(socket.getInputStream());
-						System.out.println("Success connect");
-						connectedFalg = true;
-					} catch (UnknownHostException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						System.out.println("no host");
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						System.out.println("failed to  connect");
-					}
-				}
+				
 				System.out.println("connectedFlag == true");
 				if(connectedFalg == true){
 					
@@ -136,18 +124,8 @@ public enum APNetwork implements OverlayNetwork {
 		return connectedFalg;
 	}
 	
-	public String getHost(){
-		if(hostIP==null)
-			return null;
-		return hostIP;
-	}
-	
 	public int getPort(){
 		return port;
-	}
-	
-	public void setHost(String host){
-		this.hostIP = host;
 	}
 	
 	/**

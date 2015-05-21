@@ -30,9 +30,9 @@ public class Constant {
 	public static int TABLE_WIDTH;
 	public static int TABLE_HEIGHT;
 	
-	public static int SERVERFLAG;
 	public static int PORT=9010;
-	public static String HOST_IP;
+	public static String LOCAL_HOST_IP;
+	public static String OTHER_HOST_IP;
 	
 	public static int NFRAMEA_X;
 	public static int NFRAMEA_Y;
@@ -47,6 +47,7 @@ public class Constant {
 	
 	public static String WINNTEXT = "1球获胜，好机智，是否继续?";
 	public static String WINSTEXT = "2求获胜，好厉害，是否继续?";
+	
 	public static float WINTEXTLOCX;
 	public static float WINTEXTLOCY;
 	
@@ -79,17 +80,17 @@ public class Constant {
 				
 				String tempString;
 				tempString = br.readLine();
-				SERVERFLAG=Integer.parseInt(tempString);
+				LOCAL_HOST_IP = tempString;
 				
 				tempString = br.readLine();
-				HOST_IP = tempString;
+				OTHER_HOST_IP = tempString;
 				tempString = br.readLine();
 				LOCAL_BALL_ID = Integer.parseInt(tempString);
 				tempString = br.readLine();
 				CLIENT_BALL_ID = Integer.parseInt(tempString);
 				br.close();
 				if(Constant.isDebug)
-					System.out.println("read from sdcard "+SERVERFLAG+","+HOST_IP+","+LOCAL_BALL_ID+","+CLIENT_BALL_ID);
+					System.out.println("read from sdcard "+LOCAL_HOST_IP+","+OTHER_HOST_IP+","+LOCAL_BALL_ID+","+CLIENT_BALL_ID);
 				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
