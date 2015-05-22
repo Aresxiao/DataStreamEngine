@@ -17,14 +17,13 @@ import android.util.Log;
 public class AccelerateSensor implements SensorEventListener{
 	
 	private static final String TAG = AccelerateSensor.class.getName();
-	private MainActivity activity;
 	float x,y;
 	SensorManager sensorManager;
-	public AccelerateSensor(MainActivity activity){
+	public AccelerateSensor(){
 		x=0;
 		y=0;
-		this.activity = activity;  
-		sensorManager = (SensorManager) this.activity.getSystemService(Context.SENSOR_SERVICE);
+		
+		sensorManager = (SensorManager) MainActivity.INSTANCE().getSystemService(Context.SENSOR_SERVICE);
 		startSensor();
 	}
 	
