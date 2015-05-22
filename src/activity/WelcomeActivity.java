@@ -1,6 +1,8 @@
 package activity;
 
 
+import network.AtomicAPNetwork;
+import network.OverlayNetworkFactory;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import main.MainActivity;
 
@@ -9,6 +11,7 @@ import com.example.datastreamengine.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.*;
 import android.widget.AdapterView;
@@ -20,9 +23,12 @@ import android.widget.TextView;
 
 public class WelcomeActivity extends Activity{
 	
+	private static final String TAG = WelcomeActivity.class.getName();
+	
 	private Spinner spinnerAlgs = null;
-	private Button signInButton = null;
+	private Button confirmBtn = null;
 	private TextView ipTextView = null;
+	private Button startServerBtn = null;
 	ArrayAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,9 @@ public class WelcomeActivity extends Activity{
 		setContentView(R.layout.welcome_activity);
 		
 		this.spinnerAlgs = (Spinner)findViewById(R.id.spinner_algs);
-		this.signInButton = (Button)findViewById(R.id.btn_confirm);
-		this.ipTextView = (TextView)findViewById(R.id.tv_ip);
+		this.confirmBtn = (Button)findViewById(R.id.btn_confirm);
+		
+		this.startServerBtn = (Button)findViewById(R.id.btn_launch_conn);
 		
 		adapter = ArrayAdapter.createFromResource(this, R.array.spinner_algs_array, 
 				android.R.layout.simple_spinner_item);
@@ -47,8 +54,15 @@ public class WelcomeActivity extends Activity{
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				String spinner_alg = (String) adapter.getItem(arg2);
-				ipTextView.setText(spinner_alg);
-				ipTextView.setVisibility(0);
+				if(spinner_alg.equals("ATOMIC_REGISTER")){
+					startServerBtn.setVisibility(View.VISIBLE);
+					confirmBtn.setEnabled(false);
+				}
+				if(spinner_alg.equals("WEAK_REGISTER")){
+					startServerBtn.setVisibility(View.INVISIBLE);
+					confirmBtn.setEnabled(true);
+				}
+				
 			}
 			
 			@Override
@@ -59,26 +73,38 @@ public class WelcomeActivity extends Activity{
 			
 		});
 		
-		this.signInButton.setOnClickListener(new OnClickListener() {
+		this.confirmBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+				int alg_type = getAlgType();
+				Log.i(TAG, "get type = " + alg_type);
+				OverlayNetworkFactory.INSTANCE.setNetwork(alg_type);
+				RegisterControllerFactory.INSTANCE.setRegisterController(alg_type);
 				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
 			}
 		});
 		
-		
+		this.startServerBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				AtomicAPNetwork.INSTANCE.new ServerTask().execute();
+				confirmBtn.setEnabled(true);
+				startServerBtn.setEnabled(false);
+			}
+		});
 	}
 	
 	public int getAlgType(){
 		
 		String spinner_alg = this.spinnerAlgs.getSelectedItem().toString();
+		Log.i(TAG, "spinner_alg = " + spinner_alg);
 		int alg_type;
-		System.out.println("The chosen algorithm is: " + spinner_alg);
 		if (spinner_alg.equals("WEAK_REGISTER"))
 			alg_type  = RegisterControllerFactory.WEAK_REGISTER;
 		else

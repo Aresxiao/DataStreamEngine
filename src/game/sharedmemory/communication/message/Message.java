@@ -22,8 +22,6 @@ public class Message {
 	
 	protected int type = 0;
 	
-	
-	
 	public Message( Key key, VersionValue versionValue){
 		jsonObject = new JSONObject();
 		this.key = key;

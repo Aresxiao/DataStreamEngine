@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 /**
  * @author GengXiao
  * @version 1.0
@@ -15,12 +16,15 @@ import android.hardware.SensorManager;
  */
 public class AccelerateSensor implements SensorEventListener{
 	
+	private static final String TAG = AccelerateSensor.class.getName();
+	private MainActivity activity;
 	float x,y;
 	SensorManager sensorManager;
-	public AccelerateSensor(){
+	public AccelerateSensor(MainActivity activity){
 		x=0;
 		y=0;
-		sensorManager = (SensorManager) MainActivity.INSTANCE().getSystemService(Context.SENSOR_SERVICE);
+		this.activity = activity;  
+		sensorManager = (SensorManager) this.activity.getSystemService(Context.SENSOR_SERVICE);
 		startSensor();
 	}
 	
