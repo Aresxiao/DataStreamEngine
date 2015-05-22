@@ -99,7 +99,7 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		//activity = this;
+		activity = this;
 		
 		/**
 		 * ×¢²áµç³Ø¹ã²¥
@@ -138,7 +138,7 @@ public class MainActivity extends Activity{
         
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
         Log.i(TAG, "get accelerate");
-        accelerateSensor = new AccelerateSensor(this);
+        accelerateSensor = new AccelerateSensor();
         Log.i(TAG, "not a null");
         BufferManager.INSTANCE.startThread();
         

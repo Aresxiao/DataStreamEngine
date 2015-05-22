@@ -96,6 +96,7 @@ public class WelcomeActivity extends Activity{
 				AtomicAPNetwork.INSTANCE.new ServerTask().execute();
 				confirmBtn.setEnabled(true);
 				startServerBtn.setEnabled(false);
+				startServerBtn.setText("started");
 			}
 		});
 	}
