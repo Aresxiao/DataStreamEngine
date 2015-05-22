@@ -14,16 +14,17 @@
         android:layout_height="wrap_content"
         android:text="@string/slogan" />
     
-    <TextView
+    <!-- TextView
         android:id="@+id/tv_ip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="invisible"
-        android:text="@string/tv_ip" />
+        android:text="@string/tv_ip" /-->
 	<Spinner 
 	    android:id="@+id/spinner_algs"
 	    android:layout_width="fill_parent" 
 	    android:layout_height="wrap_content" />
+	
 	
 	<Button
 	    android:id="@+id/btn_confirm"
@@ -31,5 +32,12 @@
 	    android:layout_height="wrap_content"
 	    
 	    android:text="@string/confirm" />
+	
+	<Button
+	    android:id="@+id/btn_launch_conn"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:visibility="invisible"
+	    android:text="@string/startServer" />
 	
 </LinearLayout>

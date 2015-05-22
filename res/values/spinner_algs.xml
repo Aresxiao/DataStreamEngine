@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spinner_algs_array">  
-        <item>WeakRegister</item>  
-        <item>AtomicRegister</item> 
+        <item>WEAK_REGISTER</item>  
+        <item>ATOMIC_REGISTER</item> 
     </string-array>  
 </resources>

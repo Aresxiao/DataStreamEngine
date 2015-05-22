@@ -18,6 +18,7 @@ import game.GameView;
 import game.GameWinNView;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import network.APNetwork;
+import network.OverlayNetworkFactory;
 import sensor.AccelerateSensor;
 import timingservice.ADBExecutor;
 import timingservice.TimingService;
@@ -54,6 +55,8 @@ import android.view.WindowManager;
  */
 
 public class MainActivity extends Activity{
+	
+	private static final String TAG = MainActivity.class.getName();
 	
 	private volatile static MainActivity activity;
 	
@@ -96,7 +99,7 @@ public class MainActivity extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		activity = this;
+		//activity = this;
 		
 		/**
 		 * ×¢²áµç³Ø¹ã²¥
@@ -134,11 +137,12 @@ public class MainActivity extends Activity{
         setContentView(gameView);
         
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
-        
-        accelerateSensor = new AccelerateSensor();
+        Log.i(TAG, "get accelerate");
+        accelerateSensor = new AccelerateSensor(this);
+        Log.i(TAG, "not a null");
         BufferManager.INSTANCE.startThread();
         
-		APNetwork.INSTANCE.connect();
+		OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 	}
 	
 	public static synchronized MainActivity INSTANCE(){
