@@ -1,5 +1,8 @@
 package constant;
 
+import group.GroupConfig;
+import group.SystemNode;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -81,9 +84,13 @@ public class Constant {
 				String tempString;
 				tempString = br.readLine();
 				LOCAL_HOST_IP = tempString;
+				GroupConfig.INSTANCE.setLocalNode(new SystemNode(LOCAL_HOST_IP));
 				
 				tempString = br.readLine();
 				OTHER_HOST_IP = tempString;
+				GroupConfig.INSTANCE.addMember(new SystemNode(LOCAL_HOST_IP));
+				GroupConfig.INSTANCE.addMember(new SystemNode(OTHER_HOST_IP));
+				
 				tempString = br.readLine();
 				LOCAL_BALL_ID = Integer.parseInt(tempString);
 				tempString = br.readLine();

@@ -1,8 +1,9 @@
 package game.sharedmemory.readerwriter;
 
-import game.sharedmemory.communication.message.Message;
+import game.sharedmemory.communication.message.IPMessage;
+
 
 public interface IMessageHandler {
 	
-	public void handleMessage(Message message);
+	public void handleMessage(IPMessage message);
 }
