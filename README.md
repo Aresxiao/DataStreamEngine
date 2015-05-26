@@ -1,3 +1,3 @@
 # DataStreamEngine
-This project will implement a Distributed-Shared-Memory frame,we develop an application based on this frame.
-Now we develop weakregister read/write algorithm.
+这是一个特定应用的项目，是安卓上的两个手机之间的小球对战游戏。我们目前开发这个项目是基于Distributed-Shared-Memory模型，利用Distributed-Shared-Memory模型，能够更好地处理两台设备之间在资源上的共享所带来的问题。游戏实时要求比较高，所以需要比较精致的处理。目前我们实现了WeakRegister read/write 算法。
+
