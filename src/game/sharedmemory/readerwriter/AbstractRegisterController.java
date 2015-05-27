@@ -7,6 +7,7 @@ import game.sharedmemory.communication.*;
 import game.sharedmemory.communication.MessagingService.Communication;
 import game.sharedmemory.communication.message.AtomicityMessage;
 import game.sharedmemory.communication.message.AtomicityReadPhaseMessage;
+import game.sharedmemory.communication.message.AtomicityWritePhaseMessage;
 import game.sharedmemory.communication.message.IPMessage;
 
 import game.sharedmemory.communication.message.WeakMessage;
@@ -28,7 +29,7 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 	@Override
 	public abstract void write(Key key, Value val);
 	
-	public void writeRemote(Key key,VersionValue versionValue){
+	public void writeRemote(Key key,VersionValue versionValue){	
 		VersionValue vval = versionValue.clone();
 		
 		WeakMessage msg = new WeakMessage(key, vval);
@@ -69,5 +70,10 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 		return this.comm.communicate();
 	}
 	
-	
+	public void wriatePhase(Key key, VersionValue versionValue){
+		AtomicityMessage atomicityWritePhaseMessage = 
+				new AtomicityWritePhaseMessage(GroupConfig.INSTANCE.getLocalNode().getNodeIp(), this.op_cnt, key, versionValue);
+		this.comm = MessagingService.INSTANCE.new Communication(atomicityWritePhaseMessage);
+		this.comm.communicate();
+	}
 }
