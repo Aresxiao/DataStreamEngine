@@ -1,8 +1,9 @@
 package game.sharedmemory.communication;
 
-import game.sharedmemory.communication.message.Message;
+import game.sharedmemory.communication.message.IPMessage;
+
 
 public interface IReceiver {
 	
-	public void onReceive(Message msg);
+	public void onReceive(IPMessage msg);
 }

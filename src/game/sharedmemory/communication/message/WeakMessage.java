@@ -4,26 +4,15 @@ import game.sharedmemory.data.Key;
 
 import game.sharedmemory.data.VersionValue;
 
-import java.io.Serializable;
-
 import org.json.JSONException;
-import org.json.JSONObject;
 
-public class Message {
+
+public class WeakMessage extends IPMessage{
 	
-	
-	/** {@link Key}}*/
-	protected Key key = Key.RESERVED_KEY;
-	
-	/** {@link VersionValue}}*/
-	protected VersionValue versionValue = VersionValue.RESERVED_VERSIONVALUE;
-	
-	private JSONObject jsonObject;
-	
-	protected int type = 0;
-	
-	public Message( Key key, VersionValue versionValue){
-		jsonObject = new JSONObject();
+	public WeakMessage( Key key, VersionValue versionValue){
+		super(null, 0);
+		this.msgType = IPMessage.WEAK_MESSAGE;
+		
 		this.key = key;
 		this.versionValue = versionValue;
 	}
@@ -37,21 +26,6 @@ public class Message {
 		this.key = key;
 		this.versionValue = versionValue;
 	}
-	/**
-	 * 
-	 * @return key
-	 */
-	public Key getKey(){
-		return this.key;
-	}
-	
-	/**
-	 * @return versionValue
-	 */
-	public VersionValue getVersionValue(){
-		return this.versionValue;
-	}
-	
 	
 	@Override
 	public String toString() {
@@ -60,9 +34,12 @@ public class Message {
 		return string;
 	}
 	
+	/**
+	 * @return jsonObject.toString()
+	 */
 	public String getJSONObjectString() {
 		try {
-			jsonObject.put("type", type);
+			jsonObject.put("msgType", msgType);
 			key.putJSONObject(jsonObject);
 			versionValue.putJSONObject(jsonObject);
 		} catch (JSONException e) {

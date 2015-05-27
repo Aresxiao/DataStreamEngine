@@ -24,7 +24,7 @@ public class WeakRegisterController extends AbstractRegisterController{
 	@Override
 	public VersionValue read(Key key) {
 		// TODO Auto-generated method stub
-		
+		this.op_cnt++;
 		return KVStoreInMemory.INSTANCE.getVersionValue(key);
 	}
 	
@@ -34,7 +34,7 @@ public class WeakRegisterController extends AbstractRegisterController{
 	@Override
 	public void write(Key key, Value val) {
 		// TODO Auto-generated method stub
-		
+		this.op_cnt++;
 		VersionValue vval = KVStoreInMemory.INSTANCE.getVersionValue(key);
 		
 		VersionValue new_vval = new VersionValue(vval.getVersion().increment(), val);

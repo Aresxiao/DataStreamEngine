@@ -1,5 +1,7 @@
 package network;
 
+import game.sharedmemory.communication.message.IPMessage;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,7 +19,6 @@ import buffer.BufferManager;
 
 import constant.Constant;
 
-import game.sharedmemory.communication.message.Message;
 
 public enum AtomicAPNetwork implements OverlayNetwork{
 	INSTANCE;
@@ -31,7 +32,7 @@ public enum AtomicAPNetwork implements OverlayNetwork{
 	
 	/** 根据msg中的ip发送给对应server  */
 	@Override
-	public void sendMsg(Message msg) {
+	public void sendMsg(IPMessage msg) {
 		// TODO Auto-generated method stub
 		
 	}
