@@ -1,7 +1,7 @@
 package game.sharedmemory.readerwriter;
 
-import constant.Constant;
 import android.util.Log;
+import game.sharedmemory.communication.message.IPMessage;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.VersionValue;
@@ -42,6 +42,15 @@ public class WeakRegisterController extends AbstractRegisterController{
 		
 		writeRemote(key, new_vval);
 		//Log.i(TAG,new_vval.toString());
+	}
+	
+	@Override
+	public void handleMessage(IPMessage message) {
+		// TODO Auto-generated method stub
+		Key key = message.getKey();
+		VersionValue versionValue = message.getVersionValue();
+		
+		KVStoreInMemory.INSTANCE.put(key, versionValue);
 	}
 	
 }

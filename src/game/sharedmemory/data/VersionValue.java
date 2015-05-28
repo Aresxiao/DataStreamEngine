@@ -73,7 +73,7 @@ public class VersionValue implements Comparable<VersionValue>, Serializable{
 	public String toString() {
 		// TODO Auto-generated method stub
 		
-		return "versionValue : " + version.toString() + value.toString() + ". ";
+		return "versionValue = " + version.toString() + value.toString() + ". ";
 	}
 	
 	public void putJSONObject(JSONObject jsonObject){

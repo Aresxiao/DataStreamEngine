@@ -3,7 +3,6 @@ package game.sharedmemory;
 
 import constant.Constant;
 import game.GameModel;
-import game.sharedmemory.communication.message.Message;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.Version;

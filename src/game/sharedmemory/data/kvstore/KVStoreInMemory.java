@@ -14,6 +14,8 @@ public enum KVStoreInMemory implements IKVStore{
 	INSTANCE;
 	private static final String TAG = KVStoreInMemory.class.getName();
 	
+	private boolean isAtomic = false;
+	
 	private final ConcurrentMap<Key, VersionValue> key_vval_map = new ConcurrentHashMap<Key, VersionValue>();
 	
 	private final Object[] locks = new Object[10];
@@ -31,11 +33,15 @@ public enum KVStoreInMemory implements IKVStore{
 		{
 			VersionValue current_vval = this.getVersionValue(key);
 			//Log.i(TAG, "read use get method");
-			
-			//if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
+			if(isAtomic){
+				if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
 				//Log.i(TAG, "put a new version value");
-			this.key_vval_map.put(key, vval);
-			//}
+					this.key_vval_map.put(key, vval);
+				}
+			}
+			else {
+				this.key_vval_map.put(key, vval);
+			}
 		}
 	}
 	
@@ -60,5 +66,8 @@ public enum KVStoreInMemory implements IKVStore{
 			this.key_vval_map.remove(key);
 		}
 	}
-
+	
+	public void setIsAtomic(boolean flag){
+		this.isAtomic = flag;
+	}
 }

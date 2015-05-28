@@ -9,10 +9,11 @@ import android.util.Log;
 
 import game.sharedmemory.communication.message.*;
 
+import game.sharedmemory.readerwriter.AtomicRegisterServer;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import group.GroupConfig;
 import group.SystemNode;
-import network.APNetwork;
+import network.OverlayNetworkFactory;
 
 public enum MessagingService implements IReceiver{
 	INSTANCE;
@@ -20,11 +21,18 @@ public enum MessagingService implements IReceiver{
 	@Override
 	public void onReceive(IPMessage msg) {
 		// TODO Auto-generated method stub
-		RegisterControllerFactory.INSTANCE.getRegisterController().handleMessage(msg);
+		if(msg.getMsgType() == IPMessage.ATOMIC_READ_PHASE_MESSAGE || 
+				msg.getMsgType() == IPMessage.ATOMIC_WRITE_PHASE_MESSAGE){
+			AtomicRegisterServer.INSTANCE.handleMessage(msg);
+		}
+		else {
+			RegisterControllerFactory.INSTANCE.getRegisterController().handleMessage(msg);
+		}
+		
 	}
 	
 	public void send(IPMessage msg){
-		APNetwork.INSTANCE.sendMsg(msg);
+		OverlayNetworkFactory.INSTANCE.getOverlayNetwork().sendMsg(msg);
 	}
 	
 	public class Communication implements IReceiver{
@@ -34,9 +42,9 @@ public enum MessagingService implements IReceiver{
 		
 		private static final int NOT_SENT = 0; // message was not sent yet
 		private static final int NOT_ACK = 1; // message was sent but not yet
-												// acknowledged
+		
 		private static final int ACK = 2; // message was acknowledged
-
+		
 		// to implement the ping-pong communication mechanism
 		private static final int HERE = 4;
 		private static final int THERE = 8;
@@ -45,7 +53,7 @@ public enum MessagingService implements IReceiver{
 		private final int procMajority; 
 		
 		/** 管理线程协作 */
-		private CountDownLatch latch;	
+		private CountDownLatch latch;
 		
 		private final Map<String, Integer> turn = new ConcurrentHashMap<String, Integer>();
 		private final Map<String, Integer> status = new ConcurrentHashMap<String, Integer>();
@@ -95,6 +103,7 @@ public enum MessagingService implements IReceiver{
 				
 				synchronized (this.locks[hash % locks.length]) {
 					if(turn.get(replicaIP) == Communication.HERE){
+						atomicityMessage.setReceiverIP(replicaIP);
 						MessagingService.INSTANCE.send(atomicityMessage);
 						turn.put(replicaIP, Communication.THERE);
 						status.put(replicaIP, Communication.NOT_ACK);
@@ -124,6 +133,7 @@ public enum MessagingService implements IReceiver{
 			synchronized (this.locks[hash % locks.length]) {
 				switch (this.status.get(fromIP)) {
 					case Communication.NOT_SENT:
+						atomicityMessage.setReceiverIP(fromIP);
 						MessagingService.INSTANCE.send(atomicityMessage);
 						this.turn.put(fromIP, Communication.THERE);
 						this.status.put(fromIP, Communication.NOT_ACK);

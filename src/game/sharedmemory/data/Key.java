@@ -32,7 +32,7 @@ public class Key implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "key:"+id;
+		return "key = "+id;
 	}
 	
 	@Override

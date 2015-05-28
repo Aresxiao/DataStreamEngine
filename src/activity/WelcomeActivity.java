@@ -3,6 +3,7 @@ package activity;
 
 import network.AtomicAPNetwork;
 import network.OverlayNetworkFactory;
+import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import main.MainActivity;
 
@@ -94,6 +95,7 @@ public class WelcomeActivity extends Activity{
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				AtomicAPNetwork.INSTANCE.new ServerTask().execute();
+				KVStoreInMemory.INSTANCE.setIsAtomic(true);
 				confirmBtn.setEnabled(true);
 				startServerBtn.setEnabled(false);
 				startServerBtn.setText("started");

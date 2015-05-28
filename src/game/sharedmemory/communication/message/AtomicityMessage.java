@@ -14,11 +14,4 @@ public class AtomicityMessage extends IPMessage{
 		this.versionValue = versionValue;
 	}
 	
-	@Override
-	public String getJSONObjectString() {
-		// TODO Auto-generated method stub
-		return super.getJSONObjectString();
-	}
-	
-	
 }

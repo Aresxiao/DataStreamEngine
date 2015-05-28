@@ -2,13 +2,20 @@ package game.sharedmemory.readerwriter;
 
 import java.util.Map;
 
+import game.sharedmemory.communication.MessagingService;
+import game.sharedmemory.communication.MessagingService.Communication;
 import game.sharedmemory.communication.message.AtomicityMessage;
+import game.sharedmemory.communication.message.AtomicityReadPhaseMessage;
+import game.sharedmemory.communication.message.AtomicityWritePhaseMessage;
+import game.sharedmemory.communication.message.IPMessage;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.Version;
 import game.sharedmemory.data.VersionValue;
+import group.GroupConfig;
 
 public class AtomicRegisterController extends AbstractRegisterController{
+	
 	
 	public static AtomicRegisterController instance = null;
 	
@@ -45,6 +52,12 @@ public class AtomicRegisterController extends AbstractRegisterController{
 		VersionValue newVVal = new VersionValue(maxVersion, val);
 		
 		this.wriatePhase(key, newVVal);
+	}
+	
+	@Override
+	public void handleMessage(IPMessage message) {
+		// TODO Auto-generated method stub
+		this.comm.onReceive(message);
 	}
 	
 }

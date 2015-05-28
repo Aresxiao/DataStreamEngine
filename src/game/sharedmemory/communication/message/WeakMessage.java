@@ -4,8 +4,6 @@ import game.sharedmemory.data.Key;
 
 import game.sharedmemory.data.VersionValue;
 
-import org.json.JSONException;
-
 
 public class WeakMessage extends IPMessage{
 	
@@ -25,29 +23,6 @@ public class WeakMessage extends IPMessage{
 		
 		this.key = key;
 		this.versionValue = versionValue;
-	}
-	
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		String string = "msg[ ballId = " + key.toString() + versionValue.toString()+" ]";
-		return string;
-	}
-	
-	/**
-	 * @return jsonObject.toString()
-	 */
-	public String getJSONObjectString() {
-		try {
-			jsonObject.put("msgType", msgType);
-			key.putJSONObject(jsonObject);
-			versionValue.putJSONObject(jsonObject);
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return jsonObject.toString();
 	}
 	
 }

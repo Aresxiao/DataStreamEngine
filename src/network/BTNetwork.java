@@ -1,12 +1,13 @@
 package network;
 
-import game.sharedmemory.communication.message.Message;
+import game.sharedmemory.communication.message.IPMessage;
+
 
 
 public class BTNetwork implements OverlayNetwork {
 
 	@Override
-	public void sendMsg(Message msg) {
+	public void sendMsg(IPMessage msg) {
 		// TODO Auto-generated method stub
 		
 	}

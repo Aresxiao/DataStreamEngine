@@ -1,7 +1,6 @@
 package game;
 
 import game.sharedmemory.*;
-import game.sharedmemory.communication.message.Message;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
@@ -9,9 +8,6 @@ import game.sharedmemory.readerwriter.RegisterControllerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 import android.util.Log;
 
 
@@ -221,6 +217,12 @@ public enum GameModel {
 		return (p1[0]-p2[0])*(p1[0]-p2[0])+(p1[1]-p2[1])*(p1[1]-p2[1]);
 	}
 	
+	/**
+	 * @param vec1
+	 * @param vec2
+	 * @return vec1和vec2的向量乘积
+	 */
+	
 	public float dotProduct(float[] vec1,float[] vec2)
 	{
 		return
@@ -230,7 +232,7 @@ public enum GameModel {
 	/**
 	 * @description 求平面向量的模
 	 * @param vec
-	 * @return
+	 * @return 两个向量的模
 	 */
 	public float mould(float[] vec)
 	{
@@ -241,7 +243,7 @@ public enum GameModel {
 	 * @description 求两个平面向量的夹角
 	 * @param vec1
 	 * @param vec2
-	 * @return
+	 * @return 向量夹角的弧度
 	 */
 	public float angle(float[] vec1,float[] vec2)
 	{

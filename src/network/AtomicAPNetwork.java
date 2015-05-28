@@ -1,6 +1,7 @@
 package network;
 
 import game.sharedmemory.communication.message.IPMessage;
+import group.GroupConfig;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -10,9 +11,6 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-
 import android.os.AsyncTask;
 import android.util.Log;
 import buffer.BufferManager;
@@ -28,13 +26,19 @@ public enum AtomicAPNetwork implements OverlayNetwork{
 	/** 用来存储连接的输出流对象  */
 	Map<String, DataOutputStream> replicaMap = new HashMap<String, DataOutputStream>();
 	
-	private static final Executor exec = Executors.newCachedThreadPool();
-	
 	/** 根据msg中的ip发送给对应server  */
 	@Override
 	public void sendMsg(IPMessage msg) {
 		// TODO Auto-generated method stub
-		
+		String ip = msg.getReceiverIP();
+		DataOutputStream outputStream = replicaMap.get(ip);
+		try {
+			outputStream.writeUTF(msg.getJSONObjectString());
+			outputStream.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override

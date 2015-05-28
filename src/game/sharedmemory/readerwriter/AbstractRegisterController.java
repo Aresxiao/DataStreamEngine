@@ -2,7 +2,6 @@ package game.sharedmemory.readerwriter;
 
 import java.util.Map;
 
-import android.util.Log;
 import game.sharedmemory.communication.*;
 import game.sharedmemory.communication.MessagingService.Communication;
 import game.sharedmemory.communication.message.AtomicityMessage;
@@ -12,16 +11,15 @@ import game.sharedmemory.communication.message.IPMessage;
 
 import game.sharedmemory.communication.message.WeakMessage;
 import game.sharedmemory.data.*;
-import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import group.GroupConfig;
 
-public abstract class AbstractRegisterController implements IRegister, IMessageHandler {
+public abstract class AbstractRegisterController implements IRegister,IMessageHandler{
 	
 	private static final String TAG = AbstractRegisterController.class.getName();
 	
 	protected int op_cnt = 0;
 	
-	private Communication comm = null;
+	protected Communication comm = null;
 	
 	@Override
 	public abstract VersionValue read(Key key);
@@ -38,16 +36,7 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 		
 	}
 	
-	@Override
-	public void handleMessage(IPMessage message){
-		// TODO Auto-generated method stub
-		if(message.getMsgType() == IPMessage.WEAK_MESSAGE){
-			WeakMessage msg = (WeakMessage) message;
-			Key key = msg.getKey();
-			VersionValue versionValue = msg.getVersionValue();
-			KVStoreInMemory.INSTANCE.put(key, versionValue);
-		}
-	}
+	//public abstract void handleMessage(IPMessage message);
 	
 	public VersionValue extractMaxVValFromAcks(Map<String, AtomicityMessage> acks){
 		VersionValue[] vvals = new VersionValue[acks.size()];
@@ -76,4 +65,5 @@ public abstract class AbstractRegisterController implements IRegister, IMessageH
 		this.comm = MessagingService.INSTANCE.new Communication(atomicityWritePhaseMessage);
 		this.comm.communicate();
 	}
+	
 }

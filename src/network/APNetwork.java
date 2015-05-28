@@ -1,14 +1,10 @@
 package network;
 
-import game.sharedmemory.communication.MessagingService;
-import game.sharedmemory.communication.message.Message;
-
+import game.sharedmemory.communication.message.IPMessage;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -16,11 +12,8 @@ import java.net.UnknownHostException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import buffer.BufferManager;
-
-
 import android.util.Log;
-
+import buffer.BufferManager;
 import constant.Constant;
 
 
@@ -138,7 +131,7 @@ public enum APNetwork implements OverlayNetwork {
 	/**
 	 * @param string 是需要发送的数据
 	 */
-	public void sendMsg(Message msg) {
+	public void sendMsg(IPMessage msg) {
 		// TODO Auto-generated method stub
 		
 		try {
