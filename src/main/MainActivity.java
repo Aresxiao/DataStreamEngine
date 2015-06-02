@@ -130,7 +130,7 @@ public class MainActivity extends Activity{
         tableHeight = metrics.heightPixels;
         Constant.initConst(tableWidth, tableHeight);
         
-        RegisterControllerFactory.INSTANCE.setRegisterController(1);
+        //RegisterControllerFactory.INSTANCE.setRegisterController(1);
         
         GameModel.INSTANCE.initialize();
         gameView = new GameView(this);

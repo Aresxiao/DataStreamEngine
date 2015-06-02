@@ -3,6 +3,7 @@ package game;
 import game.sharedmemory.*;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.VersionValue;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 
@@ -49,11 +50,15 @@ public enum GameModel {
 	public void onSensorChanged(float ax,float ay){
 		AbstractBall ball = ballList.get(Constant.LOCAL_BALL_ID);
 		float[] v = ball.calBallSpeedByAccelerate(ax, ay);
-		
+		Log.i(TAG, "ax = " + ax + ",ay = " + ay);
 		Key key = new Key(Constant.LOCAL_BALL_ID);
-		
-		Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
+		Log.i(TAG, key.toString());
+		VersionValue versionValue = RegisterControllerFactory.INSTANCE.getRegisterController().read(key);
+		Value value = versionValue.getValue();
+		//Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
+		Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1]);
 		value.setV(v[0], v[1]);
+		
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(key, value);
 	}
 	

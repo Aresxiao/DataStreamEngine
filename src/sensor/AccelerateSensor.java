@@ -40,6 +40,7 @@ public class AccelerateSensor implements SensorEventListener{
 		
 		String dataString = x+","+y;
 		BufferManager.INSTANCE.addSensorQueue(dataString);
+		//Log.i(TAG, "onSensorChanged " + dataString);
 		//System.out.println(dataString+"-----------------");
 	}
 	

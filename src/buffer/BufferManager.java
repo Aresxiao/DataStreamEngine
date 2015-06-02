@@ -42,6 +42,7 @@ public enum BufferManager {
 	}
 	
 	public void addSensorQueue(String data){
+		//Log.i(TAG, "addSensorData "+data);
 		sensorQueue.offer(data);
 	}
 }
