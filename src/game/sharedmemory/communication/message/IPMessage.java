@@ -125,7 +125,7 @@ public class IPMessage {
 		try {
 			
 			int type = json.getInt("msgType");
-			int id = json.getInt("id");
+			int id = json.getInt("key.id");
 			int cnt = json.getInt("cnt");
 			int seqno = json.getInt("version.seqno");
 			String ip = json.getString("senderIP");
