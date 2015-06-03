@@ -18,6 +18,8 @@ public class IPMessage {
 	public static final int ATOMIC_WRITE_PHASE_MESSAGE = 5;
 	public static final int ATOMIC_WRITE_PHASE_ACK_MESSAGE = 6;
 	
+	public static final String DEFAULT_WORD = "DEFAULT_WORD";
+	
 	protected JSONObject jsonObject = new JSONObject();
 	
 	/** 标记msg类型 */

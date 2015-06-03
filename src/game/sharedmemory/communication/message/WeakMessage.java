@@ -8,7 +8,7 @@ import game.sharedmemory.data.VersionValue;
 public class WeakMessage extends IPMessage{
 	
 	public WeakMessage( Key key, VersionValue versionValue){
-		super(null, 0);
+		super(IPMessage.DEFAULT_WORD, 0);
 		this.msgType = IPMessage.WEAK_MESSAGE;
 		
 		this.key = key;
