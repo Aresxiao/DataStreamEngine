@@ -136,7 +136,7 @@ public abstract class AbstractBall {
 			Value value = vval.getValue();
 			value.setV(v[0], v[1]);
 			value.setLoc(tempX, tempY);
-			
+			KVStoreInMemory.INSTANCE.put(new Key(ballId), vval);
 		}
 	}
 	
@@ -179,16 +179,17 @@ public abstract class AbstractBall {
 		}
 		
 		if(center[0] < radius||(center[0] + radius) > Constant.TABLE_WIDTH){
-			
-			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
+			VersionValue versionValue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId));
+			Value value = versionValue.getValue();
 			value.setV(-vx, vy);
-			
+			KVStoreInMemory.INSTANCE.put(new Key(ballId), versionValue);
 			canGoFlag = false;
 		}
 		if(center[1] < radius||(center[1] + radius) > Constant.TABLE_HEIGHT){
-			
-			Value value = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId)).getValue();
+			VersionValue versionValue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId));
+			Value value = versionValue.getValue();
 			value.setV(vx, -vy);
+			KVStoreInMemory.INSTANCE.put(new Key(ballId), versionValue);
 			canGoFlag = false;
 		}
 		
