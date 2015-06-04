@@ -32,12 +32,14 @@ public enum AtomicAPNetwork implements OverlayNetwork{
 		// TODO Auto-generated method stub
 		String ip = msg.getReceiverIP();
 		DataOutputStream outputStream = replicaMap.get(ip);
-		try {
-			outputStream.writeUTF(msg.getJSONObjectString());
-			outputStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(outputStream != null){
+			try {
+				outputStream.writeUTF(msg.getJSONObjectString());
+				outputStream.flush();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
