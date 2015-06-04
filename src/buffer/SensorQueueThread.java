@@ -27,13 +27,13 @@ public class SensorQueueThread extends Thread{
 		// TODO Auto-generated method stub
 		while(true){
 			try {
-				Log.i(TAG, "SensorQueueThread is started");
+				//Log.i(TAG, "SensorQueueThread is started");
 				String dataString = sensorQueue.take();
 				
 				String[] v_str = dataString.split(",");
-				Log.i(TAG, "get data "+dataString);
+				//Log.i(TAG, "get data "+dataString);
 				GameModel.INSTANCE.onSensorChanged(Float.parseFloat(v_str[0]), Float.parseFloat(v_str[1]));
-				Log.i(TAG, "v_str[0] = " + v_str[0] + ",v_str[1] = " + v_str[1]);
+				//Log.i(TAG, "v_str[0] = " + v_str[0] + ",v_str[1] = " + v_str[1]);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
