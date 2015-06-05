@@ -55,7 +55,7 @@ public enum KVStoreInMemory implements IKVStore{
 		if (vval == null)
 			return VersionValue.RESERVED_VERSIONVALUE;
 		
-		return vval.clone();
+		return vval;
 	}
 	
 	@Override
