@@ -86,7 +86,7 @@ public enum GameModel {
 		 * 该方法没有改变球的位置，只改变球的速度。
 		 * 注意此时的x,y，不是球心坐标，而是球外接正方形左上角顶点坐标！！！！！！！！！！
 		 */	
-		Value bvalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballb.getBallId())).getValue();
+		Value bvalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballb.getBallId())).clone().getValue();
 		float[] bloc = bvalue.getLoc();
 		
 		float BAx = ballaTempXY[0] - bloc[0];
@@ -151,7 +151,7 @@ public enum GameModel {
 		
 		//求a球的速度大小
 		
-		Value avalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(balla.getBallId())).getValue();
+		Value avalue = KVStoreInMemory.INSTANCE.getVersionValue(new Key(balla.getBallId())).clone().getValue();
 		
 		float[] av = avalue.getV();
 		
