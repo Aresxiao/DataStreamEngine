@@ -9,11 +9,16 @@ import main.MainActivity;
 
 import com.example.datastreamengine.R;
 
+import constant.Constant;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.*;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,6 +37,11 @@ public class WelcomeActivity extends Activity{
 	private TextView ipTextView = null;
 	private Button startServerBtn = null;
 	ArrayAdapter adapter;
+	
+	//屏幕宽度和高度
+	private int tableWidth;
+	private int tableHeight;
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -48,6 +58,14 @@ public class WelcomeActivity extends Activity{
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		this.spinnerAlgs.setAdapter(adapter);
+		
+		WindowManager windowManager = getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        tableWidth = metrics.widthPixels;
+        tableHeight = metrics.heightPixels;
+        Constant.initConst(tableWidth, tableHeight);
 		
 		this.spinnerAlgs.setOnItemSelectedListener(new OnItemSelectedListener() {
 			

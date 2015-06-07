@@ -67,9 +67,6 @@ public class MainActivity extends Activity{
 	
 	AccelerateSensor accelerateSensor;
 	
-	//屏幕宽度和高度
-	private int tableWidth;
-	private int tableHeight;
 	
 	GameWinNView gameWinNView;
 	GameView gameView;
@@ -122,13 +119,7 @@ public class MainActivity extends Activity{
         
         
         /** 获取窗口管理器,获得屏幕宽和高 */
-        WindowManager windowManager = getWindowManager();
-        Display display = windowManager.getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        tableWidth = metrics.widthPixels;
-        tableHeight = metrics.heightPixels;
-        Constant.initConst(tableWidth, tableHeight);
+        
         
         //RegisterControllerFactory.INSTANCE.setRegisterController(1);
         
