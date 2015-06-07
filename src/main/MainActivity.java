@@ -123,7 +123,7 @@ public class MainActivity extends Activity{
         
         //RegisterControllerFactory.INSTANCE.setRegisterController(1);
         
-        GameModel.INSTANCE.initialize();
+        
         gameView = new GameView(this);
         setContentView(gameView);
         
@@ -131,7 +131,7 @@ public class MainActivity extends Activity{
         Log.i(TAG, "get accelerate");
         accelerateSensor = new AccelerateSensor();
         Log.i(TAG, "not a null");
-        BufferManager.INSTANCE.startThread();
+        
         
 		//OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 	}

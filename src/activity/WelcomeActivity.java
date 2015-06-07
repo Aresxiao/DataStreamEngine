@@ -3,9 +3,12 @@ package activity;
 
 import network.AtomicAPNetwork;
 import network.OverlayNetworkFactory;
+import game.GameModel;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import main.MainActivity;
+
+import buffer.BufferManager;
 
 import com.example.datastreamengine.R;
 
@@ -98,7 +101,8 @@ public class WelcomeActivity extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+				GameModel.INSTANCE.initialize();
+				BufferManager.INSTANCE.startThread();
 				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
