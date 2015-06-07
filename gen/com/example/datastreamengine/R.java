@@ -27,9 +27,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f090006;
+        public static final int action_settings=0x7f090007;
         public static final int btn_confirm=0x7f090004;
-        public static final int btn_launch_conn=0x7f090005;
+        public static final int btn_connect=0x7f090005;
+        public static final int btn_launch_conn=0x7f090006;
         public static final int btn_start_polling=0x7f090001;
         public static final int btn_time_polling=0x7f090000;
         public static final int spinner_algs=0x7f090003;
@@ -46,9 +47,10 @@ public final class R {
         public static final int action_settings=0x7f060001;
         public static final int app_name=0x7f060000;
         public static final int confirm=0x7f060003;
+        public static final int connect=0x7f060004;
         public static final int slogan=0x7f060002;
-        public static final int startServer=0x7f060005;
-        public static final int tv_ip=0x7f060004;
+        public static final int startServer=0x7f060006;
+        public static final int tv_ip=0x7f060005;
     }
     public static final class style {
         /** 

@@ -142,7 +142,7 @@ public class MainActivity extends Activity{
         Log.i(TAG, "not a null");
         BufferManager.INSTANCE.startThread();
         
-		OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
+		//OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 	}
 	
 	public static synchronized MainActivity INSTANCE(){

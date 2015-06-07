@@ -28,6 +28,7 @@ public class WelcomeActivity extends Activity{
 	
 	private Spinner spinnerAlgs = null;
 	private Button confirmBtn = null;
+	private Button connectBtn = null;
 	private TextView ipTextView = null;
 	private Button startServerBtn = null;
 	ArrayAdapter adapter;
@@ -41,7 +42,7 @@ public class WelcomeActivity extends Activity{
 		this.confirmBtn = (Button)findViewById(R.id.btn_confirm);
 		
 		this.startServerBtn = (Button)findViewById(R.id.btn_launch_conn);
-		
+		this.connectBtn = (Button)findViewById(R.id.btn_connect);
 		adapter = ArrayAdapter.createFromResource(this, R.array.spinner_algs_array, 
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -79,13 +80,23 @@ public class WelcomeActivity extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+				
+				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+		
+		this.connectBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
 				int alg_type = getAlgType();
 				Log.i(TAG, "get type = " + alg_type);
 				OverlayNetworkFactory.INSTANCE.setNetwork(alg_type);
 				RegisterControllerFactory.INSTANCE.setRegisterController(alg_type);
-				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
-				startActivity(intent);
-				finish();
+				OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 			}
 		});
 		
