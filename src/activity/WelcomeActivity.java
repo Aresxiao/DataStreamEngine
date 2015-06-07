@@ -97,6 +97,7 @@ public class WelcomeActivity extends Activity{
 				OverlayNetworkFactory.INSTANCE.setNetwork(alg_type);
 				RegisterControllerFactory.INSTANCE.setRegisterController(alg_type);
 				OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
+				connectBtn.setEnabled(false);
 			}
 		});
 		
