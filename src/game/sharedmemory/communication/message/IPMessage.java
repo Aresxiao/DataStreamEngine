@@ -117,7 +117,7 @@ public class IPMessage {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String str = "ip = " + senderIP + ",cnt = " + cnt + ",msgType = " + msgType + ",key = "
+		String str = "msgType = " + msgType + "ip = " + senderIP + ",cnt = " + cnt + ",msgType = " + msgType + ",key = "
 				+ key.toString() + ",versionValue = " + versionValue.toString();
 		return str;
 	}

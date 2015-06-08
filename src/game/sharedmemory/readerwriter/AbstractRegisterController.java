@@ -2,6 +2,8 @@ package game.sharedmemory.readerwriter;
 
 import java.util.Map;
 
+import android.util.Log;
+
 import game.sharedmemory.communication.*;
 import game.sharedmemory.communication.MessagingService.Communication;
 import game.sharedmemory.communication.message.AtomicityMessage;
@@ -54,8 +56,9 @@ public abstract class AbstractRegisterController implements IRegister,IMessageHa
 	public Map<String, AtomicityMessage> readPhase(Key key){
 		AtomicityMessage atomicityReadPhaseMessage = 
 				new AtomicityReadPhaseMessage(GroupConfig.INSTANCE.getLocalNode().getNodeIp(), this.op_cnt, key);
-		
+		Log.i(TAG, "readPhase(): " + this.op_cnt);
 		this.comm = MessagingService.INSTANCE.new Communication(atomicityReadPhaseMessage);
+		Log.i(TAG, "after readPhase(): " + this.op_cnt);
 		return this.comm.communicate();
 	}
 	
