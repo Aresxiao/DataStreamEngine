@@ -50,13 +50,13 @@ public enum GameModel {
 	public void onSensorChanged(float ax,float ay){
 		AbstractBall ball = ballList.get(Constant.LOCAL_BALL_ID);
 		float[] v = ball.calBallSpeedByAccelerate(ax, ay);
-		//Log.i(TAG, "ax = " + ax + ",ay = " + ay);
+		
 		Key key = new Key(Constant.LOCAL_BALL_ID);
-		//Log.i(TAG, key.toString());
+		Log.i(TAG,"ax = " + ax + ",ay = " + ay + key.toString());
 		VersionValue versionValue = RegisterControllerFactory.INSTANCE.getRegisterController().read(key);
 		Value value = versionValue.getValue();
 		//Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
-		//Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1]);
+		Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1]);
 		value.setV(v[0], v[1]);
 		
 		RegisterControllerFactory.INSTANCE.getRegisterController().write(key, value);
