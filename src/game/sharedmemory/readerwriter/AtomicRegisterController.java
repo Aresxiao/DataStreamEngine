@@ -2,6 +2,9 @@ package game.sharedmemory.readerwriter;
 
 import java.util.Map;
 
+import android.util.Log;
+
+import game.GameModel;
 import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.MessagingService.Communication;
 import game.sharedmemory.communication.message.AtomicityMessage;
@@ -16,7 +19,7 @@ import group.GroupConfig;
 
 public class AtomicRegisterController extends AbstractRegisterController{
 	
-	
+	private static final String TAG = AtomicRegisterController.class.getName();
 	public static AtomicRegisterController instance = null;
 	
 	public static synchronized AtomicRegisterController INSTANCE(){
@@ -29,9 +32,10 @@ public class AtomicRegisterController extends AbstractRegisterController{
 	public VersionValue read(Key key) {
 		// TODO Auto-generated method stub
 		this.op_cnt++;
+		Log.i(TAG, "AtomicRegister read(): " + this.op_cnt);
 		
 		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
-		
+		Log.i(TAG, "after read");
 		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
 		
 		this.wriatePhase(key, maxVVal);
@@ -42,7 +46,7 @@ public class AtomicRegisterController extends AbstractRegisterController{
 	public void write(Key key, Value val) {
 		// TODO Auto-generated method stub
 		this.op_cnt++;
-		
+		Log.i(TAG, "AtomicRegister write(): " + this.op_cnt);
 		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
 		
 		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
