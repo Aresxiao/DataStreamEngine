@@ -53,7 +53,7 @@ public enum GameModel {
 		
 		Key key = new Key(Constant.LOCAL_BALL_ID);
 		Log.i(TAG,"ax = " + ax + ",ay = " + ay + key.toString());
-		VersionValue versionValue = RegisterControllerFactory.INSTANCE.getRegisterController().read(key);
+		VersionValue versionValue = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).clone();
 		Value value = versionValue.getValue();
 		//Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
 		Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1]);

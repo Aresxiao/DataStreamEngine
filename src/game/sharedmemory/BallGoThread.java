@@ -14,17 +14,18 @@ public class BallGoThread extends Thread {
 	
 	private int sleepSpan = 7;
 	public BallGoThread(){
-		
+		//Log.i(TAG, "new a BallGoThread");
 	}
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+		Log.i(TAG, "ballGoThread is running");
 		while(flag){
 			//让所有的球走
 			//Log.d(TAG, "it is running");
 			for(AbstractBall b:GameModel.INSTANCE.getBalls()){
+				//Log.i(TAG, "b.id = " + b.ballId);
 				b.go();
 				if(b.getType() == AbstractBall.GOAL_BALL){
 					if(b.isInHole()){

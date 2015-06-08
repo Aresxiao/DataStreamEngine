@@ -36,7 +36,7 @@ public enum KVStoreInMemory implements IKVStore{
 			if(isAtomic){
 				if (current_vval.compareTo(vval) < 0){	//	newer VersionValue
 				//Log.i(TAG, "put a new version value");
-					//Log.i(TAG, "Atomic put method");
+					Log.i(TAG, "Atomic put method");
 					this.key_vval_map.put(key, vval);
 				}
 			}

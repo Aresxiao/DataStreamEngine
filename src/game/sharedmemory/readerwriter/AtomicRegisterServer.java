@@ -1,5 +1,6 @@
 package game.sharedmemory.readerwriter;
 
+import android.util.Log;
 import game.sharedmemory.communication.MessagingService;
 import game.sharedmemory.communication.message.AtomicityReadPhaseAckMessage;
 import game.sharedmemory.communication.message.AtomicityWritePhaseAckMessage;
@@ -10,8 +11,11 @@ import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import group.GroupConfig;
 
 public enum AtomicRegisterServer implements IMessageHandler{
+	
 	INSTANCE;
-
+	
+	private static final String TAG = AtomicRegisterServer.class.getName();
+	
 	@Override
 	public void handleMessage(IPMessage message) {
 		// TODO Auto-generated method stub
@@ -29,6 +33,7 @@ public enum AtomicRegisterServer implements IMessageHandler{
 		else {
 			VersionValue vvalNow = KVStoreInMemory.INSTANCE.getVersionValue(key);
 			VersionValue vvalMax = VersionValue.max(message.getVersionValue(), vvalNow);
+			// Log.i(TAG, "msg:"+message.toString()+",\n vvalMax = "+vvalMax.toString());
 			KVStoreInMemory.INSTANCE.put(key, vvalMax);
 			IPMessage atomicityWritePhaseAckMsg = new AtomicityWritePhaseAckMessage(myIP, cnt);
 			atomicityWritePhaseAckMsg.setReceiverIP(fromIP);

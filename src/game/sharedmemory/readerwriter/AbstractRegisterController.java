@@ -58,7 +58,7 @@ public abstract class AbstractRegisterController implements IRegister,IMessageHa
 				new AtomicityReadPhaseMessage(GroupConfig.INSTANCE.getLocalNode().getNodeIp(), this.op_cnt, key);
 		Log.i(TAG, "readPhase(): " + this.op_cnt);
 		this.comm = MessagingService.INSTANCE.new Communication(atomicityReadPhaseMessage);
-		Log.i(TAG, "after readPhase(): " + this.op_cnt);
+		//Log.i(TAG, "after readPhase(): " + this.op_cnt);
 		return this.comm.communicate();
 	}
 	

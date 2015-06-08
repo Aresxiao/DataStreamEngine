@@ -32,10 +32,10 @@ public class AtomicRegisterController extends AbstractRegisterController{
 	public VersionValue read(Key key) {
 		// TODO Auto-generated method stub
 		this.op_cnt++;
-		Log.i(TAG, "AtomicRegister read(): " + this.op_cnt);
+		//Log.i(TAG, "AtomicRegister read(): " + this.op_cnt);
 		
 		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
-		Log.i(TAG, "after read");
+		//Log.i(TAG, "after read");
 		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
 		
 		this.wriatePhase(key, maxVVal);
@@ -46,14 +46,14 @@ public class AtomicRegisterController extends AbstractRegisterController{
 	public void write(Key key, Value val) {
 		// TODO Auto-generated method stub
 		this.op_cnt++;
-		Log.i(TAG, "AtomicRegister write(): " + this.op_cnt);
+		//Log.i(TAG, "AtomicRegister write(): " + this.op_cnt);
 		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
 		
 		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
 		
 		Version maxVersion = maxVVal.getVersion();
 		
-		VersionValue newVVal = new VersionValue(maxVersion, val);
+		VersionValue newVVal = new VersionValue(maxVersion.increment(), val);
 		
 		this.wriatePhase(key, newVVal);
 	}

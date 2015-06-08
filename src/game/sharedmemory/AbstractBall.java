@@ -10,6 +10,7 @@ import game.sharedmemory.readerwriter.RegisterControllerFactory;
 import constant.Constant;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 /**
  * @author Gengxiao
@@ -114,7 +115,7 @@ public abstract class AbstractBall {
 	}
 	
 	public void go(){
-		
+		//Log.i(TAG, "ballId = " + ballId);
 		VersionValue vval = KVStoreInMemory.INSTANCE.getVersionValue(new Key(ballId));
 		float[] v = vval.getValue().getV();
 		float[] loc = vval.getValue().getLoc();
@@ -123,12 +124,12 @@ public abstract class AbstractBall {
 			
 			return ;
 		}
-		// System.out.println(ballId+"can go");
+		Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1] + ",loc[0] = " + loc[0] + ",loc[1] = " + loc[1]);
 		// Log.d(TAG, ballId+":vx = "+vx+",vy = "+vy+",locx = "+locx+",locy = "+locy);
 		float tempX = loc[0]+v[0]*timeSpan;	//球要去的下一个位置
 		float tempY = loc[1]+v[1]*timeSpan;
 		
-		
+		Log.i(TAG, "tempX = " + tempX + ",tempY = " + tempY);
 		if(this.canGo(tempX, tempY, v[0], v[1])){
 			v[0]*=vAttenuation;
 			v[1]*=vAttenuation;
