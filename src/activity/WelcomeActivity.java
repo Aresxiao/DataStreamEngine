@@ -101,8 +101,7 @@ public class WelcomeActivity extends Activity{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				GameModel.INSTANCE.initialize();
-				BufferManager.INSTANCE.startThread();
+				
 				Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();
@@ -120,6 +119,8 @@ public class WelcomeActivity extends Activity{
 				RegisterControllerFactory.INSTANCE.setRegisterController(alg_type);
 				OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 				connectBtn.setEnabled(false);
+				GameModel.INSTANCE.initialize();
+				BufferManager.INSTANCE.startThread(); 
 			}
 		});
 		
