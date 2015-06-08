@@ -156,7 +156,7 @@ public enum MessagingService implements IReceiver{
 			if((this.atomicityMessage.getCnt() == receivedMessage.getCnt())
 					&&(
 							(this.atomicityMessage.getMsgType() == IPMessage.ATOMIC_READ_PHASE_MESSAGE
-							&& receivedMessage.getCnt() == IPMessage.ATOMIC_READ_PHASE_ACK_MESSAGE)
+							&& receivedMessage.getMsgType() == IPMessage.ATOMIC_READ_PHASE_ACK_MESSAGE)
 							||
 							(this.atomicityMessage.getMsgType() == IPMessage.ATOMIC_WRITE_PHASE_MESSAGE
 							&& receivedMessage.getMsgType() == IPMessage.ATOMIC_WRITE_PHASE_ACK_MESSAGE)))
