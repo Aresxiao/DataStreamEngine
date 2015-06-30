@@ -9,6 +9,8 @@ import game.sharedmemory.readerwriter.RegisterControllerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import main.MainActivity;
 import android.util.Log;
 
 
@@ -64,6 +66,7 @@ public enum GameModel {
 	
 	public void overGame(){
 		stopThread();
+		MainActivity.INSTANCE().overGame();
 	}
 	
 	public List<AbstractBall> getBalls(){

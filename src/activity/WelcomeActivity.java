@@ -15,6 +15,8 @@ import com.example.datastreamengine.R;
 import constant.Constant;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -28,7 +30,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class WelcomeActivity extends Activity{
 	
@@ -37,9 +38,9 @@ public class WelcomeActivity extends Activity{
 	private Spinner spinnerAlgs = null;
 	private Button confirmBtn = null;
 	private Button connectBtn = null;
-	private TextView ipTextView = null;
 	private Button startServerBtn = null;
-	ArrayAdapter adapter;
+	
+	ArrayAdapter adapter = null;
 	
 	//屏幕宽度和高度
 	private int tableWidth;
@@ -56,6 +57,7 @@ public class WelcomeActivity extends Activity{
 		
 		this.startServerBtn = (Button)findViewById(R.id.btn_launch_conn);
 		this.connectBtn = (Button)findViewById(R.id.btn_connect);
+		
 		adapter = ArrayAdapter.createFromResource(this, R.array.spinner_algs_array, 
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -120,7 +122,7 @@ public class WelcomeActivity extends Activity{
 				OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 				connectBtn.setEnabled(false);
 				GameModel.INSTANCE.initialize();
-				BufferManager.INSTANCE.startThread(); 
+				BufferManager.INSTANCE.startThread();
 			}
 		});
 		
@@ -136,6 +138,7 @@ public class WelcomeActivity extends Activity{
 				startServerBtn.setText("started");
 			}
 		});
+		
 	}
 	
 	public int getAlgType(){
@@ -151,4 +154,29 @@ public class WelcomeActivity extends Activity{
 		return alg_type;
 	}
 	
+	protected void dialog(){
+		AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+		builder.setTitle("My Dialog");
+		builder.setMessage("Confirm to quit?");
+		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener(){
+
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				// TODO Auto-generated method stub
+				Log.i(TAG, "dialog:yes");
+				arg0.dismiss();
+			}
+			
+		});
+		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				// TODO Auto-generated method stub
+				arg0.dismiss();
+				Log.i(TAG, "dialog:no");
+			}
+		});
+		builder.create().show();
+	}
 }

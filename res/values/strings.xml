@@ -8,5 +8,8 @@
     <string name="connect">connect</string>
     <string name="tv_ip">default string</string>
     <string name="startServer">startServer</string>
+    <string name="gameOver">继续游戏吗?</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
 
 </resources>

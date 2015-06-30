@@ -27,6 +27,7 @@ import timingservice.TimingService;
 import constant.Constant;
 import constant.WhatMessage;
 
+import activity.GameOverActivity;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -34,7 +35,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.DisplayMetrics;
@@ -112,17 +116,10 @@ public class MainActivity extends Activity{
         //exec.execute(this.TimePollingDaemon);
         //System.out.println("Time is "+TimingService.INSTANCE.pollingTime());
         
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);	//设置屏幕无标题
         // 全屏显示
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
-        
-        /** 获取窗口管理器,获得屏幕宽和高 */
-        
-        
-        //RegisterControllerFactory.INSTANCE.setRegisterController(1);
-        
+            WindowManager.LayoutParams.FLAG_FULLSCREEN);	//设置activity的特征
         
         gameView = new GameView(this);
         setContentView(gameView);
@@ -200,6 +197,12 @@ public class MainActivity extends Activity{
 		super.onPause();
 		
 		ConfigureLog4J.INSTANCE.shutdown();
+	}
+	
+	public void overGame(){
+		Intent intent = new Intent(MainActivity.this, GameOverActivity.class);
+		startActivity(intent);
+		finish();
 	}
 	
 	// Daemon thread for establishing and maintaining the time polling connection
