@@ -123,6 +123,8 @@ public class MainActivity extends Activity{
         
         gameView = new GameView(this);
         setContentView(gameView);
+        GameModel.INSTANCE.reset();
+        GameModel.INSTANCE.startThread();
         
         log4android.debug("battery is "+batteryReceiver.getRemainBattery());
         Log.i(TAG, "get accelerate");

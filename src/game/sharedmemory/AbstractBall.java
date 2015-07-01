@@ -4,6 +4,7 @@ import java.util.List;
 import game.GameModel;
 import game.sharedmemory.data.Key;
 import game.sharedmemory.data.Value;
+import game.sharedmemory.data.Version;
 import game.sharedmemory.data.VersionValue;
 import game.sharedmemory.data.kvstore.KVStoreInMemory;
 import game.sharedmemory.readerwriter.RegisterControllerFactory;
@@ -30,6 +31,8 @@ public abstract class AbstractBall {
 	static int id = 0;
 	protected int ballId; // Ð¡Çò±àºÅ
 	
+	protected final float initLocx;
+	protected final float initLocy;
 	
 	protected int type;
 	
@@ -43,11 +46,12 @@ public abstract class AbstractBall {
 	protected float radius;
 	protected float d;
 	
-	public AbstractBall (int type){
+	public AbstractBall (int type,float x, float y){
 		this.type = type;
 		ballId = id;
 		id++;
-		
+		initLocx = x;
+		initLocy = y;
 	}
 	
 	public int getType(){
@@ -66,6 +70,16 @@ public abstract class AbstractBall {
 		v[1] = v[1] + y_Accelerate * timeSpan*Constant.SENSITIVITY;
 		
 		return v;
+	}
+	
+	/** »Ö¸´³õÊ¼×´Ì¬ */
+	public void resetState(){
+		
+		Key key = new Key(ballId);
+		Version version = new Version(0);
+		Value value = new Value(initLocx, initLocy);
+		VersionValue versionValue = new VersionValue(version, value);
+		KVStoreInMemory.INSTANCE.put(key, versionValue);
 	}
 	
 	/*

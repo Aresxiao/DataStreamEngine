@@ -20,13 +20,15 @@ public class GoalBall extends AbstractBall {
 	
 	public GoalBall(float x, float y, GameModel gameModel) {
 		
-		super(AbstractBall.GOAL_BALL);
+		super(AbstractBall.GOAL_BALL, x, y);
 		this.gameModel = gameModel;
+		
 		Key key = new Key(ballId);
 		Version version = new Version(0);
 		Value value = new Value(x, y);
 		VersionValue versionValue = new VersionValue(version, value);
 		KVStoreInMemory.INSTANCE.put(key, versionValue);
+		
 		d = Constant.GOAL_BALL_SIZE;
 		radius = Constant.GOAL_BALL_SIZE / 2;
 		Log.i(TAG,"goalball ballId = " + ballId);

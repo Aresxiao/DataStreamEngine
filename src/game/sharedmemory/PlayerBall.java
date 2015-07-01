@@ -16,7 +16,7 @@ public class PlayerBall extends AbstractBall {
 	private static final String TAG = PlayerBall.class.getName();
 	public PlayerBall(float x, float y, GameModel gameModel) {
 		
-		super(AbstractBall.PLAYER_BALL);
+		super(AbstractBall.PLAYER_BALL, x, y);
 		this.gameModel = gameModel;
 		
 		Key key = new Key(ballId);

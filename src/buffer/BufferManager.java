@@ -9,7 +9,6 @@ import android.util.Log;
  * 
  * @description This class is the main part of engine.It can do some processing.
  * @author GengXiao
- * 
  */
 
 public enum BufferManager {
