@@ -131,7 +131,6 @@ public class MainActivity extends Activity{
         accelerateSensor = new AccelerateSensor();
         Log.i(TAG, "not a null");
         
-        
 		//OverlayNetworkFactory.INSTANCE.getOverlayNetwork().connect();
 	}
 	

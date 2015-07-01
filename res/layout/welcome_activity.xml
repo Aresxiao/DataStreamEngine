@@ -43,5 +43,10 @@
 	    android:layout_height="wrap_content"
 	    android:visibility="invisible"
 	    android:text="@string/startServer" />
+	<Button 
+	    android:id="@+id/btn_game_over"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:text="testGameOver" />
 	
 </LinearLayout>

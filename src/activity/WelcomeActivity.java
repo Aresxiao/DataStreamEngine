@@ -39,6 +39,7 @@ public class WelcomeActivity extends Activity{
 	private Button confirmBtn = null;
 	private Button connectBtn = null;
 	private Button startServerBtn = null;
+	private Button gameOverBtn = null;
 	
 	ArrayAdapter adapter = null;
 	
@@ -57,6 +58,7 @@ public class WelcomeActivity extends Activity{
 		
 		this.startServerBtn = (Button)findViewById(R.id.btn_launch_conn);
 		this.connectBtn = (Button)findViewById(R.id.btn_connect);
+		this.gameOverBtn = (Button)findViewById(R.id.btn_game_over);
 		
 		adapter = ArrayAdapter.createFromResource(this, R.array.spinner_algs_array, 
 				android.R.layout.simple_spinner_item);
@@ -136,6 +138,17 @@ public class WelcomeActivity extends Activity{
 				confirmBtn.setEnabled(true);
 				startServerBtn.setEnabled(false);
 				startServerBtn.setText("started");
+			}
+		});
+		
+		this.gameOverBtn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(WelcomeActivity.this, GameOverActivity.class);
+				startActivity(intent);
+				
 			}
 		});
 		

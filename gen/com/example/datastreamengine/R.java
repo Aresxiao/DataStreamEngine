@@ -27,9 +27,10 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000a;
+        public static final int action_settings=0x7f09000b;
         public static final int btn_confirm=0x7f090007;
         public static final int btn_connect=0x7f090008;
+        public static final int btn_game_over=0x7f09000a;
         public static final int btn_launch_conn=0x7f090009;
         public static final int btn_no=0x7f090005;
         public static final int btn_start_polling=0x7f090001;

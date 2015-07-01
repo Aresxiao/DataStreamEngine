@@ -21,7 +21,7 @@ public class GameOverActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.welcome_activity);
+		setContentView(R.layout.gameover_activity);
 		
 		yesBtn = (Button)findViewById(R.id.btn_yes);
 		noBtn = (Button)findViewById(R.id.btn_no);
