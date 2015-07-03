@@ -49,8 +49,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 /**
- * This is Android MainActivity class. In this class, do some initial things, 
- * like network connect, set table height and width. This is our program entry.
+ * 这个类似游戏的主类，类中设置游戏运行的界面，启动传感器等。
  * 
  * @version 1.0
  * @author Ares

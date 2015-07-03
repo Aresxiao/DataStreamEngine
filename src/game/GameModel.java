@@ -35,14 +35,12 @@ public enum GameModel {
 		ballList.add(new PlayerBall(20, 20, this));
 		ballList.add(new PlayerBall(140, 20, this));
 		
-		
 	}
 	
 	public void reset(){
 		
 		for(AbstractBall b : ballList)
 			b.resetState();
-		
 	}
 	
 	public void startThread(){
