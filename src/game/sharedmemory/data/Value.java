@@ -75,12 +75,12 @@ public class Value implements Serializable{
 		return value;
 	}
 	
-	public void putJSONObject(JSONObject jsonObject){
+	public void putJSONObject(JSONObject jsonObject, int i){
 		try {
-			jsonObject.put("value.vx", vx);
-			jsonObject.put("value.vy", vy);
-			jsonObject.put("value.locx", locx);
-			jsonObject.put("value.locy", locy);
+			jsonObject.put("value.vx"+i, vx);
+			jsonObject.put("value.vy"+i, vy);
+			jsonObject.put("value.locx"+i, locx);
+			jsonObject.put("value.locy"+i, locy);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

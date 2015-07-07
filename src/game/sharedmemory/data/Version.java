@@ -62,10 +62,10 @@ public class Version implements Comparable<Version>, Serializable{
 		return version;
 	}
 	
-	public void putJSONObject(JSONObject jsonObject){
+	public void putJSONObject(JSONObject jsonObject, int i){
 		
 		try {
-			jsonObject.put("version.seqno", seqno);
+			jsonObject.put("version.seqno"+i, seqno);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

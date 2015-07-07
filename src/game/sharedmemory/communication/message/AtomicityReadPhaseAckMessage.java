@@ -12,8 +12,8 @@ public class AtomicityReadPhaseAckMessage extends AtomicityMessage{
 	 * @param key
 	 * @param versionValue
 	 */
-	public AtomicityReadPhaseAckMessage(String ip, int cnt, Key key, VersionValue versionValue){
-		super(ip, cnt, key, versionValue);
+	public AtomicityReadPhaseAckMessage(String ip, int cnt, Key[] keys, VersionValue[] versionValues){
+		super(ip, cnt, keys, versionValues);
 		this.msgType = IPMessage.ATOMIC_READ_PHASE_ACK_MESSAGE;
 	}
 }

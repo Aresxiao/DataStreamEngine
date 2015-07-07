@@ -7,22 +7,22 @@ import game.sharedmemory.data.VersionValue;
 
 public class WeakMessage extends IPMessage{
 	
-	public WeakMessage( Key key, VersionValue versionValue){
+	public WeakMessage( Key[] keys, VersionValue[] versionValues){
 		super(IPMessage.DEFAULT_WORD, 0);
 		this.msgType = IPMessage.WEAK_MESSAGE;
 		
-		this.key = key;
-		this.versionValue = versionValue;
+		this.keys = keys;
+		this.versionValues = versionValues;
 	}
 	
 	/**
-	 * @param key 是{@link Key}类型
-	 * @param value 是{@link Value}类型
+	 * @param keys 是{@link Key[]}类型
+	 * @param values 是{@link Value[]}类型
 	 */
-	public void put(Key key, VersionValue versionValue){
+	public void put(Key[] keys, VersionValue[] versionValues){
 		
-		this.key = key;
-		this.versionValue = versionValue;
+		this.keys = keys;
+		this.versionValues = versionValues;
 	}
 	
 }

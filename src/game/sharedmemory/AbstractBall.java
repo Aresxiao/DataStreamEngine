@@ -117,7 +117,9 @@ public abstract class AbstractBall {
 	public void stopBall(){
 		Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(new Key(ballId)).getValue();
 		value.setV(0, 0);
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballId), value);
+		Key[] keys = {new Key(ballId)};
+		Value[] values = {value};
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(keys, values);
 	}
 	
 	public boolean isInHole(){

@@ -70,8 +70,9 @@ public enum GameModel {
 		//Value value = RegisterControllerFactory.INSTANCE.getRegisterController().read(key).getValue();
 		Log.i(TAG, "v[0] = " + v[0] + ",v[1] = " + v[1]);
 		value.setV(v[0], v[1]);
-		
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(key, value);
+		Key[] keys = {key};
+		Value[] values = {value};
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(keys, values);
 	}
 	
 	public void overGame(){
@@ -205,13 +206,18 @@ public enum GameModel {
 		av[1] = vaVerticalY + vbCollY;
 		Log.i(TAG, "balla.id = "+balla.getBallId()+",ballb.id = "+ballb.getBallId());
 		avalue.setV(av[0], av[1]);
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
+		//RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(balla.getBallId()), avalue);
 		
 		System.out.println("write balla "+balla.getBallId());
 		bv[0] = vbVerticalX + vaCollX;
 		bv[1] = vbVerticalY + vaCollY;
 		bvalue.setV(bv[0], bv[1]);
-		RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue);
+		
+		Key[] keys = {new Key(balla.getBallId()), new Key(ballb.getBallId())};
+		Value[] values = {avalue, bvalue};
+		RegisterControllerFactory.INSTANCE.getRegisterController().write(keys, values);
+		
+		//RegisterControllerFactory.INSTANCE.getRegisterController().write(new Key(ballb.getBallId()), bvalue); 
 		
 		System.out.println("write ballb "+ballb.getBallId());
 		//========================================

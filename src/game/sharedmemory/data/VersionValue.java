@@ -17,6 +17,7 @@ public class VersionValue implements Comparable<VersionValue>, Serializable{
 	
 	public static final VersionValue RESERVED_VERSIONVALUE = new VersionValue(Version.RESERVED_VERSION, Value.RESERVED_VALUE);
 	
+	public static final VersionValue[] RESERVED_VERSION_VALUES = {RESERVED_VERSIONVALUE};
 	public VersionValue(Version version, Value value){
 		
 		this.version = version;
@@ -76,9 +77,9 @@ public class VersionValue implements Comparable<VersionValue>, Serializable{
 		return "versionValue = " + version.toString() + value.toString() + ". ";
 	}
 	
-	public void putJSONObject(JSONObject jsonObject){
-		version.putJSONObject(jsonObject);
-		value.putJSONObject(jsonObject);
+	public void putJSONObject(JSONObject jsonObject, int i){
+		version.putJSONObject(jsonObject, i);
+		value.putJSONObject(jsonObject, i);
 	}
 	
 }

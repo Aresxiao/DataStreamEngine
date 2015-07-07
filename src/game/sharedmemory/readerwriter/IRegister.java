@@ -17,6 +17,6 @@ public interface IRegister {
 	 * @param val non-versioned value associated with the key
 	 * @return {@link VersionValue} to put associated with the key
 	 */
-	public void write(Key key, Value vval);
+	public void write(Key[] keys, Value[] values);
 	
 }

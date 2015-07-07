@@ -32,10 +32,10 @@ public class IPMessage {
 	private int cnt;
 	
 	/** {@link Key}}*/
-	protected Key key = Key.RESERVED_KEY;
+	protected Key[] keys = {Key.RESERVED_KEY};
 	
 	/** {@link VersionValue}}*/
-	protected VersionValue versionValue = VersionValue.RESERVED_VERSIONVALUE;
+	protected VersionValue[] versionValues = {VersionValue.RESERVED_VERSIONVALUE};
 	
 	public IPMessage(String ip){
 		this.senderIP = ip;
@@ -63,19 +63,19 @@ public class IPMessage {
 	}
 	
 	/**
-	 * @return key
+	 * @return keys
 	 */
-	public Key getKey(){
+	public Key[] getKeys(){
 		
-		return this.key;
+		return this.keys;
 	}
 	
 	/**
-	 * @return versionValue
+	 * @return versionValues
 	 */
-	public VersionValue getVersionValue(){
+	public VersionValue[] getVersionValues(){
 		
-		return this.versionValue;
+		return this.versionValues;
 	}
 	
 	/**
@@ -104,8 +104,15 @@ public class IPMessage {
 			jsonObject.put("senderIP", this.senderIP);
 			jsonObject.put("cnt", this.cnt);
 			jsonObject.put("msgType", this.msgType);
-			key.putJSONObject(jsonObject);
-			versionValue.putJSONObject(jsonObject);
+			for(int i = 0;i < keys.length; i++){
+				keys[i].putJSONObject(jsonObject,i);
+			}
+			for(int i = 0;i < versionValues.length; i++){
+				versionValues[i].putJSONObject(jsonObject,i);
+			}
+			jsonObject.put("keys.length", keys.length);
+			jsonObject.put("versionValues.length", versionValues.length);
+			
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,8 +124,9 @@ public class IPMessage {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		String str = "msgType = " + msgType + "ip = " + senderIP + ",cnt = " + cnt + ",msgType = " + msgType + ",key = "
-				+ key.toString() + ",versionValue = " + versionValue.toString();
+		
+		String str = "msgType = " + msgType + "ip = " + senderIP + ",cnt = " + cnt + ",keys.length = "
+				+ keys.length + ",versionValues.length = " + versionValues.length;
 		return str;
 	}
 	
@@ -127,10 +135,35 @@ public class IPMessage {
 		try {
 			
 			int type = json.getInt("msgType");
-			int id = json.getInt("key.id");
 			int cnt = json.getInt("cnt");
-			int seqno = json.getInt("version.seqno");
 			String ip = json.getString("senderIP");
+			
+			int keys_length = json.getInt("keys.length");
+			int versionValue_length = json.getInt("versionValues.length");
+			
+			Key[] keys = new Key[keys_length];
+			VersionValue[] versionValues = new VersionValue[versionValue_length];
+			for(int i = 0; i < keys_length; i++){
+				int id = json.getInt("key.id"+i);
+				
+				keys[i] = new Key(id);
+			}
+			
+			for(int i = 0; i < versionValue_length; i++){
+				
+				int seqno = json.getInt("version.seqno"+i);
+				float vx = (float) json.getDouble("value.vx"+i);
+				float vy = (float) json.getDouble("value.vy"+i);
+				float locx = (float) json.getDouble("value.locx"+i);
+				float locy = (float) json.getDouble("value.locy"+i);
+				
+				Version version = new Version(seqno);
+				Value value = new Value(vx, vy, locx, locy);
+				versionValues[i] = new VersionValue(version, value);
+			}
+			
+			/*int seqno = json.getInt("version.seqno");
+			int id = json.getInt("key.id");
 			float vx = (float) json.getDouble("value.vx");
 			float vy = (float) json.getDouble("value.vy");
 			float locx = (float) json.getDouble("value.locx");
@@ -140,27 +173,29 @@ public class IPMessage {
 			Version version = new Version(seqno);
 			Value value = new Value(vx, vy, locx, locy);
 			VersionValue versionValue = new VersionValue(version, value);
+			*/
 			
 			switch (type) {
 				case IPMessage.WEAK_MESSAGE:
-					message = new WeakMessage(key, versionValue);
+					message = new WeakMessage(keys, versionValues); 
 					break;
 					
 				case IPMessage.ATOMIC_READ_PHASE_MESSAGE:
-					message = new AtomicityReadPhaseMessage(ip, cnt, key);
+					message = new AtomicityReadPhaseMessage(ip, cnt, keys);
 					break;
 					
 				case IPMessage.ATOMIC_READ_PHASE_ACK_MESSAGE:
-					message = new AtomicityReadPhaseAckMessage(ip, cnt, key, versionValue);
+					message = new AtomicityReadPhaseAckMessage(ip, cnt, keys, versionValues);
 					break;
 					
 				case IPMessage.ATOMIC_WRITE_PHASE_MESSAGE:
-					message = new AtomicityWritePhaseMessage(ip, cnt, key, versionValue);
+					message = new AtomicityWritePhaseMessage(ip, cnt, keys, versionValues);
 					break;
 					
 				case IPMessage.ATOMIC_WRITE_PHASE_ACK_MESSAGE:
 					message = new AtomicityWritePhaseAckMessage(ip, cnt);
 					break;
+					
 				default:
 					break;
 			}

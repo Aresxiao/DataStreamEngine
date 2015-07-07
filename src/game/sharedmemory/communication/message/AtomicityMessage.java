@@ -6,12 +6,12 @@ import game.sharedmemory.data.VersionValue;
 public class AtomicityMessage extends IPMessage{
 	
 	
-	public AtomicityMessage(String ip, int cnt, Key key, VersionValue versionValue){
+	public AtomicityMessage(String ip, int cnt, Key[] keys, VersionValue[] versionValues){
 		super(ip, cnt);
 		
 		this.msgType = IPMessage.ATOMIC_MESSAGE;
-		this.key = key;
-		this.versionValue = versionValue;
+		this.keys = keys;
+		this.versionValues = versionValues;
 	}
 	
 }

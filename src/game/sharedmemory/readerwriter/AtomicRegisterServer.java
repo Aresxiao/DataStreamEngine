@@ -22,19 +22,29 @@ public enum AtomicRegisterServer implements IMessageHandler{
 		String fromIP = message.getSenderIP();
 		String myIP = GroupConfig.INSTANCE.getLocalNode().getNodeIp();
 		int cnt = message.getCnt();
-		Key key = message.getKey();
+		Key[] keys = message.getKeys();
 		
 		if(message.getMsgType() == IPMessage.ATOMIC_READ_PHASE_MESSAGE){
-			VersionValue versionValue = KVStoreInMemory.INSTANCE.getVersionValue(key);
-			IPMessage atomicityReadPhaseAckMsg = new AtomicityReadPhaseAckMessage(myIP, cnt, key, versionValue);
+			VersionValue[] versionValues = new VersionValue[keys.length];
+			for(int i = 0; i < keys.length; i++){
+				versionValues[i] = KVStoreInMemory.INSTANCE.getVersionValue(keys[i]);
+			}
+			IPMessage atomicityReadPhaseAckMsg = new AtomicityReadPhaseAckMessage(myIP, cnt, keys, versionValues);
 			atomicityReadPhaseAckMsg.setReceiverIP(fromIP);
 			MessagingService.INSTANCE.send(atomicityReadPhaseAckMsg);
 		}
 		else {
-			VersionValue vvalNow = KVStoreInMemory.INSTANCE.getVersionValue(key);
-			VersionValue vvalMax = VersionValue.max(message.getVersionValue(), vvalNow);
+			VersionValue[] versionValues = message.getVersionValues();
+			for(int i = 0; i < keys.length; i++){
+				VersionValue vvalNow = KVStoreInMemory.INSTANCE.getVersionValue(keys[i]);
+				VersionValue vvalMax = VersionValue.max(versionValues[i],vvalNow);
+				
+				KVStoreInMemory.INSTANCE.put(keys[i], vvalMax);
+			}
+			//VersionValue vvalNow = KVStoreInMemory.INSTANCE.getVersionValue(key);
+			//VersionValue vvalMax = VersionValue.max(message.getVersionValue(), vvalNow);
 			// Log.i(TAG, "msg:"+message.toString()+",\n vvalMax = "+vvalMax.toString());
-			KVStoreInMemory.INSTANCE.put(key, vvalMax);
+			//KVStoreInMemory.INSTANCE.put(key, vvalMax);
 			IPMessage atomicityWritePhaseAckMsg = new AtomicityWritePhaseAckMessage(myIP, cnt);
 			atomicityWritePhaseAckMsg.setReceiverIP(fromIP);
 			MessagingService.INSTANCE.send(atomicityWritePhaseAckMsg);

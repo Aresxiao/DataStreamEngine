@@ -33,29 +33,31 @@ public class AtomicRegisterController extends AbstractRegisterController{
 		// TODO Auto-generated method stub
 		this.op_cnt++;
 		//Log.i(TAG, "AtomicRegister read(): " + this.op_cnt);
-		
-		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
+		Key[] keys = {key};
+		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(keys);
 		//Log.i(TAG, "after read");
-		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
+		VersionValue[] maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
 		
-		this.wriatePhase(key, maxVVal);
-		return maxVVal;
+		this.wriatePhase(keys, maxVVal);
+		return maxVVal[0];
 	}
 
 	@Override
-	public void write(Key key, Value val) {
+	public void write(Key[] keys, Value[] val) {
 		// TODO Auto-generated method stub
 		this.op_cnt++;
 		//Log.i(TAG, "AtomicRegister write(): " + this.op_cnt);
-		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(key);
+		Map<String, AtomicityMessage> readPhaseAcks = this.readPhase(keys);
 		
-		VersionValue maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
+		VersionValue[] maxVVal = this.extractMaxVValFromAcks(readPhaseAcks);
 		
-		Version maxVersion = maxVVal.getVersion();
+		VersionValue[] newVVal = new VersionValue[maxVVal.length];
+		for(int i = 0; i < maxVVal.length; i++){
+			Version maxVersion = maxVVal[i].getVersion();
+			newVVal[i] = new VersionValue(maxVersion.increment(), val[i]);
+		}
 		
-		VersionValue newVVal = new VersionValue(maxVersion.increment(), val);
-		
-		this.wriatePhase(key, newVVal);
+		this.wriatePhase(keys, newVVal);
 	}
 	
 	@Override
@@ -63,5 +65,7 @@ public class AtomicRegisterController extends AbstractRegisterController{
 		// TODO Auto-generated method stub
 		this.comm.onReceive(message);
 	}
+
+	
 	
 }

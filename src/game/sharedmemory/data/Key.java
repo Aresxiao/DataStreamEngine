@@ -15,6 +15,8 @@ public class Key implements Serializable{
 	
 	public static final Key RESERVED_KEY = new Key(-1);
 	
+	public static final Key[] RESERVED_KEYS = {RESERVED_KEY};
+	
 	int id;
 	//private String key_str;
 	
@@ -49,10 +51,10 @@ public class Key implements Serializable{
 		return this.id;
 	}
 	
-	public void putJSONObject(JSONObject jsonObject){
+	public void putJSONObject(JSONObject jsonObject,int i){
 		
 		try {
-			jsonObject.put("key.id", id);
+			jsonObject.put("key.id"+i, id);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
