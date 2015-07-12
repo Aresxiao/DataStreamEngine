@@ -46,6 +46,7 @@ public class GameOverActivity extends Activity {
 				finish();
 			}
 		});
+		
 	}
 	
 }
